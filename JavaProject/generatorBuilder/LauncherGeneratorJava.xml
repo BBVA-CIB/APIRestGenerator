@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="api_rest_generator" default="compress-deliverables-directory">
+
+<!-- ########################################################################################## -->
+<!-- ################################ PROPERTIES ############################################## -->
+<!-- ########################################################################################## -->
+
+	<property name="cfg.dir"     location="config" />
+	<property name="static.dir"  location="static/${translatorType}" />
+	<property name="lib.dir"     location="lib" />
+    <property name="modules.dir" location="modules"/>
+	<property name="build.dir"   location="build"/>
+	<property name="codegen.dir" location="${build.dir}/codegen/${codeGenOutputDirectory}"/>
+	<property name="deliver.dir" location="${codegen.dir}/deliverables" />
+
+<!-- ########################################################################################## -->
+<!-- ################################ CLASSPATHS ############################################## -->
+<!-- ########################################################################################## -->
+
+	<!-- Classpath that contains the generator JAR with all embeded dependencies -->
+	<path id="generator.classpath">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+        <fileset dir="${modules.dir}" includes="*.jar" />
+	</path>
+	
+<!-- ########################################################################################## -->
+<!-- ######################### CREATE A NEW FOLDER WITH THIRD PARTY ########################### -->
+<!-- ########################################################################################## -->
+
+	<target name="check-third-party-exists">
+		<condition property="thirdParty.exists">
+	    	<available file="${static.dir}" type="dir"/>
+		</condition>
+	</target>
+	
+	<target name="copy-third-party-dependencies" depends="check-third-party-exists" if="thirdParty.exists" description="Copy the third party dependencies.">
+		<copy todir="${codegen.dir}/${translatorType}">
+	    	<fileset dir="${static.dir}"/>
+	  	</copy>
+	</target>	
+
+<!-- ########################################################################################## -->
+<!-- ################################ RUN GENERATION ########################################## -->
+<!-- ########################################################################################## -->
+
+	<target name="run-swagger-generator" depends="copy-third-party-dependencies" description="Calls the Swagger generator.">
+		<java classname="${fullPackageLauncherClass}" failonerror="true" fork="true" classpathref="generator.classpath">
+			<arg value="-f ${specificationFilePath}" />
+			<arg value="-o ${codegen.dir}" />
+			<arg value="${parserType}"/>
+			<jvmarg value="-Xms600m" />
+			<jvmarg value="-Xmx600m" />
+			<jvmarg value="-XX:MaxPermSize=128m" />
+			<jvmarg value="-ea" />
+			<jvmarg value="-Dlogback.configurationFile=${cfg.dir}/logback.xml" />
+		</java>
+	</target>
+
+<!-- ########################################################################################## -->
+<!-- ################################ COMPILE AND INSTALL GENERATED CODE ###################### -->
+<!-- ########################################################################################## -->
+
+	<target name="run-maven-install" depends="run-swagger-generator">
+		<exec dir="${codegen.dir}" executable="cmd" failonerror="true">
+			 <arg value="/c"/>
+			 <arg value="mvn install -f topLevel.pom -DcreateChecksum=true"/>
+		</exec>
+	</target>
+
+    <target name="run-maven-install-linux" depends="run-swagger-generator">
+        <exec dir="${codegen.dir}" executable="/bin/sh" failonerror="true">
+            <arg value="-c"/>
+            <arg value="mvn install -f topLevel.pom -DcreateChecksum=true"/>
+        </exec>
+    </target>
+	
+<!-- ########################################################################################## -->
+<!-- ############ COPY GENERATED CODE TO THE DELIVERABLES DIRECTORY AND COMPRESS ############## -->
+<!-- ########################################################################################## -->
+		
+	<target name="copy-deliverables-directory" depends="run-maven-install" description="Copy the generated code to the deliverables directory.">
+		<mkdir dir="${deliver.dir}"/>
+			
+		<!-- Artifacts Files -->
+		<copy todir="${deliver.dir}" includeemptydirs="false">
+			<fileset dir="${codegen.dir}" includes="**/*.jar, **/pom.xml, **/mvn_install.cmd, **/mvn_install.sh" />
+	  	</copy>
+		
+		<!-- Example Files -->
+		<copy todir="${deliver.dir}/${translatorType}">
+			<dirset dir="${codegen.dir}">
+				<include name="*-example/**/*" />
+			</dirset>
+			<fileset dir="${codegen.dir}/${translatorType}">
+				<include name="**/*" />
+				<exclude name="*-rest-interfaces/**/*"/>
+				<exclude name="*-rest-impl/**/*"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="copy-deliverables-directory-linux" depends="run-maven-install-linux" description="Copy the generated code to the deliverables directory for Linux.">
+		<mkdir dir="${deliver.dir}"/>
+			
+		<!-- Artifacts Files -->
+		<copy todir="${deliver.dir}" includeemptydirs="false">
+			<fileset dir="${codegen.dir}" includes="**/*.jar, **/pom.xml, **/mvn_install.cmd, **/mvn_install.sh" />
+	  	</copy>
+		
+		<!-- Example Files -->
+		<copy todir="${deliver.dir}/${translatorType}">
+			<dirset dir="${codegen.dir}">
+				<include name="*-example/**/*" />
+			</dirset>
+			<fileset dir="${codegen.dir}/${translatorType}">
+				<include name="**/*" />
+				<exclude name="*-rest-interfaces/**/*"/>
+				<exclude name="*-rest-impl/**/*"/>
+			</fileset>
+		</copy>
+	</target>
+		
+	<target name="compress-deliverables-directory" depends="copy-deliverables-directory" description="Compress the deliverables directory.">
+		<zip destfile="${codegen.dir}/deliverables.zip" basedir="${deliver.dir}" />
+	</target>
+	
+	<target name="compress-deliverables-directory-linux" depends="copy-deliverables-directory-linux" description="Compress the deliverables directory for Linux.">
+		<zip destfile="${codegen.dir}/deliverables.zip" basedir="${deliver.dir}" />
+	</target>
+</project>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<!--
+  ~ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0. "
+  -->
+<head>
+	<title>Rest tester!</title>
+	<link rel="icon" href="images/favicon.png">
+#foreach($exampleImportCSS in $exampleImportsCSS)
+	<link rel="stylesheet" href="${exampleImportCSS}">
+#end
+
+#foreach($additionalImport in $additionalImports)
+	<script src="${additionalImport}"></script>
+#end
+
+</head>
+
+<body>
+	<div class="container">
+		<form role="form">
+			<div class="row">
+				<div class="col-md-4">
+					<fieldset>
+						<legend>
+							<h3>
+							Select the operations to be tested
+							</h3>
+						</legend>
+						<div class="checkbox checkbox-success">
+							<input id="checkerUnchecker" type="checkbox"/>
+							<label for="checkbox3">
+								Select all
+							</label>
+						</div>						
+## Generate all the operations id
+#foreach($operationId in ${outputLanguageOperations.getAllOperationIds()})
+						<div class="checkbox checkbox-success">
+							<input id="${operationId}" type="checkbox" class="myCheckBox" onclick="updateOperationsSelected('${operationId}')"/>
+							<label for="checkbox3">
+								${operationId}
+							</label>
+						</div>
+#end 						
+						<legend></legend>
+						<legend>
+							<h4>Load some file if you have form-data</h4>
+						</legend>
+						<div class="btn btn-warning">
+							<input type="file" name="myFile" id="myFile"/>
+						</div>
+						<legend></legend>
+						<a class="btn btn-success" onclick="startTest();">Run!</a>
+					</fieldset>
+				</div>
+			</div>
+		</form>
+	</div>
+	<legend></legend>
+	<div id="result">
+	
+	</div>
+	
+#foreach($exampleImportJS in $exampleImportsJS)
+	<script src="${exampleImportJS}"></script>
+#end
+
+	<script>
+		$(function() { initialize() }) ;
+	</script>
+</body>
+</html>

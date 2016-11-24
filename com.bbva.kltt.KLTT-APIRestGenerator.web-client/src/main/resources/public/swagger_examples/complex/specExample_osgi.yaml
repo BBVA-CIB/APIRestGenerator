@@ -1,0 +1,271 @@
+swagger: '2.0'
+info:
+  version: '1.0.7'
+  title: ExampleSpec-OSGi
+  description: A sample API that uses a petstore as an example to demonstrate features in the swagger-2.0 specification
+  termsOfService: http://helloreverb.com/terms/
+  contact:
+    name: Francisco Manuel Benitez Chico
+    email: paco.benitez.chico@gmail.com
+    url: http://www.pacobenitezchico.com
+host: localhost:8081
+x-generator-properties:
+  business-unit: mybu
+  osgi:
+    architecture-type: online
+    cxf-address: /AddressSpecExample
+    cxf-context: /ContextSpecExample
+basePath: /api
+schemes:
+ - http
+consumes:
+
+produces:
+
+paths:
+  /myPathQueryExample/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Id example
+        required: true
+        type: integer
+        format: int64  
+    get:
+      description: Description about myPathQueryExample
+      operationId: myPathQueryExample
+      produces:
+
+      parameters:
+        - name: myValue
+          in: query
+          description: Query value
+          type: string  
+      responses:
+        - $ref: '#/responses/200'
+  /myFormDataExample:
+    post:
+      description: Description about myFormDataExample
+      operationId: myFormDataExample
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:     
+        - name: formDataValue
+          in: formData
+          description: form data example
+          type: number
+      responses:
+        - 200:
+            description: pet response
+            schema:
+              type: integer
+              format: int64
+  /myBodyExample:
+    post:
+      description: Description about myBodyExample
+      operationId: myBodyExample
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:     
+        - name: bodyValue
+          in: body
+          schema:
+            type: integer
+            format: int32
+      responses:
+        - 200:
+            description: pet response
+            schema:
+              type: integer
+              format: int64
+  /myHeadExample:
+    get:
+      description: Description about myHeadExample
+      operationId: myHeadExample
+      produces:
+
+      parameters:     
+        - name: userAgent
+          alias: User-Agent
+          in: header
+          type: string
+        - name: headerValue
+          in: header
+          type: string          
+      responses:
+        - 200:
+            description: pet response
+            schema:
+              type: string
+  /pets/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: ID of pet to fetch
+        required: true
+        type: integer
+        format: int64           
+    get:
+      description: Returns a user based on a single ID, if the user does not have access to the pet
+      operationId: findPetById
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: ID of pet to fetch
+          required: true
+          type: integer
+          format: int64
+      responses:
+        - 200:
+            description: pet response
+            schema:
+              $ref: '#/definitions/complexObjectSimpleType'
+    delete:
+      produces:
+
+      consumes:
+
+      description: deletes a single pet based on the ID supplied
+      operationId: deletePet
+      produces:
+
+      parameters:
+        - name: anotherParam
+          in: query
+          description: description of the another parameter
+          required: true
+          type: integer
+          format: int64        
+      responses:
+        - "$ref": '#/responses/200'
+################################################################################
+#                                 Definitions                                  #
+################################################################################            
+definitions:
+  complexObjectSimpleType:
+    description: complex type with sub-simple types
+    type: object
+    properties:
+      myBoolean:
+        type: boolean
+        description: simple type boolean
+      myInteger:
+        type: integer
+        format: int32
+      myLong:
+        type: integer
+        format: int64
+      myFloat:
+        type: number
+        format: float
+      myDouble:
+        type: number
+        format: double
+      myString:
+        type: string
+  complexObjectRef:
+    description: complex reference
+    $ref: '#/definitions/complexObjectSimpleType'
+  complexObjectItemsRef:
+    description: complex items reference
+    type: object
+    properties:
+      myRefProperty:
+        $ref: '#/definitions/complexObjectRef'
+  complexObjectItemsArraySimple:
+    description: complex object items array simple
+    type: object
+    properties:
+      myArrayBoolean:
+        type: array
+        items:
+          type: boolean
+      myArrayInteger:
+        type: array
+        items:
+          type: integer
+          format: int32
+      myArrayLong:
+        type: array
+        items:
+          type: integer
+          format: int64
+      myArrayFloat:
+        type: array
+        items:
+          type: number
+          format: float
+      myArrayDouble:
+        type: array
+        items:
+          type: number
+          format: double
+      myArrayString:
+        type: array
+        items:
+          type: boolean
+  complexObjectItemsArrayComplex:
+    description: complex object items array complex
+    type: object
+    properties:
+      myArrayRef:
+        type: array
+        items:
+          $ref: '#/definitions/complexObjectItemsArraySimple'
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+parameters:
+  param_path_simple:
+    name: param_path
+    in: path
+    description: param path simple
+    type: number
+    required: true
+  param_header_properties_simple:
+    name: my_header_properties_simple
+    in: header
+    description: param header simple
+    required: true
+    type: string
+  param_body_properties_complex_array_ref:
+    name: my_body_complex_array_ref
+    in: body
+    description: param body properties complex array ref
+    required: true
+    schema:
+      type: object
+      properties: 
+        myArrayRef:
+          type: array
+          items:
+            $ref: '#/definitions/complexObjectSimpleType'
+  param_query_simple:
+    name: my_query_simple
+    in: query
+    description: param query simple
+    required: true
+    type: string
+  param_query_complex_array:
+    name: param_query_complex_array
+    in: query
+    description: param query complex array
+    required: true
+    type: array
+    items:
+      type: integer
+      format: int64
+################################################################################
+#                                   Responses                                  #
+################################################################################
+responses:
+  200:
+    description: successful operation
+    schema:
+      type: string

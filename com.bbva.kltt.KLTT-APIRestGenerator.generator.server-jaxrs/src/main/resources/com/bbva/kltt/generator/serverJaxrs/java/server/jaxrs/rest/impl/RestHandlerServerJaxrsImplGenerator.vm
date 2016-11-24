@@ -1,0 +1,97 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+package ${packageName} ;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+public final class ${className} implements ${restHandlerInterfaceClassName}
+{
+	/** Logger */
+	private static final Logger LOGGER = LoggerFactory.getLogger(${className}.class) ;
+
+	/** Attribute - Rest Listener */
+	private ${restListenerInterfaceName} restListener ;
+
+    /**
+	 * Init method - It is compulsory for ePhoenix (OSGi)
+	 * It is always called after getter/setter methods
+	 */
+	public void init() 
+	{
+		${className}.LOGGER.info("${className} initialized") ;
+	}
+
+	
+	/**
+	 * Destroy method - It is compulsory for ePhoenix (OSGi)
+	 */
+	public void destroy()
+	{
+		${className}.LOGGER.info("${className} destroyed") ;
+	}
+	
+	/**
+	 * @return the restListener
+	 */
+	public ${restListenerInterfaceName} getRestListener()
+	{
+		return this.restListener ;
+	}
+
+	/**
+	 * @param restListener the restListener to set
+	 */
+	public void setRestListener(final ${restListenerInterfaceName} restListener)
+	{
+		this.restListener = restListener ;
+	}
+
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersServerJaxrsImplTemplate})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersServerJaxrsImplTemplate})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersServerJaxrsImplTemplate})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersServerJaxrsImplTemplate})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersServerJaxrsImplTemplate})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersServerJaxrsImplTemplate})
+#end
+#end
+}

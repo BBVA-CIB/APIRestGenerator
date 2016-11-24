@@ -1,0 +1,39 @@
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Get one type of scheme supported by this operationId
+#set($exampleScheme	   = ${outputLanguageRootValues.getOneSchemeExample(${pathValue}, ${pathOperation})})
+##
+##
+## Return type
+#set($returnType       = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($returnTypeField  = ${outputLanguageItems.getFullTypeOutput($returnType.item)})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+##
+	function ${operationId}Test(restHandler)
+	{
+		// Set one of the "schemes" defined
+		var scheme = ${schemesValuesClassName}.${exampleScheme} ;
+		
+		// Generate the random values
+##
+#set($callParameters = "scheme")
+#foreach($outputParameter in ${outputParameters.getParametersList()})
+#set($callParameters = "${callParameters}, ${outputParameter.name}")
+#end 
+## Iterate in every parameter to create the call
+#foreach($outputParameter in ${outputParameters.getParametersList()})
+#generateRandomCode(${outputParameter.item} ${outputParameter.name})
+#end
+##
+##
+
+		// Do the "restHandler" call
+		restHandler.${operationId}(${callParameters}) ;
+	}
+

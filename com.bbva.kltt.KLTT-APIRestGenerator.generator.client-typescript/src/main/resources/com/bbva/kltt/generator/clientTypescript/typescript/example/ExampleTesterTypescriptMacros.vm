@@ -1,0 +1,23 @@
+##
+## ------- Start Test Function Calls ----------
+## @param pathValue		with the path value
+## @param pathOperation with the path operation
+##
+##
+#macro(initializeMap $pathValue $pathOperation)
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#set($operationId = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+		mapOfFunctions["${operationId}"] = function() { return ${operationId}Test(restHandler) } ;
+#end
+#end
+##
+## ------- Start Test Function Body -----------
+## @param pathValue 	with the path value
+## @param pathOperation with the path operation
+##
+##
+#macro(startTestFunctionBody $pathValue $pathOperation)
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ExampleTesterMethodsTypescriptTemplate})
+#end
+#end

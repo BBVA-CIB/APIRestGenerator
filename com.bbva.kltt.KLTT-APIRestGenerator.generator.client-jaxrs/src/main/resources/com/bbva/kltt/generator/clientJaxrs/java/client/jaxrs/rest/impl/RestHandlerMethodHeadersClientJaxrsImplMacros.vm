@@ -1,0 +1,68 @@
+## -------- Multiple dimensions - Array query parameters generator --------
+## @param arrayDepth		  with the array depth
+## @param parameterAssignName with the parameter assignment name
+##
+##
+#macro(generateArrayQueryParameters $arrayDepth $parameterAssignName)
+		final int ${parameterAssignName}Length1 = ${parameterAssignName}.length ;
+		for (int ${parameterAssignName}I1=0 ; ${parameterAssignName}I1 < ${parameterAssignName}Length1 ; ${parameterAssignName}I1++)
+		{
+#set($arrayDepthStringPos = "[${parameterAssignName}I1]")
+#set($depth = 1)
+#if (${arrayDepth} > 1)
+#foreach($depth in [2..${arrayDepth}])
+	#tabsGenerator($depth)final int ${parameterAssignName}Length${depth} = ${parameterAssignName}${arrayDepthStringPos}.length ;
+	#tabsGenerator($depth)for (int ${parameterAssignName}I${depth}=0 ; ${parameterAssignName}I${depth} < ${parameterAssignName}Length${depth} ; ${parameterAssignName}I${depth}++)
+	#tabsGenerator($depth){
+#set($arrayDepthStringPos = "${arrayDepthStringPos}[${parameterAssignName}I${depth}]")
+#end
+#end
+		#tabsGenerator(${arrayDepth})webTarget = webTarget.queryParam("${parameterAssignName}", ${parameterAssignName}${arrayDepthStringPos}) ;
+#if (${arrayDepth} > 1)
+#foreach($depth in [${arrayDepth}..2])
+	#tabsGenerator($depth)}
+#end
+#end
+		}
+#end
+##
+## -------- Multiple dimensions - Array formData parameters generator --------
+## @param arrayDepth		  with the array depth
+## @param typeBaseArray		  with the type base array
+## @param parameterAssignName with the parameter assignment name
+##
+##
+#macro(generateArrayFormDataParameters $arrayDepth $typeBaseArray $parameterAssignName)
+		final int ${parameterAssignName}Length1 = ${parameterAssignName}.length ;
+		for (int ${parameterAssignName}I1=0 ; ${parameterAssignName}I1 < ${parameterAssignName}Length1 ; ${parameterAssignName}I1++)
+		{
+#set($arrayDepthStringPos = "[${parameterAssignName}I1]")
+#set($depth = 1)
+#if (${arrayDepth} > 1)
+#foreach($depth in [2..${arrayDepth}])
+	#tabsGenerator($depth)final int ${parameterAssignName}Length${depth} = ${parameterAssignName}${arrayDepthStringPos}.length ;
+	#tabsGenerator($depth)for (int ${parameterAssignName}I${depth}=0 ; ${parameterAssignName}I${depth} < ${parameterAssignName}Length${depth} ; ${parameterAssignName}I${depth}++)
+	#tabsGenerator($depth){
+#set($arrayDepthStringPos = "${arrayDepthStringPos}[${parameterAssignName}I${depth}]")
+#end
+#end
+		#tabsGenerator(${arrayDepth})#generateSingleFormDataParameters($typeBaseArray ${parameterAssignName} ${arrayDepthStringPos})
+#if (${arrayDepth} > 1)
+#foreach($depth in [${arrayDepth}..2])
+	#tabsGenerator($depth)}
+#end
+#end
+		}
+#end
+##
+## -------- Single dimension - formData parameter generator --------
+## @param typeBase		  	  with the type base
+## @param parameterAssignName with the parameter assignment name
+## @param indexArrayIfExist	  with the index of the array if exists
+##
+##
+#macro(generateSingleFormDataParameters $typeBase $parameterAssignName $indexArrayIfExist)
+#if ($typeBase.class.simpleName == "ItemFile")formDataMultiPart = (FormDataMultiPart) formDataMultiPart.bodyPart(new StreamDataBodyPart("${parameterAssignName}", ${parameterAssignName}${indexArrayIfExist})) ;
+#else formDataMultiPart = formDataMultiPart.field("${parameterAssignName}", "" + ${parameterAssignName}${indexArrayIfExist}) ;
+#end
+#end

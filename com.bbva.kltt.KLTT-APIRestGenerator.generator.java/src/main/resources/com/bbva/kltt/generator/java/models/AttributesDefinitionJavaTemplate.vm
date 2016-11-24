@@ -1,0 +1,11 @@
+#foreach($attribute in $attributes)
+#if (! $attribute.description)
+	/** No description for the attribute */
+#else
+	/** ${attribute.description} */
+#end
+#set($formattedAttrName = ${outputLanguageNaming.prefixAttributeName(${attribute.name})})
+    @JsonView(GenerationView.class)
+#set($attributeType     = "${outputLanguageItems.getFullTypeOutput(${attribute})}")
+	private $attributeType ${formattedAttrName} ;
+#end

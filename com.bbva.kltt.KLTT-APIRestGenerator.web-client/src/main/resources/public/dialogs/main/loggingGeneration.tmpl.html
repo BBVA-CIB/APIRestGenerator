@@ -1,0 +1,24 @@
+<!--
+  ~ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0. "
+  -->
+
+<md-dialog aria-label="Mango (Fruit)" ng-cloak>
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Info about the generation</h2>
+        <span flex></span>
+      </div>
+    </md-toolbar>    
+    <md-dialog-content>
+      <div class="md-dialog-content">
+          <textarea scroll-glue style="width: 1000px; height: 300px;" ng-model="parent.loggingGeneration" ng-disabled="true"></textarea>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <div>BUILD FAILED? Visit <a href="#" ng-click="openHelpCommonIssues($event)">Common Issues</a></div>
+      <span flex></span>
+      <md-button ng-click="close()" layout-align="right center" class="commonButton md-raised md-primary">Close</md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

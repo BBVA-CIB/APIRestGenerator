@@ -1,0 +1,61 @@
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Return type
+#set($returnType       = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($returnTypeField  = ${outputLanguageItems.getFullTypeOutput($returnType.item)})
+##
+##
+	/**
+	 * Successful call
+	 */
+	public void ${operationId}(#if (${returnTypeField} != "void")final ${returnTypeField} outcome#end)
+	{
+		// Printout the received parameter 'outcome'
+#if (${returnTypeField} == "void")
+		System.out.println("[${operationId}] -> No input parameters") ;
+#elseif (${returnTypeField} == "InputStream")
+		try
+		{
+			if (outcome == null)
+			{
+				System.out.println("[${operationId}] -> Received value for parameter outcome: null") ;
+			}
+			else
+			{
+				System.out.println("[${operationId}] -> Received value for parameter outcome: " + this.getStringFromInputStream(outcome)) ;
+			}
+		}
+		catch (IOException ioException)
+		{
+			ioException.printStackTrace() ;
+		}
+#elseif ($returnType.item.class.simpleName == "ItemArray")
+##
+#set($depthArray = ${outputLanguageItems.calculateDepth(${returnType.item})})
+## Call the macro with the array parameters
+#generateArraySystemOutPrintln($operationId $depthArray 'outcome')
+#else		
+		System.out.println("[${operationId}] -> Received value for parameter outcome: " + outcome) ;
+#end
+	}
+
+	/**
+	 * Validation Error call
+	 * @param errorString with the error string
+	 */
+	public void ${operationId}ValidationError(final String errorString)
+	{
+		System.out.println("Listener '${operationId}' had a validation error: " + errorString) ;
+	}
+
+	/**
+	 * Http Error call
+	 * @param status with the code of the status error
+	 */
+	public void ${operationId}HttpError(final int status)
+	{
+		System.out.println("Listener '${operationId}' received a http response error: " + status) ;
+	}
+

@@ -1,0 +1,71 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+package ${packageName} ;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+public class ${className} implements ${restListenerInterfaceName}
+{
+	/** Max array size for the tests */
+	private static int MAX_ARRAY_SIZE 			 = 2 ;
+	
+	/** Clear instances for the tests */
+	private static boolean CLEAR 	  			 = true ;
+	
+	/** Current number of recursive calls */
+	private static int CURR_RECURSIVE_CALLS 	 = 0 ;
+
+	/** Max number of recursive calls */
+	private static int MAX_RECURSIVE_CALLS 		 = 4 ;
+	
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaTemplate})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaTemplate})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaTemplate})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaTemplate})
+#end
+## PATCH
+#set($pathOperation = "PATCH")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaTemplate})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaTemplate})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaTemplate})
+#end
+#end
+}

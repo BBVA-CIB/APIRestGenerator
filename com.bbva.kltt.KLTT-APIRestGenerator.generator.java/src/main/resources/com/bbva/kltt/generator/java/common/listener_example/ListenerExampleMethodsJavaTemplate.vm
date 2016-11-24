@@ -1,0 +1,91 @@
+## Include the macros files
+#parse(${CommonJavaMacros})
+#parse(${RandomGeneratorJavaMacros})
+##
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Return type
+#set($returnType       = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($returnTypeField  = ${outputLanguageItems.getFullTypeOutput($returnType.item)})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+#parse(${MethodCommentsJavaTemplate})
+	public $returnTypeField $operationId(${outputParameters.getParametersHeader()})
+	{
+#foreach($outputParameter in ${outputParameters.getParametersList()})		
+		// Printout the received parameter '${outputParameter.name}'
+#if ($outputParameter.item.class.simpleName == "ItemFile") ## Start "ItemFile"
+		try
+		{
+			if (${outputParameter.name} == null || ${outputParameter.name}.isEmpty())
+			{
+				System.out.println("[${operationId}] -> Received value for parameter '${outputParameter.name}' null or empty") ;
+			}
+			else
+			{
+				System.out.println("[${operationId}] -> Received value for parameter '${outputParameter.name}': " + new String(${outputParameter.name}.getBytes())) ;
+			}
+		}
+		catch (IOException ioException)
+		{
+			ioException.printStackTrace() ;
+		}
+#elseif ($outputParameter.item.class.simpleName == "ItemArray")
+##
+#set($depthArray = ${outputLanguageItems.calculateDepth(${outputParameter.item})})
+## Call the macro with the array parameters
+#generateArraySystemOutPrintln($operationId $depthArray ${outputParameter.name})
+#else		
+		System.out.println("[${operationId}] -> Received value for parameter '${outputParameter.name}': " + ${outputParameter.name}) ;
+#end
+
+#end
+##
+##
+#if (${returnTypeField} != "void")
+#set($itemBaseReturn = ${returnType.item})
+##
+#if ($itemBaseReturn.class.simpleName == "ItemFile")
+##
+## Call the macro for the random file code
+#generateItemFileRandomAsBytes('outcome')
+		
+		return outcome.getBytes() ;
+##
+#elseif ($itemBaseReturn.class.simpleName == "ItemSimpleBoolean" || $itemBaseReturn.class.simpleName == "ItemSimpleInteger" ||
+	 	 $itemBaseReturn.class.simpleName == "ItemSimpleLong"    || $itemBaseReturn.class.simpleName == "ItemSimpleFloat"   ||
+	 	 $itemBaseReturn.class.simpleName == "ItemSimpleDouble"  || $itemBaseReturn.class.simpleName == "ItemSimpleString"  ||
+     	 $itemBaseReturn.class.simpleName == "ItemSimpleFloat"   || $itemBaseReturn.class.simpleName == "ItemRef"			|| 
+     	 $itemBaseReturn.class.simpleName == "ItemComplex")
+##
+#set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${itemBaseReturn})})
+#set($outputTypeOneDim   = "${outputLanguageItems.getFullTypeOutput(${itemBaseReturn})}")
+#set($randomMethodOneDim = "#randomMethodGenerator(${itemBaseReturn.class.simpleName} 'outcome' 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS')")
+##
+## Call the macro with the simple parameters
+#generateOneDimensionRandom($isSimpleTypeOneDim $outputTypeOneDim $randomMethodOneDim 'outcome')
+
+		return outcome ;
+##
+#elseif ($itemBaseReturn.class.simpleName == "ItemArray")
+##
+#set($arrayBaseGenType  = ${outputLanguageItems.calculateBaseType(${itemBaseReturn})})
+#set($arrayBaseJavaType = "${outputLanguageItems.getTypeBaseArray(${itemBaseReturn})}")
+#set($isSimpleTypeArray = ${outputLanguageItems.isSimpleType(${arrayBaseGenType})})
+#set($depthArray 	    = ${outputLanguageItems.calculateDepth(${itemBaseReturn})})
+#set($randomMethodArray = "#randomMethodGenerator(${arrayBaseGenType.class.simpleName} 'outcome' 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS')")
+##
+## Call the macro with the array parameters
+#generateArrayRandom($arrayBaseJavaType $isSimpleTypeArray $depthArray $randomMethodArray 'outcome')
+
+		return outcome ;
+##
+#end
+#end
+	}
+

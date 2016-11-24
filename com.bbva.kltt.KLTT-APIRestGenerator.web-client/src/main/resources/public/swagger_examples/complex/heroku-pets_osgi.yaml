@@ -1,0 +1,98 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: PetStore-Heroku-OSGi
+  description: |
+    **This example has a working backend hosted in Heroku**
+
+    You can try all HTTP operation described in this Swagger spec.
+    
+    Find source code of this API [here](https://github.com/mohsen1/petstore-api)
+  contact:
+    name: Francisco Manuel Benitez Chico
+    email: paco.benitez.chico@gmail.com
+    url: http://www.pacobenitezchico.com
+host: localhost:8081
+x-generator-properties:
+  business-unit: mybu
+  osgi:
+    architecture-type: online
+    cxf-address: /AddressHeroku
+    cxf-context: /ContextHeroku
+basePath: /pet
+schemes:
+ - http
+consumes:
+
+produces:
+
+paths:
+  /herokuPath:
+    get:
+      operationId: getOp
+      produces:
+        - application/json      
+      parameters:
+        - name: limit
+          in: query
+          description: number of pets to return
+          type: integer
+      responses:
+        - 200:
+            description:  List all pets
+            schema:
+              title: Pets
+              type: array
+              items:
+                $ref: '#/definitions/Pet'
+    post:
+      operationId: postOp
+      consumes:
+        - application/json
+      parameters:
+        - name: pet
+          in: body
+          description: The pet JSON you want to post
+          schema:
+            $ref: '#/definitions/Pet'
+          required: true
+      responses:
+        - 200:
+            description: Make a new pet
+    put:
+      operationId: putOp
+      consumes:
+        - application/json
+      parameters:
+        - name: pet
+          in: body
+          description: The pet JSON you want to post
+          schema:
+            $ref: '#/definitions/Pet'
+          required: true
+      responses:
+        - 200:
+            description: Updates the pet
+  /{petId}:
+    get:
+      operationId: getPetId
+      parameters:
+        - name: petId
+          in: path
+          type: string
+          description: ID of the pet
+          required: true
+      responses:
+        - 200:
+            description: Sends the pet with pet Id
+
+definitions:
+  Pet:
+    type: object
+    properties:
+      petName:
+        type: string
+      birthday:
+        type: integer
+        format: int32
+
