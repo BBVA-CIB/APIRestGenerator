@@ -23,6 +23,8 @@ import com.bbva.kltt.core.launcher.GlobalLauncher;
 import com.bbva.kltt.core.util.APIRestGeneratorException;
 import com.bbva.kltt.generator.serverSpring.util.ConstantsOutputServerSpring;
 
+import java.util.Arrays;
+
 /**
  * Launcher for code generations (Spring)
  * ------------------------------------------------
@@ -41,14 +43,8 @@ public class Launcher extends GlobalLauncher
     {
 
         // Split the args to get parserType
-        String[] newArgs = new String[args.length - 1];
+        String[] newArgs  = Arrays.copyOfRange(args, 0, 1);
         String parserType = args[2];
-
-        for (int i = 0; i < newArgs.length; i++)
-        {
-            newArgs[i] = args[i];
-        }
-
 
         final Launcher launcher = new Launcher();
         launcher.launch(newArgs,
