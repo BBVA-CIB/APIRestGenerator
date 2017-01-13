@@ -42,7 +42,7 @@ public class Launcher extends GlobalLauncher
     public static void main(final String[] args) throws APIRestGeneratorException
     {
         // Split the args to get parserType
-        String[] newArgs  = Arrays.copyOfRange(args, 0, 1);
+        String[] newArgs  = Arrays.copyOfRange(args, 0, 2);
         String parserType = args[2];
 
         final Launcher launcher = new Launcher();

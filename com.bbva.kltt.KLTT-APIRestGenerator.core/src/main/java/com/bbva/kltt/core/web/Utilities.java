@@ -22,10 +22,12 @@ package com.bbva.kltt.core.web;
 import com.bbva.kltt.core.util.APIRestGeneratorException;
 import com.bbva.kltt.core.util.ConstantsAnt;
 import com.bbva.kltt.core.util.ConstantsInput;
+import com.bbva.kltt.core.util.FilesUtility;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
@@ -50,11 +52,21 @@ public final class Utilities
     private static AtomicLong TEMP_FILE_SUFFIX = new AtomicLong() ;
 	
 	/**
+	 * @param generatorBuilderPath with the generator builder path
 	 * @return a temporary output directory for the generation
 	 */
-	public static String generateTemporaryOutputDirectory()
+	public static String generateTemporaryOutputDirectory(String generatorBuilderPath)
 	{
-		return ConstantsAnt.TEMP_DIRECTORY_PREFIX + TEMP_FILE_SUFFIX.incrementAndGet() ;
+	    boolean existFolder = true;
+	    String fullPathDirectory = generatorBuilderPath + File.separator + ConstantsAnt.BASE_GEN_FOLDERS
+                                   + ConstantsAnt.TEMP_DIRECTORY_PREFIX;
+
+	    while (existFolder)
+        {
+            existFolder = FilesUtility.existDirectory(fullPathDirectory + TEMP_FILE_SUFFIX.incrementAndGet());
+        }
+
+		return ConstantsAnt.TEMP_DIRECTORY_PREFIX + TEMP_FILE_SUFFIX.get();
 	}
 	
 	/**

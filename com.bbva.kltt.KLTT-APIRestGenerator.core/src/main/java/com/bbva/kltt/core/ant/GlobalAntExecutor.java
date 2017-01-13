@@ -101,11 +101,12 @@ public class GlobalAntExecutor
     /**
      * Generate a new temporary directory as string
      *
+     * @param generatorBuilderPath with the generator builder path
      * @return the path of the temporary directory
      */
-    public String generateTemporaryOutputDirectory()
+    public String generateTemporaryOutputDirectory(String generatorBuilderPath)
     {
-        return Utilities.generateTemporaryOutputDirectory();
+        return Utilities.generateTemporaryOutputDirectory(generatorBuilderPath);
     }
 
     /**

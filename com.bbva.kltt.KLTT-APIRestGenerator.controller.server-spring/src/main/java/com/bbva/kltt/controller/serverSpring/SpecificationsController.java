@@ -147,7 +147,7 @@ public final class SpecificationsController
         {
             globalAntExecutor = new GlobalAntExecutor(parserType, translatorTypeString);
 
-            String temporaryDir = globalAntExecutor.generateTemporaryOutputDirectory();
+            String temporaryDir = globalAntExecutor.generateTemporaryOutputDirectory(this.apiRestGenService.getConfig().getGeneratorBuilderPath());
 
             // Generate and get the full temporary directory
             fullTemporaryDir = globalAntExecutor.generateFullTemporaryDir(this.apiRestGenService.getConfig().getGeneratorBuilderPath(),

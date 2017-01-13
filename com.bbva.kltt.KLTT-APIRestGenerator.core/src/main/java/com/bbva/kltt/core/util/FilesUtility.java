@@ -315,4 +315,22 @@ public class FilesUtility
 		FilesUtility.LOGGER.error(errorString) ;
 		throw new RuntimeException(errorString) ;
 	}
+
+    /**
+     * Check if a directory exists
+     *
+     * @param directoryPath with the String of the full path
+     * @return true if it exists
+     */
+    public static boolean existDirectory(final String directoryPath)
+    {
+        boolean isExists = false;
+    	if (directoryPath != null)
+        {
+            File dir = new File(directoryPath);
+            isExists = dir.exists();
+        }
+
+        return isExists;
+    }
 }
