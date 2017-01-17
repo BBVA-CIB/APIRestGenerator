@@ -24,6 +24,7 @@ import com.bbva.kltt.generator.serverSpring.java.server.spring.GeneratorBaseServ
 import com.bbva.kltt.core.util.ConstantsOutput;
 import com.bbva.kltt.core.parsed_info.ParsedInfoHandler;
 import com.bbva.kltt.core.util.ConstantsCommon;
+import com.bbva.kltt.generator.serverSpring.util.ConstantsOutputServerSpring;
 import org.apache.velocity.VelocityContext;
 
 import java.io.File;
@@ -56,12 +57,17 @@ public class ExampleLauncherServerSpringGenerator extends GeneratorBaseServerSpr
 	{
         final VelocityContext context = new VelocityContext() ;
 
-        context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage()) ;
-        context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports()) ;
-        context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName()) ;
-        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME, ConstantsOutput.CLASSNAME_REST_HANDLER) ;
-        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_LISTENER) ;
-        context.put(ConstantsOutput.VP_LIST_EXAMP_CL_NAME, ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER) ;
+        context.put(ConstantsOutput.VP_PACKAGE_NAME,                  this.getOutputPackage()) ;
+        context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS,            this.generateAdditionalImports()) ;
+        context.put(ConstantsOutput.VP_CLASS_NAME,                    this.getOutputFileName()) ;
+        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME,             ConstantsOutput.CLASSNAME_REST_HANDLER +
+                                                                      this.getTitleCamelCase()) ;
+        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME,        ConstantsOutput.INTERFACE_NAME_REST_LISTENER +
+				                                                      this.getTitleCamelCase()) ;
+        context.put(ConstantsOutput.VP_LIST_EXAMP_CL_NAME,            ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER +
+                                                                      this.getTitleCamelCase()) ;
+        context.put(ConstantsOutputServerSpring.VP_SPR_INJECT_METHOD, ConstantsOutputServerSpring.VP_SPR_INJECT_METHOD +
+                                                                      this.getTitleCamelCase()) ;
 
         return context ;
 	}
@@ -87,11 +93,11 @@ public class ExampleLauncherServerSpringGenerator extends GeneratorBaseServerSpr
 
 		additionalImports.add(this.getPackageUtilsJava().getRestHandlerImplPackage(this.getTranslatorType())  +
 							  ConstantsCommon.STRING_DOT 													  +
-							  ConstantsOutput.CLASSNAME_REST_HANDLER) 										  ;
+							  ConstantsOutput.CLASSNAME_REST_HANDLER + this.getTitleCamelCase()) 										  ;
 
 		additionalImports.add(this.getPackageUtilsJava().getRestHandlerInterfacesPackage(this.getTranslatorType()) +
 							  ConstantsCommon.STRING_DOT 				   										   +
-							  ConstantsOutput.INTERFACE_NAME_REST_LISTENER) 									   ;
+							  ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase()) 									   ;
 
 		return additionalImports ;
 	}

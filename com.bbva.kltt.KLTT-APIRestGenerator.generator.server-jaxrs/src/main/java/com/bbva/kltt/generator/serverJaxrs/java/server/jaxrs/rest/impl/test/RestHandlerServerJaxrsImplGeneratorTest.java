@@ -60,17 +60,19 @@ public class RestHandlerServerJaxrsImplGeneratorTest extends GeneratorBaseServer
         // Parameters
         context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage()) ;
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName()) ;
-        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME, ConstantsOutput.CLASSNAME_REST_HANDLER) ;
+        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME,
+                    ConstantsOutput.CLASSNAME_REST_HANDLER + this.getTitleCamelCase()) ;
         context.put(ConstantsOutput.VP_R_LISTE_T_CL_NAME, ConstantsOutput.CLASSNAME_REST_LISTENER_TES) ;
         
         // Java Templates
         context.put(ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS,
         			this.getTemplateCommonJavaResourceName(ConstantsOutputJava.COMMON_JAVA_DIR_TEMPLATES,
-        										 ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS)) ;
+                                                           ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS)) ;
         
         // Spring Templates
         context.put(ConstantsOutputServerJaxrs.VP_SER_JAXRS_T_REST_MET_H_T,
-        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY, ConstantsOutputServerJaxrs.VP_SER_JAXRS_T_REST_MET_H_T)) ;
+        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY,
+                                                 ConstantsOutputServerJaxrs.VP_SER_JAXRS_T_REST_MET_H_T)) ;
         
         return context ;
     }

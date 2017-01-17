@@ -32,7 +32,7 @@
 ##
 
 		// Do the "restHandler" call
-		restHandler.${operationId}(${callParameters}) ;
+		${restHandlerVariable}.${operationId}(${callParameters}) ;
 	}
 
 

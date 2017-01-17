@@ -63,8 +63,10 @@ public class RestHandlerClientJaxrsImplGenerator extends GeneratorBaseClientJaxr
         context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports()) ;
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName()) ;
         
-        context.put(ConstantsOutputClientJaxrs.VP_R_HANDLER_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_HANDLER) ;
-        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_LISTENER) ;
+        context.put(ConstantsOutputClientJaxrs.VP_R_HANDLER_INTERFACE_NAME,
+                    ConstantsOutput.INTERFACE_NAME_REST_HANDLER + this.getTitleCamelCase()) ;
+        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME,
+                    ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase()) ;
         context.put(ConstantsOutput.VP_SCHEMES_VAL_CL_NAME, ConstantsOutput.CLASSNAME_SCHEMES_VALUES) ;
         
         // Java Templates
@@ -117,6 +119,6 @@ public class RestHandlerClientJaxrsImplGenerator extends GeneratorBaseClientJaxr
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.CLASSNAME_REST_HANDLER ;
+        return ConstantsOutput.CLASSNAME_REST_HANDLER + this.getTitleCamelCase() ;
     }
 }

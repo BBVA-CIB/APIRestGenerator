@@ -61,16 +61,18 @@ public class ExampleListenerClientJaxrsGenerator extends GeneratorBaseClientJaxr
         context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage());
         context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports());
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName());
-        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_LISTENER);
+        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME,
+                    ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase());
 
         // Java Templates
         context.put(ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS,
                     this.getTemplateCommonJavaResourceName(ConstantsOutputJava.COMMON_JAVA_DIR_TEMPLATES,
-                                                 ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS));
+                                                           ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS));
 
         // Jaxrs Client Templates
         context.put(ConstantsOutputClientJaxrs.VP_CLI_JAXRS_T_EXAM_MET_H_T,
-                    this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY, ConstantsOutputClientJaxrs.VP_CLI_JAXRS_T_EXAM_MET_H_T));
+                    this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY,
+                                                 ConstantsOutputClientJaxrs.VP_CLI_JAXRS_T_EXAM_MET_H_T));
 
         return context;
     }
@@ -84,7 +86,7 @@ public class ExampleListenerClientJaxrsGenerator extends GeneratorBaseClientJaxr
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER;
+        return ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER + this.getTitleCamelCase();
     }
 
     /**

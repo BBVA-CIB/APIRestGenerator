@@ -7,7 +7,7 @@
        					   http://www.springframework.org/schema/osgi
        					   http://www.springframework.org/schema/osgi/spring-osgi.xsd">
 
-	<osgi:service interface="${restHandlerInterfaceFullPackage}" ref="restServiceImplRest">
+	<osgi:service interface="${restHandlerInterfaceFullPackage}" ref="${restServiceImplRest}">
 	    <osgi:service-properties>
 				<entry key="org.apache.cxf.rs.httpservice.context" value="${outputLanguageGeneratorParams.getOsgiCxfContext()}" />
 				<entry key="org.apache.cxf.rs.address" 			   value="${outputLanguageGeneratorParams.getOsgiCxfAddress()}" />
@@ -23,5 +23,5 @@
 		</osgi:service-properties>
 	</osgi:service>
     
-    <osgi:reference id="restListenerOsgiService" interface="${restListenerInterfaceFullPackage}" />
+    <osgi:reference id="${restListenerOsgiService}" interface="${restListenerInterfaceFullPackage}" />
 </beans>

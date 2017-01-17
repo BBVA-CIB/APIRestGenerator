@@ -196,8 +196,8 @@ public final class ConstantsOutput
 	public static final String CLASSNAME_REST_LISTENER_TES  = "RestListenerTest" ;
 	/** Velocity class name - Example - Launcher */
 	public static final String CLASSNAME_EXAMPLE_LAUNCHER   = "Launcher" ;
-	/** Velocity class name - Example - MyListener */
-	public static final String CLASSNAME_EXAMPLE_LISTENER   = "MyListener" ;
+	/** Velocity class name - Example - Listener */
+	public static final String CLASSNAME_EXAMPLE_LISTENER   = "Listener" ;
 	/** Velocity class name - SchemesValues */
 	public static final String CLASSNAME_SCHEMES_VALUES		= "SchemesValues" ;
 	

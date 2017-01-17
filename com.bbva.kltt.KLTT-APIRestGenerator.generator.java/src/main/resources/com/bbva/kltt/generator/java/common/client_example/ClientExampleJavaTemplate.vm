@@ -39,18 +39,18 @@ public class ${className}
 	private static int MAX_RECURSIVE_CALLS 		 = 4 ;
 
 	/** Attribute - Rest Listener */
-	private ${restListenerInterfaceName} restListener ;
+	private ${restListenerInterfaceName} ${restListenerVariable} ;
 	
 	/** Attribute - Rest Handler */
-	private ${restHandlerInterfaceName} restHandler ;
+	private ${restHandlerInterfaceName} ${restHandlerVariable} ;
 	
 	/**
 	 * Public constructor
 	 */
 	public ${className}()
 	{
-		this.restListener = new ${restListenerExampleClassName}() ;
-		this.restHandler  = new ${restHandlerClassName}(this.restListener) ;
+		this.${restListenerVariable} = new ${restListenerExampleClassName}() ;
+		this.${restHandlerVariable}  = new ${restHandlerClassName}(this.${restListenerVariable}) ;
 	}
 	
 	/**

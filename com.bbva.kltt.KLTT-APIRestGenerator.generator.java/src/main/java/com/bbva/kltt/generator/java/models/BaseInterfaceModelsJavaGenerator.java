@@ -71,6 +71,6 @@ public class BaseInterfaceModelsJavaGenerator extends GeneratorBaseJavaModels
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.CLASSNAME_IGENERATED_MODEL;
+        return ConstantsOutput.CLASSNAME_IGENERATED_MODEL + this.getTitleCamelCase();
     }
 }

@@ -55,4 +55,12 @@ public interface IOutputLanguageNaming
 	 * @return HTTP tokens with slashes
 	 */
 	String getUrlWithSlashes(final String... httpTokens) ;
+
+    /**
+     * Return the same string in CamelCase format
+     *
+     * @param name with the String to convert
+     * @return the name in CamelCase format
+     */
+    String setCamelCaseName(final String name) ;
 }

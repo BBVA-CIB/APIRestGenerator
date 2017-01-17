@@ -99,7 +99,10 @@ public abstract class GeneratorBaseJava extends GeneratorBase
      */
     protected String generateImportRestHandlerInterface(final String translatorType)
     {
-        return this.getPackageUtilsJava().getRestHandlerInterfacesPackage(translatorType) + ConstantsCommon.STRING_DOT + ConstantsOutput.INTERFACE_NAME_REST_HANDLER;
+        return this.getPackageUtilsJava().getRestHandlerInterfacesPackage(translatorType) +
+               ConstantsCommon.STRING_DOT                                                 +
+               ConstantsOutput.INTERFACE_NAME_REST_HANDLER                                +
+               this.getTitleCamelCase();
     }
 
     /**
@@ -108,7 +111,10 @@ public abstract class GeneratorBaseJava extends GeneratorBase
      */
     protected String generateImportListenerInterface(final String translatorType)
     {
-        return this.getPackageUtilsJava().getRestHandlerInterfacesPackage(translatorType) + ConstantsCommon.STRING_DOT + ConstantsOutput.INTERFACE_NAME_REST_LISTENER;
+        return this.getPackageUtilsJava().getRestHandlerInterfacesPackage(translatorType) +
+               ConstantsCommon.STRING_DOT                                                 +
+               ConstantsOutput.INTERFACE_NAME_REST_LISTENER                               +
+               this.getTitleCamelCase();
     }
 
     /**
@@ -117,7 +123,10 @@ public abstract class GeneratorBaseJava extends GeneratorBase
      */
     protected String generateImportHandlerImpl(final String translatorType)
     {
-        return this.getPackageUtilsJava().getRestHandlerImplPackage(translatorType) + ConstantsCommon.STRING_DOT + ConstantsOutput.CLASSNAME_REST_HANDLER;
+        return this.getPackageUtilsJava().getRestHandlerImplPackage(translatorType) +
+               ConstantsCommon.STRING_DOT                                           +
+               ConstantsOutput.CLASSNAME_REST_HANDLER                               +
+               this.getTitleCamelCase();
     }
 
     /**
@@ -126,7 +135,10 @@ public abstract class GeneratorBaseJava extends GeneratorBase
      */
     protected String generateImportExampleListener(final String translatorType)
     {
-        return this.getPackageUtilsJava().getExamplesPackage(translatorType) + ConstantsCommon.STRING_DOT + ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER;
+        return this.getPackageUtilsJava().getExamplesPackage(translatorType) +
+               ConstantsCommon.STRING_DOT                                    +
+               ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER                    +
+               this.getTitleCamelCase();
     }
 
     /**

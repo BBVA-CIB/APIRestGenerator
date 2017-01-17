@@ -63,17 +63,20 @@ public class RestHandlerServerJaxrsImplGenerator extends GeneratorBaseServerJaxr
         context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports()) ;
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName()) ;
         
-        context.put(ConstantsOutputServerJaxrs.VP_R_HANDLER_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_HANDLER) ;
-        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_LISTENER) ;
+        context.put(ConstantsOutputServerJaxrs.VP_R_HANDLER_INTERFACE_NAME,
+                    ConstantsOutput.INTERFACE_NAME_REST_HANDLER + this.getTitleCamelCase()) ;
+        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME,
+                    ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase()) ;
         
         // Java Templates
         context.put(ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS,
         			this.getTemplateCommonJavaResourceName(ConstantsOutputJava.COMMON_JAVA_DIR_TEMPLATES,
-        										 ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS)) ;
+        										           ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS)) ;
 
         // JAX-RS Templates
         context.put(ConstantsOutputServerJaxrs.VP_SER_JAXRS_T_REST_M_H_IMP,
-        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY, ConstantsOutputServerJaxrs.VP_SER_JAXRS_T_REST_M_H_IMP)) ;
+        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY,
+                                                 ConstantsOutputServerJaxrs.VP_SER_JAXRS_T_REST_M_H_IMP)) ;
         
         return context ;
     }
@@ -104,6 +107,6 @@ public class RestHandlerServerJaxrsImplGenerator extends GeneratorBaseServerJaxr
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.CLASSNAME_REST_HANDLER ;
+        return ConstantsOutput.CLASSNAME_REST_HANDLER + this.getTitleCamelCase() ;
     }
 }

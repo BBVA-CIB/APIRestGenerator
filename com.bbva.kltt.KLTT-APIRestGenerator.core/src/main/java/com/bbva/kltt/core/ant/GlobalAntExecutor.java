@@ -104,7 +104,7 @@ public class GlobalAntExecutor
      * @param generatorBuilderPath with the generator builder path
      * @return the path of the temporary directory
      */
-    public String generateTemporaryOutputDirectory(String generatorBuilderPath)
+    public String generateTemporaryOutputDirectory(final String generatorBuilderPath)
     {
         return Utilities.generateTemporaryOutputDirectory(generatorBuilderPath);
     }

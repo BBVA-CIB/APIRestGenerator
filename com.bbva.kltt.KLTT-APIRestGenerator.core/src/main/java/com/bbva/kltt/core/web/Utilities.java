@@ -55,7 +55,7 @@ public final class Utilities
 	 * @param generatorBuilderPath with the generator builder path
 	 * @return a temporary output directory for the generation
 	 */
-	public static String generateTemporaryOutputDirectory(String generatorBuilderPath)
+	public static String generateTemporaryOutputDirectory(final String generatorBuilderPath)
 	{
 	    boolean existFolder = true;
 	    String fullPathDirectory = generatorBuilderPath + File.separator + ConstantsAnt.BASE_GEN_FOLDERS

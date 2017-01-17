@@ -84,7 +84,8 @@ public class ModelsComplexJavaGenerator extends GeneratorBaseJavaModels
         context.put(ConstantsOutput.VP_CLASS_NAME,          this.getOutputFileName());
         context.put(ConstantsOutput.VP_CLASS_DESCRIPTION,   this.itemComplex.getDescription());
         context.put(ConstantsOutput.VP_ATTRIBUTES,          this.itemComplex.getItemsMap().values());
-        context.put(ConstantsOutput.VP_GEN_MODEL_CL_NAME,   ConstantsOutput.CLASSNAME_IGENERATED_MODEL);
+        context.put(ConstantsOutput.VP_GEN_MODEL_CL_NAME,   ConstantsOutput.CLASSNAME_IGENERATED_MODEL +
+                                                               this.getTitleCamelCase());
         context.put(ConstantsOutput.VP_JACKSON_MAP_CL_NAME, ConstantsOutput.CLASSNAME_JACKSON_MAPPER);
 
         // Java Templates

@@ -60,7 +60,8 @@ public class ExampleListenerServerJaxrsGenerator extends GeneratorBaseServerJaxr
         context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage()) ;
         context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports()) ;
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName()) ;
-        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_LISTENER) ;
+        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME,
+                    ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase()) ;
         
         // Java Templates
         context.put(ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS,
@@ -107,6 +108,6 @@ public class ExampleListenerServerJaxrsGenerator extends GeneratorBaseServerJaxr
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER ;
+        return ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER + this.getTitleCamelCase() ;
     }
 }

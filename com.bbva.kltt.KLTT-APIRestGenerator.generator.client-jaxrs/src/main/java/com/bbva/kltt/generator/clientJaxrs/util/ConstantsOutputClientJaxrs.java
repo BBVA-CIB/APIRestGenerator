@@ -71,7 +71,15 @@ public final class ConstantsOutputClientJaxrs
 	/*********************** Velocity parameters *************************/
 
 	/** Velocity parameter - restHandlerInterfaceClassName */
-	public static final String VP_R_HANDLER_INTERFACE_NAME = "restHandlerInterfaceClassName" ;
+	public static final String VP_R_HANDLER_INTERFACE_NAME  = "restHandlerInterfaceClassName" ;
+	/** Velocity key parameter - restHandlerVariable */
+	public static final String VP_R_REST_HANDLER_VARIABLE   = "restHandlerVariable" ;
+    /** Velocity key parameter - restListenerVariable */
+    public static final String VP_R_REST_LISTENER_VARIABLE  = "restListenerVariable" ;
+    /** Velocity value parameter - restListener */
+    public static final String VP_REST_LISTENER             = "restListener" ;
+    /** Velocity value parameter - restHandler */
+    public static final String VP_REST_HANDLER              = "restHandler" ;
 
 	/**
 	 * Private constructor

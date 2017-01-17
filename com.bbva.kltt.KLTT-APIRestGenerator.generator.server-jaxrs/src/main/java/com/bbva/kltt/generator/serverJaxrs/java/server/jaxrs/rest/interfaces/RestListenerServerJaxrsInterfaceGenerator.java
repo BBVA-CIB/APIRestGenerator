@@ -70,7 +70,8 @@ public class RestListenerServerJaxrsInterfaceGenerator extends GeneratorBaseServ
         
         // JAX-RS Templates
         context.put(ConstantsOutputServerJaxrs.VP_SER_JAXRS_T_LIST_MET_H,
-        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY, ConstantsOutputServerJaxrs.VP_SER_JAXRS_T_LIST_MET_H)) ;
+        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY,
+                                                 ConstantsOutputServerJaxrs.VP_SER_JAXRS_T_LIST_MET_H)) ;
         
         return context ;
     }
@@ -89,6 +90,6 @@ public class RestListenerServerJaxrsInterfaceGenerator extends GeneratorBaseServ
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.INTERFACE_NAME_REST_LISTENER ;
+        return ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase() ;
     }
 }

@@ -67,8 +67,8 @@
 	        }
 	    });
 
-		// Initialize the RestHandler
-		var restHandler = new RestHandler(new RestListener());
+		// Initialize the ${restHandlerClassName}
+		var restHandler = new ${restHandlerClassName}(new ${restListenerInterfaceName}());
 
 		// Generate a map with the key as 'operationId' and the value as the test function to be executed  
 ## Generate all the sub-calls	

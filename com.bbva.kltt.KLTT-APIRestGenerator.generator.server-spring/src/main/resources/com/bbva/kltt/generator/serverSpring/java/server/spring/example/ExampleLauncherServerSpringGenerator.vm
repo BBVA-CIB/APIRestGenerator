@@ -45,7 +45,7 @@ public class ${className}
      */
 	@Bean
 	@Autowired
-	${restListenerInterfaceName} injectListener()
+	${restListenerInterfaceName} ${injectListener}()
 	{
 		return new ${restListenerExampleClassName}() ;
 	}

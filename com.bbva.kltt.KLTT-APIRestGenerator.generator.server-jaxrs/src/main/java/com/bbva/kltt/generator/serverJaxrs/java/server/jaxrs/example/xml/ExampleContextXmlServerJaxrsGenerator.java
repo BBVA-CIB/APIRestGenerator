@@ -55,7 +55,11 @@ public class ExampleContextXmlServerJaxrsGenerator extends ContextGeneratorXmlSe
         final VelocityContext context = new VelocityContext();
 
         // Add the full package for the handler implementation
-        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_EXAM_LISTENE_IN_FP, this.generateImportExampleListener(this.getTranslatorType()));
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_EXAM_LISTENE_IN_FP,
+                    this.generateImportExampleListener(this.getTranslatorType()));
+
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENER_IMPL,
+                    ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENER_IMPL + this.getTitleCamelCase());
 
         return context;
     }

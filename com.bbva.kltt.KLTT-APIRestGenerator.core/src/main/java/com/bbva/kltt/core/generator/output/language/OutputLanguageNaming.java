@@ -20,6 +20,7 @@
 package com.bbva.kltt.core.generator.output.language;
 
 import com.bbva.kltt.core.util.ConstantsCommon;
+import com.google.common.base.CaseFormat;
 
 /**
  * ------------------------------------------------
@@ -87,5 +88,18 @@ public class OutputLanguageNaming implements IOutputLanguageNaming
 		}
 		
 		return outcome.toString() ;
+	}
+
+	@Override
+	public String setCamelCaseName(final String name)
+	{
+		String nameToFormat = "";
+	    if (name != null)
+        {
+            //Converting the spaces and hyphens to underscores
+            nameToFormat = name.replaceAll("[ -]", "_") ;
+        }
+
+		return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, nameToFormat) ;
 	}
 }

@@ -62,10 +62,12 @@ public class RestListenerTypescriptGenerator extends GeneratorBaseTypescript
         
         // Templates
         context.put(ConstantsOutputTypescript.VP_TS_TEMPL_LIST_MET_H,
-        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY, ConstantsOutputTypescript.VP_TS_TEMPL_LIST_MET_H)) ;
+        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY,
+                                                 ConstantsOutputTypescript.VP_TS_TEMPL_LIST_MET_H)) ;
         
         context.put(ConstantsOutputTypescript.VP_TS_TEMPL_METH_COMMENTS,
-        			this.getTemplateResourceName(ConstantsOutput.DIRECTORY_BACK_ONE, ConstantsOutputTypescript.VP_TS_TEMPL_METH_COMMENTS)) ;
+        			this.getTemplateResourceName(ConstantsOutput.DIRECTORY_BACK_ONE,
+                                                 ConstantsOutputTypescript.VP_TS_TEMPL_METH_COMMENTS)) ;
         
         return context ;
     }
@@ -80,6 +82,6 @@ public class RestListenerTypescriptGenerator extends GeneratorBaseTypescript
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutputTypescript.CLASSNAME_REST_LISTENER_TS ;
+        return ConstantsOutputTypescript.CLASSNAME_REST_LISTENER_TS + this.getTitleCamelCase() ;
     }
 }

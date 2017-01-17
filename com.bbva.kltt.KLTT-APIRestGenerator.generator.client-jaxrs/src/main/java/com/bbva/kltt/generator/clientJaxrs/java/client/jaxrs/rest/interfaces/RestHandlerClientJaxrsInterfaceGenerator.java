@@ -99,6 +99,6 @@ public class RestHandlerClientJaxrsInterfaceGenerator extends GeneratorBaseClien
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.INTERFACE_NAME_REST_HANDLER ;
+        return ConstantsOutput.INTERFACE_NAME_REST_HANDLER + this.getTitleCamelCase() ;
     }
 }

@@ -22,6 +22,7 @@ package com.bbva.kltt.generator.clientJaxrs.java.client.jaxrs.example;
 import com.bbva.kltt.core.launcher.GenerationParameters;
 import com.bbva.kltt.core.parsed_info.ParsedInfoHandler;
 import com.bbva.kltt.core.util.ConstantsOutput;
+import com.bbva.kltt.generator.clientJaxrs.util.ConstantsOutputClientJaxrs;
 import com.bbva.kltt.generator.util.ConstantsOutputJava;
 import com.bbva.kltt.generator.clientJaxrs.java.client.jaxrs.GeneratorBaseClientJaxrs;
 import org.apache.velocity.VelocityContext;
@@ -59,11 +60,19 @@ public class ExampleLauncherClientJaxrsGenerator extends GeneratorBaseClientJaxr
         context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage());
         context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports());
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName());
-        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_LISTENER);
-        context.put(ConstantsOutput.VP_R_HANDLER_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_HANDLER);
-        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME, ConstantsOutput.CLASSNAME_REST_HANDLER);
-        context.put(ConstantsOutput.VP_LIST_EXAMP_CL_NAME, ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER);
+        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME,
+                    ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase());
+        context.put(ConstantsOutput.VP_R_HANDLER_INTERFACE_NAME,
+                    ConstantsOutput.INTERFACE_NAME_REST_HANDLER + this.getTitleCamelCase());
+        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME,
+                    ConstantsOutput.CLASSNAME_REST_HANDLER + this.getTitleCamelCase());
+        context.put(ConstantsOutput.VP_LIST_EXAMP_CL_NAME,
+                    ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER + this.getTitleCamelCase());
         context.put(ConstantsOutput.VP_SCHEMES_VAL_CL_NAME, ConstantsOutput.CLASSNAME_SCHEMES_VALUES);
+        context.put(ConstantsOutputClientJaxrs.VP_R_REST_HANDLER_VARIABLE,
+                    ConstantsOutputClientJaxrs.VP_REST_HANDLER + this.getTitleCamelCase());
+        context.put(ConstantsOutputClientJaxrs.VP_R_REST_LISTENER_VARIABLE,
+                    ConstantsOutputClientJaxrs.VP_REST_LISTENER + this.getTitleCamelCase());
 
         // Java Templates
         context.put(ConstantsOutputJava.VP_COMMON_J_TEMPL_CLI_EXA,

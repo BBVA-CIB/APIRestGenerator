@@ -18,7 +18,7 @@
     					http://www.springframework.org/schema/context/spring-context.xsd
     					http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
-	<bean id="restServiceImplRest" class="${restHandlerImplFullPackage}" init-method="init" destroy-method="destroy">
-		<property name="restListener" ref="restListenerOsgiService"></property>
+	<bean id="${restServiceImplRest}" class="${restHandlerImplFullPackage}" init-method="init" destroy-method="destroy">
+		<property name="restListener" ref="${restListenerOsgiService}"></property>
 	</bean>
 </beans>

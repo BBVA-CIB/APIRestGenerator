@@ -257,13 +257,13 @@ public abstract class GeneratorBase implements IGenerator
      */
     protected String getRealPath(final String filePackage, final String fileName, final String currentPackage)
     {
-        final String[] filePackageSplitted = filePackage.split(ConstantsCommon.STRING_SLASH);
-        final String[] fileNameSplitted    = fileName.split(ConstantsCommon.STRING_SLASH);
+        final String[] filePackageSplit    = filePackage.split(ConstantsCommon.STRING_SLASH);
+        final String[] fileNameSplit       = fileName.split(ConstantsCommon.STRING_SLASH);
 
-        int backDirectories = filePackageSplitted.length;
-        for (final String fileNameSplit : fileNameSplitted)
+        int backDirectories = filePackageSplit.length;
+        for (final String fileNameSplitItem : fileNameSplit)
         {
-            if (ConstantsCommon.PREVIOUS_DIRECTORY.equals(fileNameSplit))
+            if (ConstantsCommon.PREVIOUS_DIRECTORY.equals(fileNameSplitItem))
             {
                 backDirectories--;
             }
@@ -274,22 +274,32 @@ public abstract class GeneratorBase implements IGenerator
         // Get the directory path from the filePackage
         for (int i = 0; i < backDirectories; i++)
         {
-            outcome.append(filePackageSplitted[i] + ConstantsCommon.STRING_SLASH);
+            outcome.append(filePackageSplit[i] + ConstantsCommon.STRING_SLASH);
         }
 
         // Get the directory path from the fileName
-        final int fileNameSplittedL = fileNameSplitted.length;
-        for (int j = (filePackageSplitted.length - backDirectories); j < fileNameSplittedL; j++)
+        final int fileNameSplitL = fileNameSplit.length;
+        for (int j = (filePackageSplit.length - backDirectories); j < fileNameSplitL; j++)
         {
-            outcome.append(fileNameSplitted[j]);
+            outcome.append(fileNameSplit[j]);
 
-            if (j + 1 < fileNameSplittedL)
+            if (j + 1 < fileNameSplitL)
             {
                 outcome.append(ConstantsCommon.STRING_SLASH);
             }
         }
 
         return outcome.toString();
+    }
+
+    /**
+     * Return the title of the API project in CamelCase format
+     *
+     * @return A String with the title in CamelCase format
+     */
+    protected String getTitleCamelCase()
+    {
+        return this.getOutputLanguageNaming().setCamelCaseName(this.getOutputLanguageInfoValues().getTitle());
     }
 
     /**

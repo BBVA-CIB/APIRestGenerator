@@ -60,21 +60,26 @@ public class RestHandlerTypescriptGenerator extends GeneratorBaseTypescript
         context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage()) ;
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName()) ;
         
-        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutputTypescript.CLASSNAME_REST_LISTENER_TS) ;
+        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME,
+                    ConstantsOutputTypescript.CLASSNAME_REST_LISTENER_TS + this.getTitleCamelCase()) ;
         context.put(ConstantsOutputTypescript.VP_TS_PAR_VAL_CL_NAME, ConstantsOutputTypescript.CLASSNAME_PARSER_VALUES_TS) ;
         
         // Templates
         context.put(ConstantsOutputTypescript.VP_TS_TEMPL_REST_MET_HEA,
-        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY, ConstantsOutputTypescript.VP_TS_TEMPL_REST_MET_HEA)) ;
+        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY,
+                                                 ConstantsOutputTypescript.VP_TS_TEMPL_REST_MET_HEA)) ;
         
         context.put(ConstantsOutputTypescript.VP_TS_TEMPL_METH_COMMENTS,
-        			this.getTemplateResourceName(ConstantsOutput.DIRECTORY_BACK_ONE, ConstantsOutputTypescript.VP_TS_TEMPL_METH_COMMENTS)) ;
+        			this.getTemplateResourceName(ConstantsOutput.DIRECTORY_BACK_ONE,
+                                                 ConstantsOutputTypescript.VP_TS_TEMPL_METH_COMMENTS)) ;
         // Macros
         context.put(ConstantsOutputTypescript.VP_TS_MACRO_COMMON,
-        			this.getTemplateResourceName(ConstantsOutput.DIRECTORY_BACK_ONE, ConstantsOutputTypescript.VP_TS_MACRO_COMMON)) ;
+        			this.getTemplateResourceName(ConstantsOutput.DIRECTORY_BACK_ONE,
+                                                 ConstantsOutputTypescript.VP_TS_MACRO_COMMON)) ;
         
         context.put(ConstantsOutputTypescript.VP_TS_MACRO_REST_HANDLER,
-        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY, ConstantsOutputTypescript.VP_TS_MACRO_REST_HANDLER)) ;
+        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY,
+                                                 ConstantsOutputTypescript.VP_TS_MACRO_REST_HANDLER)) ;
         
         return context ;
     }
@@ -89,6 +94,6 @@ public class RestHandlerTypescriptGenerator extends GeneratorBaseTypescript
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.CLASSNAME_REST_HANDLER ;
+        return ConstantsOutput.CLASSNAME_REST_HANDLER + this.getTitleCamelCase() ;
     }
 }

@@ -66,11 +66,12 @@ public class RestListenerClientJaxrsInterfaceGenerator extends GeneratorBaseClie
         // Java Templates
         context.put(ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS,
         			this.getTemplateCommonJavaResourceName(ConstantsOutputJava.COMMON_JAVA_DIR_TEMPLATES,
-        										 ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS)) ;
+        										           ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS)) ;
         
         // JAX-RS Templates
         context.put(ConstantsOutputClientJaxrs.VP_CLI_JAXRS_T_LIST_MET_H,
-        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY, ConstantsOutputClientJaxrs.VP_CLI_JAXRS_T_LIST_MET_H)) ;
+        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY,
+                                                 ConstantsOutputClientJaxrs.VP_CLI_JAXRS_T_LIST_MET_H)) ;
         
         return context ;
     }
@@ -89,6 +90,6 @@ public class RestListenerClientJaxrsInterfaceGenerator extends GeneratorBaseClie
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.INTERFACE_NAME_REST_LISTENER ;
+        return ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase() ;
     }
 }

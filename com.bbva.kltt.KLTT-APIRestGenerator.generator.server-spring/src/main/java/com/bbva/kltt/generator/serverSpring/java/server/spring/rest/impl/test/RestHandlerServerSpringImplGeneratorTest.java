@@ -60,7 +60,8 @@ public class RestHandlerServerSpringImplGeneratorTest extends GeneratorBaseServe
         // Parameters
         context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage()) ;
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName()) ;
-        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME, ConstantsOutput.CLASSNAME_REST_HANDLER) ;
+        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME, ConstantsOutput.CLASSNAME_REST_HANDLER +
+                                                          this.getTitleCamelCase()) ;
         context.put(ConstantsOutput.VP_R_LISTE_T_CL_NAME, ConstantsOutput.CLASSNAME_REST_LISTENER_TES) ;
         
         // Java Templates

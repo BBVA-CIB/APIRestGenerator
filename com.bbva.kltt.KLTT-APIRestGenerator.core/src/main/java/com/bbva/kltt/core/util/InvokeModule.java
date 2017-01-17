@@ -51,21 +51,21 @@ public class InvokeModule {
      * @return the class that has been found
      * @throws APIRestGeneratorException with an occurred exception
      */
-    public static InvokeModule initInvokeModule(String packModule, String className) throws APIRestGeneratorException {
+    public static InvokeModule initInvokeModule(final String packModule, final String className) throws APIRestGeneratorException {
 
         InvokeModule invokeObj = null ;
 
         try {
 
+            // Full path to find the class
+            StringBuilder fClassName = new StringBuilder(packModule);
+
             if (!className.equals(""))
             {
-                className = "." + className ;
+                fClassName.append(ConstantsCommon.STRING_DOT).append(className);
             }
 
-            // Full path to find the class
-            String fClassName = new StringBuilder(packModule).append(className).toString();
-
-            Class classInvoke = Class.forName(fClassName);
+            Class classInvoke = Class.forName(fClassName.toString());
 
             invokeObj = new InvokeModule(classInvoke);
         } catch (ClassNotFoundException e) {
@@ -81,7 +81,7 @@ public class InvokeModule {
      * @return the created instance
      * @throws APIRestGeneratorException with an occurred exception
      */
-    public Object createInstance(Object[] parameters, Class<?>[] typeParams) throws APIRestGeneratorException {
+    public Object createInstance(final Object[] parameters, final Class<?>[] typeParams) throws APIRestGeneratorException {
 
         Object newInst = null ;
 
@@ -90,13 +90,7 @@ public class InvokeModule {
             Constructor constObj = this.classInvoke.getConstructor(typeParams);
             newInst = constObj.newInstance(parameters);
 
-        } catch (InstantiationException e) {
-            throw new APIRestGeneratorException(e.getMessage(), e.getCause());
-        } catch (IllegalAccessException e) {
-            throw new APIRestGeneratorException(e.getMessage(), e.getCause());
-        } catch (InvocationTargetException e) {
-            throw new APIRestGeneratorException(e.getMessage(), e.getCause());
-        } catch (NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new APIRestGeneratorException(e.getMessage(), e.getCause());
         }
 
@@ -111,7 +105,7 @@ public class InvokeModule {
      * @return the result of the method
      * @throws APIRestGeneratorException with an occurred exception
      */
-    public Object invokeMethod(Object _instance, String methodName, Object[] parameters, Class<?>[] typeParams)
+    public Object invokeMethod(final Object _instance, final String methodName, final Object[] parameters, final Class<?>[] typeParams)
             throws APIRestGeneratorException {
 
         Object returnMethod = null;
@@ -121,11 +115,7 @@ public class InvokeModule {
             Method  myMethod = this.classInvoke.getMethod(methodName, typeParams);
             returnMethod = myMethod.invoke(_instance, parameters);
 
-        } catch (NoSuchMethodException e) {
-            throw new APIRestGeneratorException(e.getMessage(), e.getCause());
-        } catch (InvocationTargetException e) {
-            throw new APIRestGeneratorException(e.getMessage(), e.getCause());
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new APIRestGeneratorException(e.getMessage(), e.getCause());
         }
 

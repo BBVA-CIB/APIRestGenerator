@@ -92,6 +92,6 @@ public class RestListenerServerSpringInterfaceGenerator extends GeneratorBaseSer
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.INTERFACE_NAME_REST_LISTENER ;
+        return ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase() ;
     }
 }

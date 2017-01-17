@@ -55,10 +55,18 @@ public class RestContextOsgiXmlServerJaxrsImplGenerator extends ContextGenerator
         final VelocityContext context = new VelocityContext();
 
         // Add the full package for the rest handler interface
-        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_HANDLER_IN_FP, this.generateImportRestHandlerInterface(this.getTranslatorType()));
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_HANDLER_IN_FP,
+                    this.generateImportRestHandlerInterface(this.getTranslatorType()));
 
         // Add the full package for the listener interface
-        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENE_IN_FP, this.generateImportListenerInterface(this.getTranslatorType()));
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENE_IN_FP,
+                    this.generateImportListenerInterface(this.getTranslatorType()));
+
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_LISTENER_SERVICE,
+                    ConstantsOutputServerJaxrs.VP_JAXRS_LISTENER_SERVICE + this.getTitleCamelCase());
+
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_SERVICE_IMPL,
+                    ConstantsOutputServerJaxrs.VP_JAXRS_REST_SERVICE_IMPL + this.getTitleCamelCase());
 
         return context;
     }

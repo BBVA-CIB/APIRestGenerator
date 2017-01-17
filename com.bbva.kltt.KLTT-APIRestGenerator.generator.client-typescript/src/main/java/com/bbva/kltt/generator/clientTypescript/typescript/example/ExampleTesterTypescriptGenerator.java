@@ -55,9 +55,12 @@ public class ExampleTesterTypescriptGenerator extends GeneratorBaseTypescript
     {
         final VelocityContext context = new VelocityContext();
 
-        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME, ConstantsOutput.CLASSNAME_REST_HANDLER);
-        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutputTypescript.CLASSNAME_REST_LISTENER_TS);
-        context.put(ConstantsOutputTypescript.VP_TS_RAND_VAL_CL_NAME, ConstantsOutputTypescript.CLASSNAME_RANDOM_VALUES_TS);
+        context.put(ConstantsOutput.VP_R_HANDLER_CL_NAME,
+                    ConstantsOutput.CLASSNAME_REST_HANDLER + this.getTitleCamelCase());
+        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME,
+                    ConstantsOutputTypescript.CLASSNAME_REST_LISTENER_TS + this.getTitleCamelCase());
+        context.put(ConstantsOutputTypescript.VP_TS_RAND_VAL_CL_NAME,
+                    ConstantsOutputTypescript.CLASSNAME_RANDOM_VALUES_TS);
         context.put(ConstantsOutput.VP_SCHEMES_VAL_CL_NAME, ConstantsOutput.CLASSNAME_SCHEMES_VALUES);
 
         // Templates

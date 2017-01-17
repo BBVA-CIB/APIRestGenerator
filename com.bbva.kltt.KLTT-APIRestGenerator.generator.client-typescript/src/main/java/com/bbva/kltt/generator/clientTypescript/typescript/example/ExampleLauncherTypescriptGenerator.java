@@ -200,18 +200,24 @@ public class ExampleLauncherTypescriptGenerator extends GeneratorBaseTypescript
     {
         final List<String> mandatoryImports = new ArrayList<String>();
 
-        // RestListener import
-        final String restHandlerImport = this.getFileResourceName(ConstantsOutputTypescript.TYPESCRIPT_JS_MAIN_FOLDER + ConstantsCommon.STRING_SLASH +
-                                                                  ConstantsOutputTypescript.TYPESCRIPT_GENERATED_FOLDER + ConstantsCommon.STRING_SLASH +
-                                                                  ConstantsOutputTypescript.TYPESCRIPT_FOLDER_REST,
-                                                                  ConstantsOutput.CLASSNAME_REST_HANDLER + javascriptExtension);
+        // RestHandler import
+        final String restHandlerImport = this.getFileResourceName(ConstantsOutputTypescript.TYPESCRIPT_JS_MAIN_FOLDER +
+                                                                    ConstantsCommon.STRING_SLASH +
+                                                                    ConstantsOutputTypescript.TYPESCRIPT_GENERATED_FOLDER +
+                                                                    ConstantsCommon.STRING_SLASH +
+                                                                    ConstantsOutputTypescript.TYPESCRIPT_FOLDER_REST,
+                                                                  ConstantsOutput.CLASSNAME_REST_HANDLER +
+                                                                    this.getTitleCamelCase() + javascriptExtension);
         mandatoryImports.add(restHandlerImport);
 
         // RestListener import
-        final String restListenerImport = this.getFileResourceName(ConstantsOutputTypescript.TYPESCRIPT_JS_MAIN_FOLDER + ConstantsCommon.STRING_SLASH +
-                                                                   ConstantsOutputTypescript.TYPESCRIPT_GENERATED_FOLDER + ConstantsCommon.STRING_SLASH +
-                                                                   ConstantsOutputTypescript.TYPESCRIPT_FOLDER_REST,
-                                                                   ConstantsOutputTypescript.CLASSNAME_REST_LISTENER_TS + javascriptExtension);
+        final String restListenerImport = this.getFileResourceName(ConstantsOutputTypescript.TYPESCRIPT_JS_MAIN_FOLDER +
+                                                                    ConstantsCommon.STRING_SLASH +
+                                                                    ConstantsOutputTypescript.TYPESCRIPT_GENERATED_FOLDER +
+                                                                    ConstantsCommon.STRING_SLASH +
+                                                                    ConstantsOutputTypescript.TYPESCRIPT_FOLDER_REST,
+                                                                   ConstantsOutputTypescript.CLASSNAME_REST_LISTENER_TS +
+                                                                    this.getTitleCamelCase() + javascriptExtension);
         mandatoryImports.add(restListenerImport);
 
         return mandatoryImports;

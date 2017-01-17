@@ -71,7 +71,8 @@ public final class ConstantsOutputServerSpring
 	
 	/** Additional constants - Port */
 	public static final String VP_SPR_PORT_NUMBER   		= "portNumber" ;
-	
+    /** Additional constants - Inject Listener Method */
+    public static final String VP_SPR_INJECT_METHOD   		= "injectListener" ;
 	
 	/**************************** File names ***************************/
 	

@@ -64,6 +64,14 @@ public final class ConstantsOutputServerJaxrs
 	public static final String VP_JAXRS_REST_LISTENE_IN_FP = "restListenerInterfaceFullPackage" ;
 	/** Velocity Parameter - XML - Example Listener Interface - Full Package */
 	public static final String VP_JAXRS_EXAM_LISTENE_IN_FP = "exampleListenerInterfaceFullPackage" ;
+	/** Velocity Parameter - XML - Rest Listener ID bean  */
+	public static final String VP_JAXRS_LISTENER_SERVICE   = "restListenerOsgiService" ;
+	/** Velocity Parameter - XML - Rest Service Implementation  */
+	public static final String VP_JAXRS_REST_SERVICE_IMPL  = "restServiceImplRest" ;
+	/** Velocity Parameter - XML - Rest Listener Implementation */
+	public static final String VP_JAXRS_REST_LISTENER_IMPL = "restListenerImpl" ;
+	/** Velocity Parameter - XML - Rest Listener OSGI */
+	public static final String VP_JAXRS_REST_LISTENER_OSGI = "restListenerOsgi" ;
 	
 	
 	/******************** Velocity - JAX-RS Templates ********************/

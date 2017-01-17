@@ -62,8 +62,10 @@ public class RestHandlerServerSpringImplGenerator extends GeneratorBaseServerSpr
         context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage()) ;
         context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports()) ;
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName()) ;
-        context.put(ConstantsOutput.VP_R_HANDLER_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_HANDLER) ;
-        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_LISTENER) ;
+        context.put(ConstantsOutput.VP_R_HANDLER_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_HANDLER +
+                                                                 this.getTitleCamelCase()) ;
+        context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME, ConstantsOutput.INTERFACE_NAME_REST_LISTENER +
+                                                               this.getTitleCamelCase()) ;
         
         // Java Templates
         context.put(ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS,
@@ -71,7 +73,8 @@ public class RestHandlerServerSpringImplGenerator extends GeneratorBaseServerSpr
         										 ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS)) ;
         // Spring Templates
         context.put(ConstantsOutputServerSpring.VP_SPR_TEMPL_REST_MET_HEA_IM,
-        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY, ConstantsOutputServerSpring.VP_SPR_TEMPL_REST_MET_HEA_IM)) ;
+        			this.getTemplateResourceName(ConstantsCommon.STRING_EMPTY,
+                                                 ConstantsOutputServerSpring.VP_SPR_TEMPL_REST_MET_HEA_IM)) ;
         
         return context ;
     }
@@ -102,6 +105,6 @@ public class RestHandlerServerSpringImplGenerator extends GeneratorBaseServerSpr
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.CLASSNAME_REST_HANDLER ;
+        return ConstantsOutput.CLASSNAME_REST_HANDLER + this.getTitleCamelCase() ;
     }
 }

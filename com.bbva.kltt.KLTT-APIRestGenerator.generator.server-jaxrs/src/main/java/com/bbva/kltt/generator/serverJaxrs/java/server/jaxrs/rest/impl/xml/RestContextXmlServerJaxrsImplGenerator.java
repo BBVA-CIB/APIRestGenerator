@@ -55,7 +55,14 @@ public class RestContextXmlServerJaxrsImplGenerator extends ContextGeneratorXmlS
         final VelocityContext context = new VelocityContext();
 
         // Add the full package for the handler implementation
-        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_HANDLER_IM_FP, this.generateImportHandlerImpl(this.getTranslatorType()));
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_HANDLER_IM_FP,
+                    this.generateImportHandlerImpl(this.getTranslatorType()));
+
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_LISTENER_SERVICE,
+                    ConstantsOutputServerJaxrs.VP_JAXRS_LISTENER_SERVICE + this.getTitleCamelCase());
+
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_SERVICE_IMPL,
+                    ConstantsOutputServerJaxrs.VP_JAXRS_REST_SERVICE_IMPL + this.getTitleCamelCase());
 
         return context;
     }

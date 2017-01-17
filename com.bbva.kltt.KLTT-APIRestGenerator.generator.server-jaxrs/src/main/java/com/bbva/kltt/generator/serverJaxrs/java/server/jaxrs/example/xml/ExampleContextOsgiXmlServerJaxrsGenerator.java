@@ -55,7 +55,14 @@ public class ExampleContextOsgiXmlServerJaxrsGenerator extends ContextGeneratorX
         final VelocityContext context = new VelocityContext();
 
         // Add the full package for the listener interface
-        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENE_IN_FP, this.generateImportListenerInterface(this.getTranslatorType()));
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENE_IN_FP,
+                    this.generateImportListenerInterface(this.getTranslatorType()));
+
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENER_IMPL,
+                    ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENER_IMPL + this.getTitleCamelCase());
+
+        context.put(ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENER_OSGI,
+                    ConstantsOutputServerJaxrs.VP_JAXRS_REST_LISTENER_OSGI + this.getTitleCamelCase());
 
         return context;
     }

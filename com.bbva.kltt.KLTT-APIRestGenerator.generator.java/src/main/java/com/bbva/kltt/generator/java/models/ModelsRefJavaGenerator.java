@@ -77,12 +77,13 @@ public class ModelsRefJavaGenerator extends GeneratorBaseJavaModels
         final VelocityContext context = new VelocityContext();
 
         // Class parameters
-        context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage());
-        context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports());
-        context.put(ConstantsOutput.VP_CLASS_DESCRIPTION, this.itemRef.getDescription());
-        context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName());
-        context.put(ConstantsOutput.VP_GEN_MODEL_CL_NAME, ConstantsOutput.CLASSNAME_IGENERATED_MODEL);
-        context.put(ConstantsOutput.VP_ATTRIBUTE_REF, this.itemRef.getItemRef());
+        context.put(ConstantsOutput.VP_PACKAGE_NAME,        this.getOutputPackage());
+        context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS,  this.generateAdditionalImports());
+        context.put(ConstantsOutput.VP_CLASS_DESCRIPTION,   this.itemRef.getDescription());
+        context.put(ConstantsOutput.VP_CLASS_NAME,          this.getOutputFileName());
+        context.put(ConstantsOutput.VP_GEN_MODEL_CL_NAME,   ConstantsOutput.CLASSNAME_IGENERATED_MODEL +
+                                                              this.getTitleCamelCase());
+        context.put(ConstantsOutput.VP_ATTRIBUTE_REF,       this.itemRef.getItemRef());
         context.put(ConstantsOutput.VP_JACKSON_MAP_CL_NAME, ConstantsOutput.CLASSNAME_JACKSON_MAPPER);
 
         return context;

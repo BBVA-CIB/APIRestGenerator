@@ -19,6 +19,6 @@
     					   http://cxf.apache.org/core
     					   http://cxf.apache.org/schemas/core.xsd">
 
-	<bean id="restListenerImpl" class="${exampleListenerInterfaceFullPackage}">
+	<bean id="${restListenerImpl}" class="${exampleListenerInterfaceFullPackage}">
 	</bean>
 </beans>
