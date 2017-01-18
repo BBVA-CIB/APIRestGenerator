@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>KLTT-APIRestGeneratorControllerServerSpring</artifactId>
+    <version>1.0.0</version>
 
     <licenses>
         <license>
@@ -27,7 +28,7 @@
         <dependency>
             <groupId>com.bbva.kltt</groupId>
             <artifactId>KLTT-APIRestGeneratorCore</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

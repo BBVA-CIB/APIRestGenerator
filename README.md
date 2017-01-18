@@ -74,4 +74,4 @@ Go to JavaProject path and execute "serverLauncher.cmd" and then "clientLauncher
 
 Finally, open your browser and go to `http://localhost:8090` (or the address you have chosen in the properties file “application.yml” - Project: com.bbva.kltt.KLTT-APIRestGenerator.web-client).
 
-Please, visit our [WIKI](https://github.com/BBVA-CIB/APIRestGenerator/wiki) for more information.
+Please, visit our [WIKI](https://github.com/BBVA-CIB/APIRestGenerator/wiki) and [CHANGELOG](https://github.com/BBVA-CIB/APIRestGenerator/blob/master/CHANGELOG.md) for more information.
