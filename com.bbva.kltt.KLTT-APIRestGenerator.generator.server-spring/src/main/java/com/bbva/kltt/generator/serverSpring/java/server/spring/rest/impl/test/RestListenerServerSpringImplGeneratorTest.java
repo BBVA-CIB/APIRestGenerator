@@ -86,6 +86,9 @@ public class RestListenerServerSpringImplGeneratorTest extends GeneratorBaseServ
                 this.getTemplateCommonJavaResourceName(ConstantsOutputJava.COMMON_JAVA_DIR_MACROS,
                         ConstantsOutputJava.VP_JAVA_RANDOM_GENERAT_METH));
 
+        context.put(ConstantsOutputJava.VP_RANDOM_UTILS_CL_NAME,
+                    ConstantsOutput.CLASSNAME_RANDOM_UTILS + this.getTitleCamelCase());
+
         return context;
     }
 
@@ -106,7 +109,8 @@ public class RestListenerServerSpringImplGeneratorTest extends GeneratorBaseServ
         additionalImports.add(this.generateImportListenerInterface(this.getTranslatorType()));
 
         // Import the Random Utils
-        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS));
+        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS
+                                                                               + this.getTitleCamelCase()));
 
         // Import several classes to handle the Multipart files and catch exception
         additionalImports.add(ConstantsOutputServerSpring.SPRING_MULTIPART_CLASS_PKG);

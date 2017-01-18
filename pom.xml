@@ -7,7 +7,7 @@
     <groupId>com.bbva.kltt</groupId>
     <artifactId>KLTT-APIRestGeneratorParent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <modules>
         <module>com.bbva.kltt.KLTT-APIRestGenerator.core</module>
         <module>com.bbva.kltt.KLTT-APIRestGenerator.parser.swagger</module>

@@ -83,7 +83,10 @@ public class RestListenerServerJaxrsImplGeneratorTest extends GeneratorBaseServe
         context.put(ConstantsOutputJava.VP_JAVA_RANDOM_GENERAT_METH, 
         			this.getTemplateCommonJavaResourceName(ConstantsOutputJava.COMMON_JAVA_DIR_MACROS,
         										 ConstantsOutputJava.VP_JAVA_RANDOM_GENERAT_METH)) ;
-        
+
+        context.put(ConstantsOutputJava.VP_RANDOM_UTILS_CL_NAME,
+                ConstantsOutput.CLASSNAME_RANDOM_UTILS + this.getTitleCamelCase());
+
         return context ;
     }
 
@@ -102,7 +105,8 @@ public class RestListenerServerJaxrsImplGeneratorTest extends GeneratorBaseServe
 		
 		// Import the Listener interface
 		additionalImports.add(this.generateImportListenerInterface(this.getTranslatorType())) ;
-        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS));
+        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS +
+                                                                               this.getTitleCamelCase()));
 		
 		return additionalImports ;
 	}

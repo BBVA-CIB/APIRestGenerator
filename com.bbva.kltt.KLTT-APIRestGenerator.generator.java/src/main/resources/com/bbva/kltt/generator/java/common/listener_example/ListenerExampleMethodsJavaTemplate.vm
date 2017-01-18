@@ -53,7 +53,7 @@
 #if ($itemBaseReturn.class.simpleName == "ItemFile")
 ##
 ## Call the macro for the random file code
-#generateItemFileRandomAsBytes('outcome')
+#generateItemFileRandomAsBytes('outcome' $randomUtilsClassName)
 		
 		return outcome.getBytes() ;
 ##
@@ -65,7 +65,7 @@
 ##
 #set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${itemBaseReturn})})
 #set($outputTypeOneDim   = "${outputLanguageItems.getFullTypeOutput(${itemBaseReturn})}")
-#set($randomMethodOneDim = "#randomMethodGenerator(${itemBaseReturn.class.simpleName} 'outcome' 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS')")
+#set($randomMethodOneDim = "#randomMethodGenerator(${itemBaseReturn.class.simpleName} 'outcome' 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS' $randomUtilsClassName)")
 ##
 ## Call the macro with the simple parameters
 #generateOneDimensionRandom($isSimpleTypeOneDim $outputTypeOneDim $randomMethodOneDim 'outcome')
@@ -78,7 +78,7 @@
 #set($arrayBaseJavaType = "${outputLanguageItems.getTypeBaseArray(${itemBaseReturn})}")
 #set($isSimpleTypeArray = ${outputLanguageItems.isSimpleType(${arrayBaseGenType})})
 #set($depthArray 	    = ${outputLanguageItems.calculateDepth(${itemBaseReturn})})
-#set($randomMethodArray = "#randomMethodGenerator(${arrayBaseGenType.class.simpleName} 'outcome' 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS')")
+#set($randomMethodArray = "#randomMethodGenerator(${arrayBaseGenType.class.simpleName} 'outcome' 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS' $randomUtilsClassName)")
 ##
 ## Call the macro with the array parameters
 #generateArrayRandom($arrayBaseJavaType $isSimpleTypeArray $depthArray $randomMethodArray 'outcome')

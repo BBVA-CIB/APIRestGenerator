@@ -119,6 +119,8 @@ public final class ConstantsOutputJava
 	public static final String VP_JAVA_TEMPL_METH_COMMENTS	= "MethodCommentsJavaTemplate" ;
 	/** Velocity Parameter - Java macro - RandomGeneratorJavaMacros */
 	public static final String VP_JAVA_RANDOM_GENERAT_METH	= "RandomGeneratorJavaMacros" ;
+	/** Velocity parameter - restHandlerTestClassName */
+	public static final String VP_RANDOM_UTILS_CL_NAME  	= "randomUtilsClassName" ;
 	
 	
 	/***************** Velocity - Java Macros - Models *****************/

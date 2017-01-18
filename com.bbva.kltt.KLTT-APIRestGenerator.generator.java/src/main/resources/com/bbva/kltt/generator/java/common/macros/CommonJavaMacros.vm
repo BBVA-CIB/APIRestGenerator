@@ -14,14 +14,15 @@
 ## @param clear 				true if we want to clear the object previously
 ## @param currentRecursiveCall  with the current recursive call
 ## @param maxRecursiveCalls		with the max recursive calls
+## @param randomUtilsClassName	with the name of the Random Utils class
 ##
-#macro(randomMethodGenerator $itemInstanceClassName $rndInstanceSuffixName $maxArraySize $clear $currentRecursiveCall $maxRecursiveCalls)
-#if ($itemInstanceClassName == "ItemSimpleBoolean")APIRestGeneratorRandomUtils.getBoolean(rnd${rndInstanceSuffixName})##
-#elseif ($itemInstanceClassName == "ItemSimpleInteger")APIRestGeneratorRandomUtils.getInt(rnd${rndInstanceSuffixName})##
-#elseif ($itemInstanceClassName == "ItemSimpleLong")APIRestGeneratorRandomUtils.getLong(rnd${rndInstanceSuffixName})##
-#elseif ($itemInstanceClassName == "ItemSimpleFloat")APIRestGeneratorRandomUtils.getFloat(rnd${rndInstanceSuffixName})##
-#elseif ($itemInstanceClassName == "ItemSimpleDouble")APIRestGeneratorRandomUtils.getDouble(rnd${rndInstanceSuffixName})##
-#elseif ($itemInstanceClassName == "ItemSimpleString")APIRestGeneratorRandomUtils.getXmlValidString(rnd${rndInstanceSuffixName}, $maxArraySize, false).trim()##
+#macro(randomMethodGenerator $itemInstanceClassName $rndInstanceSuffixName $maxArraySize $clear $currentRecursiveCall $maxRecursiveCalls $randomUtilsClassName)
+#if ($itemInstanceClassName == "ItemSimpleBoolean")${randomUtilsClassName}.getBoolean(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleInteger")${randomUtilsClassName}.getInt(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleLong")${randomUtilsClassName}.getLong(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleFloat")${randomUtilsClassName}.getFloat(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleDouble")${randomUtilsClassName}.getDouble(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleString")${randomUtilsClassName}.getXmlValidString(rnd${rndInstanceSuffixName}, $maxArraySize, false).trim()##
 #elseif ($itemInstanceClassName == "ItemRef")fillRandomly($maxArraySize, $clear, $currentRecursiveCall, $maxRecursiveCalls)##
 #elseif ($itemInstanceClassName == "ItemComplex")fillRandomly($maxArraySize, $clear, $currentRecursiveCall, $maxRecursiveCalls)##
 #end

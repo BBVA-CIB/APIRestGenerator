@@ -157,7 +157,7 @@ public final class ConstantsOutput
 	public static final String VP_R_HANDLER_INTERFACE_NAME  = "restHandlerInterfaceName" ;
 	/** Velocity parameter - restHandlerClassName */	
 	public static final String VP_R_HANDLER_CL_NAME    		= "restHandlerClassName" ;
-	/** Velocity parameter - restHandlerTestClassName */	
+	/** Velocity parameter - restHandlerTestClassName */
 	public static final String VP_R_HANDLER_T_CL_NAME  		= "restHandlerTestClassName" ;
 	/** Velocity parameter - restListenerInterfaceName */	
 	public static final String VP_R_LISTE_INTERFACE_NAME    = "restListenerInterfaceName" ;

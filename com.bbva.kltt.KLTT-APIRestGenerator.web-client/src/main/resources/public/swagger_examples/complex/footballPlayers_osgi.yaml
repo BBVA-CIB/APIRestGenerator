@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: FootballPlayers-API-OSGi
-  description: This example want to show all the generator features
+  description: This example wants to show all the generator features
   version: 1.0.0
   contact:
     name: Francisco Manuel Benitez Chico

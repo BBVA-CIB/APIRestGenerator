@@ -68,11 +68,14 @@ public class ExampleLauncherClientJaxrsGenerator extends GeneratorBaseClientJaxr
                     ConstantsOutput.CLASSNAME_REST_HANDLER + this.getTitleCamelCase());
         context.put(ConstantsOutput.VP_LIST_EXAMP_CL_NAME,
                     ConstantsOutput.CLASSNAME_EXAMPLE_LISTENER + this.getTitleCamelCase());
-        context.put(ConstantsOutput.VP_SCHEMES_VAL_CL_NAME, ConstantsOutput.CLASSNAME_SCHEMES_VALUES);
+        context.put(ConstantsOutput.VP_SCHEMES_VAL_CL_NAME,
+                    ConstantsOutput.CLASSNAME_SCHEMES_VALUES + this.getTitleCamelCase());
         context.put(ConstantsOutputClientJaxrs.VP_R_REST_HANDLER_VARIABLE,
                     ConstantsOutputClientJaxrs.VP_REST_HANDLER + this.getTitleCamelCase());
         context.put(ConstantsOutputClientJaxrs.VP_R_REST_LISTENER_VARIABLE,
                     ConstantsOutputClientJaxrs.VP_REST_LISTENER + this.getTitleCamelCase());
+        context.put(ConstantsOutputJava.VP_RANDOM_UTILS_CL_NAME,
+                    ConstantsOutput.CLASSNAME_RANDOM_UTILS + this.getTitleCamelCase());
 
         // Java Templates
         context.put(ConstantsOutputJava.VP_COMMON_J_TEMPL_CLI_EXA,
@@ -132,7 +135,8 @@ public class ExampleLauncherClientJaxrsGenerator extends GeneratorBaseClientJaxr
         additionalImports.add(this.generateImportRestHandlerUtils(this.getTranslatorType()));
 
         // Model - Util - Random utils
-        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS));
+        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS +
+                                                                               this.getTitleCamelCase()));
 
         return additionalImports;
     }

@@ -3,10 +3,10 @@
 ## @param parameterAssignName with the parameter assignment name
 ##
 ##
-#macro(generateItemFileRandomAsInputStream $parameterAssignName)
+#macro(generateItemFileRandomAsInputStream $parameterAssignName $randomUtilsClassName)
 		final java.util.Random rnd${parameterAssignName} = new java.util.Random() ;
 		
-		final String ${parameterAssignName}String = APIRestGeneratorRandomUtils.getXmlValidString(rnd${parameterAssignName}, MAX_ARRAY_SIZE, false).trim() ;
+		final String ${parameterAssignName}String = ${randomUtilsClassName}.getXmlValidString(rnd${parameterAssignName}, MAX_ARRAY_SIZE, false).trim() ;
 		
 		// Printout the '${parameterAssignName}' value
 		System.out.println("[${operationId}] -> '${parameterAssignName}' value: " + ${parameterAssignName}String) ;
@@ -20,10 +20,10 @@
 ## @param parameterAssignName with the parameter assignment name
 ##
 ##
-#macro(generateItemFileRandomAsBytes $parameterAssignName)
+#macro(generateItemFileRandomAsBytes $parameterAssignName $randomUtilsClassName)
 		final java.util.Random rnd${parameterAssignName} = new java.util.Random() ;
 		
-		final String ${parameterAssignName} = APIRestGeneratorRandomUtils.getXmlValidString(rnd${parameterAssignName}, MAX_ARRAY_SIZE, false).trim() ;
+		final String ${parameterAssignName} = ${randomUtilsClassName}.getXmlValidString(rnd${parameterAssignName}, MAX_ARRAY_SIZE, false).trim() ;
 		
 		// Printout the '${parameterAssignName}' value
 		System.out.println("[${operationId}] -> '${parameterAssignName}' value: " + ${parameterAssignName}) ;

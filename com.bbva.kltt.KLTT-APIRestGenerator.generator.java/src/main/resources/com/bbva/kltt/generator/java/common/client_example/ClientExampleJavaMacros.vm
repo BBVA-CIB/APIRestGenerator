@@ -27,10 +27,10 @@
 ##
 ##
 ##
-#macro(generateRandomCode $item $attributeName)
+#macro(generateRandomCode $item $attributeName $randomUtilsClassName)
 #if ($item.class.simpleName == "ItemFile")
 ##
-#generateItemFileRandomAsInputStream(${attributeName})
+#generateItemFileRandomAsInputStream(${attributeName} ${randomUtilsClassName})
 ##
 #elseif ($item.class.simpleName == "ItemSimpleBoolean" || $item.class.simpleName == "ItemSimpleInteger" || $item.class.simpleName == "ItemSimpleLong"   || 
 		 $item.class.simpleName == "ItemSimpleFloat"   || $item.class.simpleName == "ItemSimpleDouble"  || $item.class.simpleName == "ItemSimpleString" ||
@@ -38,7 +38,7 @@
 ##
 #set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${item})})
 #set($outputTypeOneDim   = "${outputLanguageItems.getFullTypeOutput(${item})}")
-#set($randomMethodOneDim = "#randomMethodGenerator(${item.class.simpleName} $attributeName 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS')")
+#set($randomMethodOneDim = "#randomMethodGenerator(${item.class.simpleName} $attributeName 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS' $randomUtilsClassName)")
 ##
 ## Call the macro with the simple parameters
 #generateOneDimensionRandom($isSimpleTypeOneDim $outputTypeOneDim $randomMethodOneDim $attributeName)
@@ -49,7 +49,7 @@
 #set($arrayBaseJavaType = "${outputLanguageItems.getTypeBaseArray(${item})}")
 #set($isSimpleTypeArray = ${outputLanguageItems.isSimpleType(${arrayBaseGenType})})
 #set($depthArray 	    = ${outputLanguageItems.calculateDepth(${item})})
-#set($randomMethodArray = "#randomMethodGenerator(${arrayBaseGenType.class.simpleName} $attributeName 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS')")
+#set($randomMethodArray = "#randomMethodGenerator(${arrayBaseGenType.class.simpleName} $attributeName 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS' $randomUtilsClassName)")
 ##
 ## Call the macro with the array parameters
 #generateArrayRandom($arrayBaseJavaType $isSimpleTypeArray $depthArray $randomMethodArray $attributeName)

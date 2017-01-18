@@ -21,7 +21,7 @@
 ##
 #set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${attribute})})
 #set($baseTypeOneDim     = ${outputLanguageItems.getFullTypeOutput(${attribute})})
-#set($randomMethodOneDim = "#randomMethodGenerator(${attribute.class.simpleName} '' 'maxArraySize' 'clear' 'currentRecursiveCall' 'maxRecursiveCalls')")
+#set($randomMethodOneDim = "#randomMethodGenerator(${attribute.class.simpleName} '' 'maxArraySize' 'clear' 'currentRecursiveCall' 'maxRecursiveCalls' $randomUtilsClassName)")
 ##
 #generateOneDimensionFillRandom($suffixMethodName $isSimpleTypeOneDim $baseTypeOneDim $randomMethodOneDim)
 ##
@@ -31,7 +31,7 @@
 #set($isSimpleTypeArray = ${outputLanguageItems.isSimpleType(${typeBaseArray})})
 #set($depthArray 	    = ${outputLanguageItems.calculateDepth(${attribute})})
 #set($outputTypeArray   = "${outputLanguageItems.getTypeBaseArray(${attribute})}")
-#set($randomMethodArray = "#randomMethodGenerator(${typeBaseArray.class.simpleName} '' 'maxArraySize' 'clear' 'currentRecursiveCall' 'maxRecursiveCalls')")
+#set($randomMethodArray = "#randomMethodGenerator(${typeBaseArray.class.simpleName} '' 'maxArraySize' 'clear' 'currentRecursiveCall' 'maxRecursiveCalls' $randomUtilsClassName)")
 ##
 ## Call the macro with the array parameters
 #generateArrayFillRandom($suffixMethodName $isSimpleTypeArray $depthArray $outputTypeArray $randomMethodArray 'currentRecursiveCall')

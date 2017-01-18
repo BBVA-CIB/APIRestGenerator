@@ -67,7 +67,8 @@ public class RestHandlerClientJaxrsImplGenerator extends GeneratorBaseClientJaxr
                     ConstantsOutput.INTERFACE_NAME_REST_HANDLER + this.getTitleCamelCase()) ;
         context.put(ConstantsOutput.VP_R_LISTE_INTERFACE_NAME,
                     ConstantsOutput.INTERFACE_NAME_REST_LISTENER + this.getTitleCamelCase()) ;
-        context.put(ConstantsOutput.VP_SCHEMES_VAL_CL_NAME, ConstantsOutput.CLASSNAME_SCHEMES_VALUES) ;
+        context.put(ConstantsOutput.VP_SCHEMES_VAL_CL_NAME,
+                    ConstantsOutput.CLASSNAME_SCHEMES_VALUES + this.getTitleCamelCase()) ;
         
         // Java Templates
         context.put(ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS,

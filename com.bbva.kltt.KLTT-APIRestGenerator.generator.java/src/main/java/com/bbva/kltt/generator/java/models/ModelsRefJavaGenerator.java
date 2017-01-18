@@ -101,7 +101,8 @@ public class ModelsRefJavaGenerator extends GeneratorBaseJavaModels
 
         additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_JACKSON_MAPPER));
         additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_GENERATION_VIEW));
-        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS));
+        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS +
+                                                                               this.getTitleCamelCase()));
 
         return additionalImports;
     }

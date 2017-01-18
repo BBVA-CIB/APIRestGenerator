@@ -105,6 +105,9 @@ public abstract class GeneratorBaseClientJaxrs extends GeneratorBaseFrameworkJav
      */
     protected String generateImportRestHandlerUtils(final String translatorType)
     {
-        return this.getPackageUtilsJava().getRestHandlerUtilsPackage(this.getTranslatorType()) + ConstantsCommon.STRING_DOT + ConstantsOutput.CLASSNAME_SCHEMES_VALUES;
+        return this.getPackageUtilsJava().getRestHandlerUtilsPackage(this.getTranslatorType()) +
+               ConstantsCommon.STRING_DOT +
+               ConstantsOutput.CLASSNAME_SCHEMES_VALUES +
+               this.getTitleCamelCase();
     }
 }

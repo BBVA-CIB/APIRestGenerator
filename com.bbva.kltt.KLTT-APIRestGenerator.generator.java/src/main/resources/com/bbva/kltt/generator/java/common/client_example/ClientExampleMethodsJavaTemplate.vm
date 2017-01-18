@@ -26,7 +26,7 @@
 #end 
 ## Iterate in every parameter to create the call
 #foreach($outputParameter in ${outputParameters.getParametersList()})
-#generateRandomCode(${outputParameter.item} ${outputParameter.name})
+#generateRandomCode(${outputParameter.item} ${outputParameter.name} ${randomUtilsClassName})
 #end
 ##
 ##

@@ -62,7 +62,8 @@ public class RestHandlerClientJaxrsInterfaceGenerator extends GeneratorBaseClien
         context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage()) ;
         context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports()) ;
         context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName()) ;
-        context.put(ConstantsOutput.VP_SCHEMES_VAL_CL_NAME, ConstantsOutput.CLASSNAME_SCHEMES_VALUES) ;
+        context.put(ConstantsOutput.VP_SCHEMES_VAL_CL_NAME,
+                    ConstantsOutput.CLASSNAME_SCHEMES_VALUES + this.getTitleCamelCase()) ;
         
         // Java Templates
         context.put(ConstantsOutputJava.VP_JAVA_TEMPL_METH_COMMENTS,

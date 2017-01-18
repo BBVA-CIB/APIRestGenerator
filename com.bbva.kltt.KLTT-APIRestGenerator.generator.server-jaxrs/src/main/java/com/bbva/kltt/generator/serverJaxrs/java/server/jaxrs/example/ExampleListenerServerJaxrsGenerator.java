@@ -85,6 +85,9 @@ public class ExampleListenerServerJaxrsGenerator extends GeneratorBaseServerJaxr
         context.put(ConstantsOutputJava.VP_JAVA_RANDOM_GENERAT_METH,
         			this.getTemplateCommonJavaResourceName(ConstantsOutputJava.COMMON_JAVA_DIR_MACROS,
         										 ConstantsOutputJava.VP_JAVA_RANDOM_GENERAT_METH)) ;
+
+        context.put(ConstantsOutputJava.VP_RANDOM_UTILS_CL_NAME,
+                    ConstantsOutput.CLASSNAME_RANDOM_UTILS + this.getTitleCamelCase());
         
         return context ;
     }

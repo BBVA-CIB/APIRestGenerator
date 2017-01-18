@@ -71,6 +71,6 @@ public class APIRestGeneratorRandomUtils extends GeneratorBaseJavaModels
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.CLASSNAME_RANDOM_UTILS;
+        return ConstantsOutput.CLASSNAME_RANDOM_UTILS + this.getTitleCamelCase();
     }
 }

@@ -79,14 +79,16 @@ public class ModelsComplexJavaGenerator extends GeneratorBaseJavaModels
         final VelocityContext context = new VelocityContext();
 
         // Class parameters
-        context.put(ConstantsOutput.VP_PACKAGE_NAME,        this.getOutputPackage());
-        context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS,  this.generateAdditionalImports());
-        context.put(ConstantsOutput.VP_CLASS_NAME,          this.getOutputFileName());
-        context.put(ConstantsOutput.VP_CLASS_DESCRIPTION,   this.itemComplex.getDescription());
-        context.put(ConstantsOutput.VP_ATTRIBUTES,          this.itemComplex.getItemsMap().values());
-        context.put(ConstantsOutput.VP_GEN_MODEL_CL_NAME,   ConstantsOutput.CLASSNAME_IGENERATED_MODEL +
-                                                               this.getTitleCamelCase());
+        context.put(ConstantsOutput.VP_PACKAGE_NAME, this.getOutputPackage());
+        context.put(ConstantsOutput.VP_ADDITIONAL_IMPORTS, this.generateAdditionalImports());
+        context.put(ConstantsOutput.VP_CLASS_NAME, this.getOutputFileName());
+        context.put(ConstantsOutput.VP_CLASS_DESCRIPTION, this.itemComplex.getDescription());
+        context.put(ConstantsOutput.VP_ATTRIBUTES, this.itemComplex.getItemsMap().values());
+        context.put(ConstantsOutput.VP_GEN_MODEL_CL_NAME,
+                    ConstantsOutput.CLASSNAME_IGENERATED_MODEL + this.getTitleCamelCase());
         context.put(ConstantsOutput.VP_JACKSON_MAP_CL_NAME, ConstantsOutput.CLASSNAME_JACKSON_MAPPER);
+        context.put(ConstantsOutputJava.VP_RANDOM_UTILS_CL_NAME,
+                    ConstantsOutput.CLASSNAME_RANDOM_UTILS + this.getTitleCamelCase());
 
         // Java Templates
         context.put(ConstantsOutputJava.VP_JAVA_TEMPL_ATTR_DEFINITI,
@@ -125,7 +127,8 @@ public class ModelsComplexJavaGenerator extends GeneratorBaseJavaModels
 
         additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_JACKSON_MAPPER));
         additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_GENERATION_VIEW));
-        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS));
+        additionalImports.add(this.getPackageUtilsJava().getModelsUtilsPackage(ConstantsOutput.CLASSNAME_RANDOM_UTILS +
+                                                                               this.getTitleCamelCase()));
 
         return additionalImports;
     }

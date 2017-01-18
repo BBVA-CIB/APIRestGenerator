@@ -70,6 +70,6 @@ public class SchemesValuesClientJaxrsGenerator extends GeneratorBaseClientJaxrs
     @Override
     protected String getOutputFileName()
     {
-        return ConstantsOutput.CLASSNAME_SCHEMES_VALUES ;
+        return ConstantsOutput.CLASSNAME_SCHEMES_VALUES + this.getTitleCamelCase() ;
     }
 }
