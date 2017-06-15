@@ -1,0 +1,146 @@
+## Include the macros files
+#parse(${CommonClientAngular2Macros})
+#parse(${ModelsComplexClientAngular2Macros})
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+#foreach($additionalImport in $additionalImports)
+import {${additionalImport.getLoadedDependencies()}} from '${additionalImport.getLibraryReference()}' ;
+#end
+
+## Class Comments
+#if (! $classDescription)
+/**
+ * No description for the module
+ */
+#else
+/** 
+ * $classDescription
+ */
+#end
+##
+export class ${className}
+{
+    /**
+	 * Public constructor
+	 */
+## Constructor parameters
+#set($constructorModelParams = "")
+#foreach($attribute in $attributes)
+#set($attributeType 	= "${outputLanguageItems.getFullTypeOutput($attribute)}")
+#set($formattedAttrName = ${outputLanguageNaming.prefixAttributeName(${attribute.name})})
+#if ($constructorModelParams == "")
+#set($constructorModelParams = "public $formattedAttrName: $attributeType")
+#else
+#set($constructorModelParams = "${constructorModelParams}, public $formattedAttrName: $attributeType")
+#end
+#end
+	constructor(${constructorModelParams}) { }
+	
+#foreach($attribute in $attributes)
+#set($formattedAttrName  		= ${outputLanguageNaming.prefixAttributeName(${attribute.name})})
+#set($formattedAttrSuffixMethod = ${outputLanguageNaming.suffixMethodName(${attribute.name})})
+	/**
+	 * @param ${formattedAttrName} the ${formattedAttrName} to set
+	 */
+	set${formattedAttrSuffixMethod}(${formattedAttrName})
+	{
+		this.${formattedAttrName} = ${formattedAttrName} ;
+	}
+	
+	/**
+	 * @return the ${formattedAttrName}
+	 */
+	get${formattedAttrSuffixMethod}()
+	{
+		return this.${formattedAttrName} ;
+	}
+		
+#end
+
+	/**
+	 * @return the object as string
+	 */
+	toString()
+	{
+		return JSON.stringify(this, null, 4) ;
+	}
+	
+##
+##
+## The following code segment is useful for the methods 'generateRandomInstance' and 'parse'
+##
+#set($callModelParams = "")
+#foreach($attribute in $attributes)
+#set($formattedAttrName = ${outputLanguageNaming.prefixAttributeName(${attribute.name})})
+#if ($callModelParams == "")
+#set($callModelParams = "$formattedAttrName")
+#else
+#set($callModelParams = "${callModelParams}, $formattedAttrName")
+#end
+#end 
+	/**
+	 * @return a new instance of the class with a random values
+	 */
+	static generateRandomInstance()
+	{
+#foreach($attribute in $attributes)
+#set($formattedAttrName  = ${outputLanguageNaming.prefixAttributeName(${attribute.name})})
+#generateRandomCode(${attribute} ${formattedAttrName})
+#end
+
+		return new ${className}(${callModelParams}) ;
+	}
+	
+	/**
+	 * @param value with the json to be parsed
+	 * @return an instance of this class
+	 */	
+	static parse(value)
+	{
+#foreach($attribute in $attributes)
+#set($formattedAttrName = ${outputLanguageNaming.prefixAttributeName(${attribute.name})})
+		var ${formattedAttrName} ;
+		if (value.${formattedAttrName} != null && value.${formattedAttrName} != "undefined")
+		{
+#if ($attribute.class.simpleName == "ItemFile")
+##
+			${formattedAttrName} = ${parserValuesClassName}.fileParser(value.${formattedAttrName}) ;
+##
+#elseif ($attribute.class.simpleName == "ItemSimpleBoolean" || $attribute.class.simpleName == "ItemSimpleInteger" || $attribute.class.simpleName == "ItemSimpleLong"   || 
+		 $attribute.class.simpleName == "ItemSimpleFloat"   || $attribute.class.simpleName == "ItemSimpleDouble"  || $attribute.class.simpleName == "ItemSimpleString" ||
+    	 $attribute.class.simpleName == "ItemRef"			|| $attribute.class.simpleName == "ItemComplex")
+##
+#set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${attribute})})
+#set($outputTypeOneDim   = "${outputLanguageItems.getFullTypeOutput(${attribute})}")
+#set($parserMethod       = "#parserMethodGenerator(${attribute.class.simpleName})")
+#if (${isSimpleTypeOneDim} == "true")
+			${formattedAttrName} = ${parserValuesClassName}.${parserMethod}(value.${formattedAttrName}) ;
+#else
+			${formattedAttrName} = ${outputTypeOneDim}.${parserMethod}(value.${formattedAttrName}) ;
+#end
+##
+#elseif ($attribute.class.simpleName == "ItemArray")
+##
+#set($typeBaseArray     = ${outputLanguageItems.calculateBaseType(${attribute})})
+#set($isSimpleTypeArray = ${outputLanguageItems.isSimpleType(${typeBaseArray})})
+#set($depthArray 	    = ${outputLanguageItems.calculateDepth(${attribute})})
+#set($outputTypeArray   = "${outputLanguageItems.getTypeBaseArray(${attribute})}")
+#set($parserMethod 		= "#parserMethodGenerator(${typeBaseArray.class.simpleName})")
+##
+## Call the macro with the array parameters
+#generateArrayParserModels($formattedAttrName $isSimpleTypeArray $depthArray $outputTypeArray $parserMethod)
+##
+#end
+		}
+		
+#end
+
+		return new ${className}(${callModelParams}) ;	
+	}
+};

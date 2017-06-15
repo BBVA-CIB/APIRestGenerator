@@ -1,0 +1,10 @@
+##
+## -------- Get the response entity type --------
+## @param returnTypeBase with the return type base for the response
+##
+#macro(getResponseEntityType $returnTypeBase)
+#if (${returnTypeBase} == "void")##
+#elseif (${returnTypeBase} != "void")<${returnTypeBase}>##
+#end
+#end
+##

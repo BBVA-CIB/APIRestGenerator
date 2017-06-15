@@ -1,0 +1,14 @@
+##
+##
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+    ${restHandlerInterfaceName}#${operationId}(${outputParameters.getMethodSign()}): # Specific timeout for ${operationId}
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15000

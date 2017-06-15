@@ -1,0 +1,11 @@
+#foreach($additionalImport in $additionalImports)
+import {${additionalImport.getLoadedDependencies()}} from '${additionalImport.getLibraryReference()}' ;
+#end
+ 
+@NgModule({
+  imports:      [ BrowserModule ],
+  declarations: [ ${exampleTesterClassName} ],
+  bootstrap:    [ ${exampleTesterClassName} ]
+})
+ 
+export class ${className} { }

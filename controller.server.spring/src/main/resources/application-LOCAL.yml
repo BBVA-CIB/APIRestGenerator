@@ -1,0 +1,7 @@
+# --------#### Specific Properties for the generator #### --------
+
+controller:
+  server:
+    nova:
+      removeAfterSendZip: false
+      generatorBuilderPath: generatorBuilder

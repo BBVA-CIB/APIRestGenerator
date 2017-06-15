@@ -1,0 +1,228 @@
+swagger: '2.0'
+info:
+  title: FootballPlayers-API
+  description: This example wants to show all the generator features
+  version: 1.0.0
+  contact:
+    name: Francisco Manuel Benitez Chico
+    email: paco.benitez.chico@gmail.com
+    url: http://www.pacobenitezchico.com
+host: localhost:8064
+x-generator-properties:
+  business-unit: mybu
+schemes:
+ - http
+basePath: /api
+consumes:
+
+produces:
+  - application/json
+#############################################################################
+#                                   Paths                                   #
+#############################################################################
+paths:
+  /players:
+    get:
+      operationId: getFootballPlayers
+      description: Receive all the Spanish football players
+      schemes:
+        - http
+      parameters:
+      
+      responses:
+        - 200:
+            description: An array of players
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Player'
+  /player/{playerNumber}:
+    parameters:
+      - name: playerNumber
+        in: path
+        description: The player number
+        required: true
+        type: integer  
+    get:
+      operationId: getFootballPlayer
+      description: Receive all the information about a football player
+      parameters:
+
+      responses:
+        - 200:
+            description: The player
+            schema:
+              $ref: '#/definitions/Player'
+    post:
+      consumes:
+        - application/json    
+      operationId: addFootballPlayer
+      description: Add a new football player
+      parameters:
+        - name: playerInstance
+          in: body
+          description: The player instance
+          required: true
+          schema:
+            $ref: '#/definitions/Player'
+      responses:
+        - 200:
+            description: Nothing to return
+    delete:
+      operationId: deleteFootballPlayer
+      description: Delete a new football player
+      parameters:
+
+      responses:
+        - 200:
+            description: Delete a new football player
+            schema:
+              type: boolean
+  /player/{playerNumber}/goals:
+    parameters:
+      - name: playerNumber
+        in: path
+        description: The goals
+        required: true
+        type: integer
+    get:
+      operationId: getAllGoalsNumber
+      description: Receive all the goals number
+      parameters:
+      
+      responses:
+        - 200:
+            description: The goals
+            schema:
+              type: integer
+    put:
+      operationId: getGoalsNumberVersusTeam
+      description: Receive the goals number
+      parameters:
+        - name: team
+          description: The another team
+          in: query
+          type: string
+      responses:
+        - 200:
+            description: The goals in this match
+            schema:
+              type: integer
+    post:
+      operationId: addNewGoal
+      produces:
+      
+      description: Add a new goal for the player
+      parameters:
+        - name: team
+          description: The another team
+          in: query
+          type: string
+      responses:
+        - 200:
+            description: Nothing to return
+  /player/{playerNumber}/fouls:
+    parameters:
+      - name: playerNumber
+        in: path
+        description: The fouls
+        required: true
+        type: integer
+    get:
+      operationId: getAllFoulsNumber
+      description: Receive all the fouls number
+      parameters:
+      
+      responses:
+        - 200:
+            description: The fouls
+            schema:
+              type: integer
+    put:
+      operationId: getFoulsNumberMatch
+      description: Receive the fouls number in one match
+      parameters:
+        - name: team
+          description: The another team
+          in: query
+          type: string
+      responses:
+        - 200:
+            description: The fouls in this match
+            schema:
+              type: integer
+    post:
+      operationId: addNewFoul
+      produces:
+
+      description: Add a new foul
+      parameters:
+        - name: team
+          description: The another team
+          in: query
+          type: string
+      responses:
+        - 200:
+            description: Nothing to return
+  /databaseInputManagement:
+    post:
+      consumes:
+        - multipart/form-data
+      operationId: insertFootballPlayersData
+      description: Add a file with the football players
+      parameters:
+        - name: footballPlayersData
+          description: this file contains the football players data
+          in: formData
+          type: file
+      responses:
+        - 200:
+            description: a boolean with true if the information was stored successfully
+            schema:
+              type: boolean
+  /databaseOutputManagement:
+    post:
+      produces:
+        - multipart/form-data
+      operationId: generateFootballPlayersData
+      description: Generate a new file with the football players
+      parameters:
+
+      responses:
+        - 200:
+            description: a boolean with true if the information was stored successfully
+            schema:
+              type: file
+              
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  Player:
+    type: object
+    properties:
+      playerNumber:
+        type: integer
+        description: This is the player number
+      firstName:
+        type: string
+        description: This is the first name of the football player
+      lastName:
+        type: string
+        description: This is the last name of the football player
+      goals:
+        type: integer
+        description: number of goals
+      fouls:
+        type: string
+        description: number of fouls
+  PlayerError:
+    type: object
+    properties:
+      codeError:
+        type: integer
+        format: int32
+      message:
+        type: string
+  PlayerNotCalledUp:
+    $ref: '#/definitions/Player'

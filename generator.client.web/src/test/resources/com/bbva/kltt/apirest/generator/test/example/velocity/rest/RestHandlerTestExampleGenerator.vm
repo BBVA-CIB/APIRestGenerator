@@ -1,0 +1,131 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+## Common variables for all the generations
+##   Host
+#set($host         = ${outputLanguageRootValues.getHost()})
+## Client Base Path
+#set($clientBasePath = ${outputLanguageRootValues.getClientBasePath()})
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+
+#foreach($additionalImport in $additionalImports)
+${additionalImport} ;
+#end
+
+module ${moduleName}
+{
+    export class ${className}
+    {
+        baseURI: string ;
+
+        constructor(baseURI?: string)
+        {
+            if (baseURI == null || baseURI == "")
+            {
+                this.baseURI = "${host}" ;
+            }
+            else
+            {
+                this.baseURI = baseURI ;
+            }
+        }
+
+        getBaseURI(scheme: string)
+        {
+            return scheme + "://" + this.baseURI + "/" ;
+        }
+
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleTemplate})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleTemplate})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleTemplate})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleTemplate})
+#end
+## PATCH
+#set($pathOperation = "PATCH")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleTemplate})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleTemplate})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleTemplate})
+#end
+#end
+		/**
+		 * @param statusCode with the status code
+		 * @param error with the instance of the error
+		 * @return a new instance of common exception
+		 */
+		generateCommonExceptionFromErrorInstance(statusCode, error)
+		{
+			var errorString ;
+			var message     ;
+			var exception   ;
+			var path 	    ;
+			var timestamp   ;
+			
+			if (error != undefined)
+			{
+				errorString = error.error ;
+				message     = error.message ;
+				exception   = error.exception ;
+				path 	    = error.path ;
+				timestamp   = error.timestamp ;
+			}
+		
+			return this.generateCommonException(statusCode, errorString, message, exception, path, timestamp) ;
+		}
+	
+		/**
+		 * @param statusCode  with the status code
+		 * @param errorString with the error message
+		 * @param message 	  with the exception message
+		 * @param exception   with the stack trace error
+		 * @param path        with the path error
+		 * @param timestamp   with the timestamp
+		 * @return a new instance of common exception
+		 */
+	    generateCommonException(statusCode: number, errorString: string, message: string, exception: string, path: string, timestamp: number)
+	    {
+	    	var commonException = new ${commonException.getAsClassName()}(statusCode) ;
+	
+			commonException.setError(errorString) ;
+			commonException.setMessage(message) ;
+			commonException.setException(exception) ;
+			commonException.setPath(path) ;
+			commonException.setTimestamp(timestamp) ;
+						
+	        return commonException ;
+	    }
+    }
+}

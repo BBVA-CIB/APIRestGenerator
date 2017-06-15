@@ -41,7 +41,9 @@ For server:
 
 For client:
 * **Javascript** (JQuery) - Implemented and compiled by Typescript previously
+* **Angular2**
 * **JAX-RS (CXF)** - The generation is compatible with OSGi
+* **Feign**
 
 ## Installation
 ##### Prerequisites
@@ -49,22 +51,9 @@ For client:
 - [x] Typescript in your classpath
 - [x] Maven in your classpath and connection to Maven Repository.
 
-After downloading the project, you have to compile the modules with Maven. In the parent project execute:
+After downloading the project, you have to compile the modules with Maven. In the **parent** project execute:
 ```
 mvn clean install
-```
-Copy every generated JAR file in `JavaProject/generatorBuilder/modules` folder.
-* **Compulsory JAR files**: Web Client, Core, Swagger parser and Server Spring Controller.
-* **Optional JAR files**: Each generator module is optional. If the generator has not been copied, it will not appear as a menu item.
-
-Copy the core dependencies in JavaProject/generatorBuilder/lib
-* In the core project (com.bbva.kltt.KLTT-APIRestGenerator.core):
-```
-mvn -DoutputDirectory=path/to/JavaProject/generatorBuilder/lib dependency:copy-dependencies
-```
-* The dependencies of Server Spring Controller module (com.bbva.kltt-KLTT-APIRestGenerator.controller.server-spring) must be copied as well:
-```
-mvn -DoutputDirectory=path/to/JavaProject/generatorBuilder/lib dependency:copy-dependencies
 ```
 **Unix**
 Go to JavaProject path and execute "serverLauncher.sh" and then "clientLauncher.sh".
@@ -72,6 +61,6 @@ Go to JavaProject path and execute "serverLauncher.sh" and then "clientLauncher.
 **Windows**
 Go to JavaProject path and execute "serverLauncher.cmd" and then "clientLauncher.cmd".
 
-Finally, open your browser and go to `http://localhost:8090` (or the address you have chosen in the properties file “application.yml” - Project: com.bbva.kltt.KLTT-APIRestGenerator.web-client).
+Finally, open your browser and go to `http://localhost:36200` (or the address you have chosen in the properties file “application.yml” - Project: web.client).
 
 Please, visit our [WIKI](https://github.com/BBVA-CIB/APIRestGenerator/wiki) and [CHANGELOG](https://github.com/BBVA-CIB/APIRestGenerator/blob/master/CHANGELOG.md) for more information.

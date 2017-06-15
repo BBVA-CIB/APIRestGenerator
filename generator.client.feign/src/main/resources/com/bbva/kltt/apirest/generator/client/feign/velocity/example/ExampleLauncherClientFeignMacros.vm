@@ -1,0 +1,58 @@
+##
+## ---------------- Start Test Function Calls --------------------
+## @param pathValue		with the path value
+## @param pathOperation with the path operation
+##
+##
+#macro(generateTestCall $pathValue $pathOperation)
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#set($operationId = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+		this.${operationId}Test(restHandlerImpl, restListenerImpl) ;
+#end
+#end
+##
+## ----------------- Start Test Method Body ----------------------
+## @param pathValue 	with the path value
+## @param pathOperation with the path operation
+##
+##
+#macro(startTestMethodBody $pathValue $pathOperation)
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ExampleLauncherClientFeignTemplate})
+#end
+#end
+##
+## -------- Generate different lines with the random code --------
+## @param item with the item
+##
+##
+##
+#macro(generateRandomCode $item $attributeName $randomUtilsClassName)
+#if ($item.class.simpleName == "ItemFile")
+##
+#generateItemFileRandomAsInputStream(${attributeName} ${randomUtilsClassName})
+##
+#elseif ($item.class.simpleName == "ItemSimpleBoolean" || $item.class.simpleName == "ItemSimpleInteger" || $item.class.simpleName == "ItemSimpleLong"   || 
+		 $item.class.simpleName == "ItemSimpleFloat"   || $item.class.simpleName == "ItemSimpleDouble"  || $item.class.simpleName == "ItemSimpleString" ||
+    	 $item.class.simpleName == "ItemRef"			|| $item.class.simpleName == "ItemComplex")
+##
+#set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${item})})
+#set($outputTypeOneDim   = "${outputLanguageItems.getFullTypeOutput(${item})}")
+#set($randomMethodOneDim = "#randomMethodGenerator(${item.class.simpleName} $attributeName 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS' $randomUtilsClassName)")
+##
+## Call the macro with the simple parameters
+#generateOneDimensionRandom($isSimpleTypeOneDim $outputTypeOneDim $randomMethodOneDim $attributeName)
+##
+#elseif ($item.class.simpleName == "ItemArray")
+##
+#set($arrayBaseGenType  = ${outputLanguageItems.calculateBaseType(${item})})
+#set($arrayBaseJavaType = "${outputLanguageItems.getTypeBaseArray(${item})}")
+#set($isSimpleTypeArray = ${outputLanguageItems.isSimpleType(${arrayBaseGenType})})
+#set($depthArray 	    = ${outputLanguageItems.calculateDepth(${item})})
+#set($randomMethodArray = "#randomMethodGenerator(${arrayBaseGenType.class.simpleName} $attributeName 'MAX_ARRAY_SIZE' 'CLEAR' 'CURR_RECURSIVE_CALLS' 'MAX_RECURSIVE_CALLS' $randomUtilsClassName)")
+##
+## Call the macro with the array parameters
+#generateArrayRandom($arrayBaseJavaType $isSimpleTypeArray $depthArray $randomMethodArray $attributeName)
+##
+#end
+#end

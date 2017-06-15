@@ -1,0 +1,35 @@
+##
+## -------- Body method example --------
+## @param methodListenerName with the method listener name
+## @param inputType 	 	 with the return type
+## @param inputTypeField 	 with the return type field
+##
+#macro(generateBodyExample $methodListenerName $inputType $inputTypeField)
+		// Printout the received parameter 'outcome'
+#if (${inputTypeField} == "void")
+		System.out.println("[${methodListenerName}] -> No input parameters") ;
+#elseif (${inputTypeField} == "InputStream")
+		try
+		{
+			if (outcome == null)
+			{
+				System.out.println("[${methodListenerName}] -> Received value for parameter outcome: null") ;
+			}
+			else
+			{
+				System.out.println("[${methodListenerName}] -> Received value for parameter outcome: " + this.getStringFromInputStream(outcome)) ;
+			}
+		}
+		catch (IOException ioException)
+		{
+			ioException.printStackTrace() ;
+		}
+#elseif ($inputType.class.simpleName == "ItemArray")
+##
+#set($depthArray = ${outputLanguageItems.calculateDepth(${inputType})})
+## Call the macro with the array parameters
+#generateArraySystemOutPrintln($methodListenerName $depthArray 'outcome')
+#else		
+		System.out.println("[${methodListenerName}] -> Received value for parameter outcome: " + outcome) ;
+#end
+#end

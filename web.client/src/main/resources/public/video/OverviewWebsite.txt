@@ -1,0 +1,21 @@
+Bienvenidos a todos!
+
+Mi nombre es Francisco Manuel Benítez, y voy a dar una breve explicación del funcionamiento de esta Web.
+
+Su idea fundamental es conseguir un código generado a partir de la especificación que introduzcamos dentro del editor de código.
+
+Pero comencemos desde el principio:
+
+- Cuando accedemos a esta Web, el editor de código y su nombre de fichero, aparecen ya rellenos con un ejemplo.
+- Esto es muy útil si es la primera vez que hacemos uso de esta herramienta.
+- Si pulsamos sobre la opción del menú "File", y posteriormente "New", tendremos la posibilidad de comenzar una nueva especificación YAML o JSON.
+- Por otro lado, si pulsamos sobre la opción "Open Example", veremos que existen multitud de ejemplos "Básicos" y "Complejos" que podremos abrir y utilizar.
+- Por último, usando "Download Specification", nos descargará en nuestra máquina la especificación que tenemos en el editor.  
+
+Una vez cargada la especificación en el editor, podremos lanzar cualquiera de las generaciones, ya sean clientes o servidoras.
+
+Si pulsamos una de ellas, veremos como se nos abre una ventana de log que nos informará de todo el proceso de generación del código.
+
+Si todo ha ido bien, se descargará un fichero comprimido con todos los artefactos. En caso contrario, veremos en la ventana de log el error sucedido.
+
+Dentro del menú "Help" existe una opción denominada "Common Issues" que nos será muy útil para ofrecernos información del error sucedido.

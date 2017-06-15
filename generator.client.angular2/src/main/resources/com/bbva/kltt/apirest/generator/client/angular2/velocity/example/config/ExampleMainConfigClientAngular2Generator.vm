@@ -1,0 +1,5 @@
+#foreach($additionalImport in $additionalImports)
+import {${additionalImport.getLoadedDependencies()}} from '${additionalImport.getLibraryReference()}' ;
+#end
+const platform = platformBrowserDynamic();
+platform.bootstrapModule(${moduleClassRef});

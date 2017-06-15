@@ -1,0 +1,145 @@
+##
+##
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+##
+## Custom Exceptions
+#set($customExceptions = ${outputLanguageExceptions.getCustomExceptionsList(${pathValue}, ${pathOperation})})
+##
+            @Override
+            public ResponseEntity ${operationId}(${outputParameters.getParametersHeader()})
+            {
+                ResponseEntity response = null ;
+
+				final ObjectMapper objectMapper = new ObjectMapper() ;
+                if (throwable != null && throwable instanceof FeignException)
+                {
+                	if (throwable instanceof RetryableException)
+                	{
+						final int serviceUnavailable  = 503 ;
+						final String errorMessage 	  = "Service Unavailable" ;
+						final String exceptionMessage = errorMessage ;					
+						final String stackTraceError  = ${className}.this.getStackTrace(throwable) ;
+						final String path			  = null ;
+			
+						final Date now 				  = new Date() ;
+						final long timestamp		  = now.getTime() ;
+						
+						response = ${className}.this.generateCommonExceptionResponseEntity(serviceUnavailable,
+																						   errorMessage,
+																						   exceptionMessage,
+																						   stackTraceError,
+																						   path,
+																						   timestamp) ;                		
+                	}
+                	else
+                	{
+                    	final FeignException feignException = (FeignException) throwable ;
+                    
+	                    final String bodyMessageString = ${className}.this.getBodyMessageFromFeign(feignException.getMessage()) ;
+	                    try
+	                    {
+#if (${customExceptions.size()} > 0)
+#set($conditionalClauseActive = "if")
+#foreach($customException in $customExceptions)
+							${conditionalClauseActive} (feignException.status() == ${customException.getStatusCode()})
+							{
+#set($customExceptionTypeField = ${outputLanguageItems.getFullTypeOutput(${customException.getResponseItem()})})
+#if (${customExceptionTypeField} == "void")
+								response = ResponseEntity.status(feignException.status()).build() ;
+#else
+#set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${customException.getResponseItem()})})
+#if ($isSimpleTypeOneDim)
+								final ${customExceptionTypeField} bodyMessage = ${customExceptionTypeField}.valueOf(bodyMessageString) ;
+#elseif (${customExceptionTypeField} == "byte[]")
+								${customExceptionTypeField} bodyMessage = null ;
+								if (bodyMessageString != null)
+								{
+									bodyMessage = bodyMessageString.getBytes() ;
+								}
+#else
+								final ${customExceptionTypeField} bodyMessage = objectMapper.readValue(bodyMessageString, ${customExceptionTypeField}.class) ;
+#end
+								response = ResponseEntity.status(feignException.status()).body(bodyMessage) ;
+#end			
+							}
+#set($conditionalClauseActive = "else if")
+#end
+							else
+							{
+								final ${commonException.getAsClassName()} commonException = objectMapper.readValue(bodyMessageString, ${commonException.getAsClassName()}.class) ;
+								response = ResponseEntity.status(feignException.status()).body(commonException) ;
+							}
+#else
+							final ${commonException.getAsClassName()} commonException = objectMapper.readValue(bodyMessageString, ${commonException.getAsClassName()}.class) ;
+							response = ResponseEntity.status(feignException.status()).body(commonException) ;
+#end
+						}
+						catch (IOException ioException)
+						{
+							final int internalServerError = 500 ;
+							final String errorMessage 	  = ioException.getMessage() ;
+							final String exceptionMessage = errorMessage ;
+							final String stackTraceError  = ${className}.this.getStackTrace(ioException) ;
+							final String path			  = null ;
+				
+							final Date now 				  = new Date() ;
+							final long timestamp		  = now.getTime() ;
+							
+							response = ${className}.this.generateCommonExceptionResponseEntity(internalServerError,
+																							   errorMessage,
+																							   exceptionMessage,
+																							   stackTraceError,
+																							   path,
+																							   timestamp) ;
+						}
+					}
+                }
+                else if (throwable == null)
+                {
+                	// This 'else if' clause is because Feign has a bug in the current version (https://github.com/OpenFeign/feign/issues/464)
+                	// when it tries to catch a TimeOut Exception. It is fixed in the 9.4.0 version (our dependency is old because of Feign dependencies)
+
+					final int timeOutStatus       = 408 ;
+					final String errorMessage	  = "timeout" ;
+					final String exceptionMessage = errorMessage ;
+					final String stackTraceError  = "APIRestGenerator got a timeout from Feign" ;
+					final String path			  = null ;
+			
+					final Date now 				  = new Date() ;
+					final long timestamp		  = now.getTime() ;					
+					
+                    response = ${className}.this.generateCommonExceptionResponseEntity(timeOutStatus,
+                    																   errorMessage,
+                    																   exceptionMessage,
+                    																   stackTraceError,
+																					   path,
+																					   timestamp) ;
+                }
+                else
+                {
+					final int notFoundStatus      = 404 ;
+					final String errorMessage	  = throwable.getMessage() ;
+					final String exceptionMessage = errorMessage ;					
+					final String stackTraceError  = ${className}.this.getStackTrace(throwable) ;
+					final String path			  = null ;
+			
+					final Date now 				  = new Date() ;
+					final long timestamp		  = now.getTime() ;							
+					
+                    response = ${className}.this.generateCommonExceptionResponseEntity(notFoundStatus,
+                    																   errorMessage,
+                    																   exceptionMessage,
+                    																   stackTraceError,
+																					   path,
+																					   timestamp) ;
+                }
+
+                return response ;
+            }
+

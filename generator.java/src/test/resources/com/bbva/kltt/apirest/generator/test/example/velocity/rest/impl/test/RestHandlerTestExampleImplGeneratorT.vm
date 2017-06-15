@@ -1,0 +1,71 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+package ${packageName} ;
+
+import org.junit.BeforeClass ;
+import org.junit.Test ;
+import java.lang.reflect.Field ;
+
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+public final class ${className}
+{
+	private static ${restHandlerClassName} restHandler ;
+	
+	@BeforeClass
+	public static void beforeClass() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException
+	{
+		${className}.restHandler = new ${restHandlerClassName}() ;
+		
+		final Field restListenerField = ${className}.restHandler.getClass().getDeclaredField("restListener") ;
+        restListenerField.setAccessible(true) ;
+        restListenerField.set(${className}.restHandler, new ${restListenerTestClassName}()) ;
+	}
+	
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleImplTemplateTest})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleImplTemplateTest})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleImplTemplateTest})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleImplTemplateTest})
+#end
+## PATCH
+#set($pathOperation = "PATCH")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleImplTemplateTest})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleImplTemplateTest})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersTestExampleImplTemplateTest})
+#end
+#end
+}

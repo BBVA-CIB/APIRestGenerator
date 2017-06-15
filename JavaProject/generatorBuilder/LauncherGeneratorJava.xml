@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="api_rest_generator" default="compress-deliverables-directory">
+<project name="apirest_generator" default="compress-deliverables-directory">
 
 <!-- ########################################################################################## -->
 <!-- ################################ PROPERTIES ############################################## -->
@@ -47,7 +47,7 @@
 		<java classname="${fullPackageLauncherClass}" failonerror="true" fork="true" classpathref="generator.classpath">
 			<arg value="-f ${specificationFilePath}" />
 			<arg value="-o ${codegen.dir}" />
-			<arg value="${parserType}"/>
+			<arg value="-p ${parserType}"/>
 			<jvmarg value="-Xms600m" />
 			<jvmarg value="-Xmx600m" />
 			<jvmarg value="-XX:MaxPermSize=128m" />
@@ -83,7 +83,7 @@
 			
 		<!-- Artifacts Files -->
 		<copy todir="${deliver.dir}" includeemptydirs="false">
-			<fileset dir="${codegen.dir}" includes="**/*.jar, **/pom.xml, **/mvn_install.cmd, **/mvn_install.sh" />
+			<fileset dir="${codegen.dir}" includes="**/*.jar, **/pom.xml, **/mvn_install.cmd, **/mvn_install.sh, **/*.pom" excludes="topLevel.pom"/>
 	  	</copy>
 		
 		<!-- Example Files -->
@@ -104,7 +104,7 @@
 			
 		<!-- Artifacts Files -->
 		<copy todir="${deliver.dir}" includeemptydirs="false">
-			<fileset dir="${codegen.dir}" includes="**/*.jar, **/pom.xml, **/mvn_install.cmd, **/mvn_install.sh" />
+			<fileset dir="${codegen.dir}" includes="**/*.jar, **/pom.xml, **/mvn_install.cmd, **/mvn_install.sh, **/*.pom" excludes="topLevel.pom" />
 	  	</copy>
 		
 		<!-- Example Files -->
@@ -121,10 +121,10 @@
 	</target>
 		
 	<target name="compress-deliverables-directory" depends="copy-deliverables-directory" description="Compress the deliverables directory.">
-		<zip destfile="${codegen.dir}/deliverables.zip" basedir="${deliver.dir}" />
+		<zip destfile="${codegen.dir}/${deliverableFileName}" basedir="${deliver.dir}" />
 	</target>
 	
 	<target name="compress-deliverables-directory-linux" depends="copy-deliverables-directory-linux" description="Compress the deliverables directory for Linux.">
-		<zip destfile="${codegen.dir}/deliverables.zip" basedir="${deliver.dir}" />
+		<zip destfile="${codegen.dir}/${deliverableFileName}" basedir="${deliver.dir}" />
 	</target>
 </project>

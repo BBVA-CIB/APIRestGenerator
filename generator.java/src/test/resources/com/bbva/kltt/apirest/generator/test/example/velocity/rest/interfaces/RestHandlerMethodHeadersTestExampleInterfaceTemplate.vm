@@ -1,0 +1,11 @@
+## Operation identifier
+#set($operationId        = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Output parameters
+#set($outputParameters 	 = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+##
+#parse(${MethodCommentsJavaTemplate})
+	public ResponseEntity<?> ${operationId}(${outputParameters.getParametersHeader()}) ;
+

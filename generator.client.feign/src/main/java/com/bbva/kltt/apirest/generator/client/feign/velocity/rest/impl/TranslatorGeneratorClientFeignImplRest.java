@@ -1,0 +1,118 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+package com.bbva.kltt.apirest.generator.client.feign.velocity.rest.impl;
+
+import java.io.File;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.bbva.kltt.apirest.core.generator.IGenerator;
+import com.bbva.kltt.apirest.core.launcher.GenerationParameters;
+import com.bbva.kltt.apirest.core.parsed_info.ParsedInfoHandler;
+import com.bbva.kltt.apirest.core.util.APIRestGeneratorException;
+import com.bbva.kltt.apirest.core.util.ConstantsCommon;
+import com.bbva.kltt.apirest.core.util.ConstantsOutput;
+import com.bbva.kltt.apirest.core.util.FilesUtility;
+import com.bbva.kltt.apirest.generator.client.feign.util.ConstantsOutputClientFeign;
+import com.bbva.kltt.apirest.generator.java.velocity.TranslatorGeneratorJavaRestImplBase;
+
+/**
+ * Main class and entry point to generate all the classes related to specification
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+public class TranslatorGeneratorClientFeignImplRest extends TranslatorGeneratorJavaRestImplBase
+{
+    /** Logger of the class */
+    private static final Logger LOGGER = LoggerFactory.getLogger(TranslatorGeneratorClientFeignImplRest.class) ;
+    
+    /**
+     * Creates the Feign Rest Translator
+     * @param generationParams  with the generator parameters for Feign
+     * @param parsedInfoHandler with the parsed information from the input definitions and schemas
+     */
+	public TranslatorGeneratorClientFeignImplRest(final GenerationParameters generationParams, final ParsedInfoHandler parsedInfoHandler)
+	{
+		super(ConstantsOutputClientFeign.MODULE_NAME, generationParams, parsedInfoHandler, ConstantsOutputClientFeign.PACKAGE_VM_RESOURCES);
+	}
+	
+	@Override
+	public void generateRestHandler(final File destDir) throws APIRestGeneratorException
+	{
+		// Generate the rest handler class
+		TranslatorGeneratorClientFeignImplRest.LOGGER.info("Generating Feign (client) Rest handler and HystrixFallback implementation") ;
+
+		// Rest Handler Generator
+		final IGenerator restHandlerImplGenerator = new RestHandlerClientFeignImplGenerator(destDir,
+				                                                                         this.getGenerationParams(),
+				                                                                         this.getParsedInfoHandler()) ;
+		restHandlerImplGenerator.generate() ;
+		
+		// Hystrix Fallback implementation
+		final IGenerator hystrixFallbackImplGenerator = new HystrixFallbackClientFeignImplGenerator(destDir,
+																					                	this.getGenerationParams(),
+																					                	this.getParsedInfoHandler()) ;
+		hystrixFallbackImplGenerator.generate() ;
+		
+		TranslatorGeneratorClientFeignImplRest.LOGGER.info("Generated Feign (client) Rest handler and HystrixFallback implementation") ;
+	}
+	
+	@Override
+	public void generateRestHandlerTests(final File destDir) throws APIRestGeneratorException
+	{
+		// Nothing here
+	}
+	
+	@Override
+	public void generatePOM(final File destDir) throws APIRestGeneratorException
+	{
+		TranslatorGeneratorClientFeignImplRest.LOGGER.info("Generating Feign (client) pom files for the rest implementation") ;
+
+		// Generate the pom.xml file
+		final IGenerator normalPom = new RestPOMClientFeignImplGenerator(destDir,
+				                                                          this.getGenerationParams(),
+				                                                          this.getParsedInfoHandler(),
+				                                                          ConstantsOutput.EXTENSION_POM) ;
+		normalPom.generate();
+
+		// Generate the pom file again but using the name that correspond to the pom stored in nexus / artifactory
+		final IGenerator artifactoryPom = new RestPOMClientFeignImplGenerator(destDir,
+				                                                               this.getGenerationParams(),
+				                                                               this.getParsedInfoHandler(),
+				                                                               this.getArtifactoryPomName()) ;
+		artifactoryPom.generate();
+		
+		TranslatorGeneratorClientFeignImplRest.LOGGER.info("Generated Feign (client) pom files for the rest implementation") ;
+	}
+	
+	@Override
+	public void generateSpecificJavaFramework(final File destDir) throws APIRestGeneratorException
+	{
+		// Nothing specific to implement with this Feign framework
+	}
+	
+    @Override
+	public String getGeneratorInfoProjectsChildrenJava()
+	{
+    	return FilesUtility.loadFileContentFromClasspath(ConstantsOutputClientFeign.PROJECT_NAME + ConstantsCommon.STRING_DOT + ConstantsOutput.EXTENSION_PROPERTIES) ;
+	}
+}

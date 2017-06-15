@@ -1,1 +1,1 @@
-java -jar generatorBuilder/modules/KLTT-APIRestGeneratorWebClient-1.0.0.jar &
+java -jar generatorBuilder/modules/web.client-2.0.2.jar &

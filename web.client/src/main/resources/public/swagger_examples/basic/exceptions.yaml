@@ -1,0 +1,302 @@
+swagger: '2.0'
+info:
+  title: Exceptions
+  description: This example shows how to define exceptions in Swagger 
+  version: 1.0.0
+  contact:
+    name: Francisco Manuel Benitez Chico
+    email: paco.benitez.chico@gmail.com
+    url: http://www.pacobenitezchico.com
+host: localhost:8059
+x-generator-properties:
+  business-unit: mybu
+schemes:
+ - http
+basePath: /api
+consumes:
+
+produces:
+
+#############################################################################
+#                                   Paths                                   #
+#############################################################################
+paths:
+  /exampleBoolean:
+    get:
+      operationId: exampleBoolean
+      description: Example about boolean
+      produces:
+        - application/json
+      parameters:
+      
+      responses:
+        - 200:
+            description: The 200 code will return a boolean value
+            schema:
+              type: boolean
+        - 490:
+            description: This exception will return a simple boolean
+            schema:
+              type: boolean
+        - 491:
+            description: This exception will return an array of booleans (one dimension)
+            schema:
+              type: array
+              items:
+                type: boolean
+        - 492:
+            description: This exception will return an array of booleans (two dimensions)
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  type: boolean
+  /exampleInteger:
+    get:
+      operationId: exampleInteger
+      description: Example about integer
+      produces:
+        - application/json
+      parameters:
+      
+      responses:
+        - 200:
+            description: The 200 code will return an integer value
+            schema:
+              type: integer
+              format: int32
+        - 490:
+            description: This exception will return a simple integer
+            schema:
+              type: integer
+              format: int32
+        - 491:
+            description: This exception will return an array of integers (one dimension)
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+        - 492:
+            description: This exception will return an array of integers (two dimensions)
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  type: integer
+                  format: int32
+  /exampleLong:
+    get:
+      operationId: exampleLong
+      description: Example about long
+      produces:
+        - application/json
+      parameters:
+      
+      responses:
+        - 200:
+            description: The 200 code will return a long value
+            schema:
+              type: integer
+              format: int64
+        - 490:
+            description: This exception will return a simple long
+            schema:
+              type: integer
+              format: int64
+        - 491:
+            description: This exception will return an array of longs (one dimension)
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+        - 492:
+            description: This exception will return an array of longs (two dimensions)
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  type: integer
+                  format: int64
+  /exampleFloat:
+    get:
+      operationId: exampleFloat
+      description: Example about float
+      produces:
+        - application/json
+      parameters:
+      
+      responses:
+        - 200:
+            description: The 200 code will return a float value
+            schema:
+              type: number
+              format: float
+        - 490:
+            description: This exception will return a simple float
+            schema:
+              type: number
+              format: float
+        - 491:
+            description: This exception will return an array of floats (one dimension)
+            schema:
+              type: array
+              items:
+                type: number
+                format: float
+        - 492:
+            description: This exception will return an array of floats (two dimensions)
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  type: number
+                  format: float
+  /exampleDouble:
+    get:
+      operationId: exampleDouble
+      description: Example about double
+      produces:
+        - application/json
+      parameters:
+      
+      responses:
+        - 200:
+            description: The 200 code will return a double value
+            schema:
+              type: number
+              format: double
+        - 490:
+            description: This exception will return a simple double
+            schema:
+              type: number
+              format: double
+        - 491:
+            description: This exception will return an array of doubles (one dimension)
+            schema:
+              type: array
+              items:
+                type: number
+                format: double
+        - 492:
+            description: This exception will return an array of doubles (two dimensions)
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  type: number
+                  format: double
+  /exampleString:
+    get:
+      operationId: exampleString
+      description: Example about string
+      
+      parameters:
+      
+      responses:
+        - 200:
+            description: The 200 code will return a string value
+            schema:
+              type: string
+        - 490:
+            description: This exception will return a simple string
+            schema:
+              type: string
+        - 491:
+            description: This exception will return an array of strings (one dimension)
+            schema:
+              type: array
+              items:
+                type: string
+        - 492:
+            description: This exception will return an array of strings (two dimensions)
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  type: string
+  /exampleComplexObject:
+    get:
+      operationId: exampleComplexObject
+      description: Example about complex object
+      produces:
+        - application/json
+      parameters:
+      
+      responses:
+        - 200:
+            description: The 200 code will return a complex value
+            schema:
+              $ref: '#/definitions/MyComplexObject'
+        - 590:
+            description: This exception will return a complex object
+            schema:
+              $ref: '#/definitions/MyComplexObject'
+        - 591:
+            description: This exception will return an array of complex objects (one dimension)
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MyComplexObject'
+        - 592:
+            description: This exception will return an array of complex objects (two dimensions)
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  $ref: '#/definitions/MyComplexObject'
+  /exampleComplexObjectRef:
+    get:
+      operationId: exampleComplexObjectRef
+      description: Example about complex object reference
+      produces:
+        - application/json
+      parameters:
+      
+      responses:
+        - 200:
+            description: The 200 code will return a complex object reference value
+            schema:
+              $ref: '#/definitions/MyComplexObjectRef'
+        - 590:
+            description: This exception will return a complex object reference
+            schema:
+              $ref: '#/definitions/MyComplexObjectRef'
+        - 591:
+            description: This exception will return an array of complex objects reference (one dimension)
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MyComplexObjectRef'
+        - 592:
+            description: This exception will return an array of complex objects reference (two dimensions)
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  $ref: '#/definitions/MyComplexObjectRef'
+              
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  MyComplexObject:
+    type: object
+    properties:
+      myId:
+        type: integer
+        description: This is complex object id
+      myName:
+        type: string
+        description: This is complex object name
+  MyComplexObjectRef:
+    $ref: '#/definitions/MyComplexObject'

@@ -1,0 +1,8 @@
+#parse(${MvnInstallFileMacros})
+# The following three steps will be launched to install the libraries (execute it from this folder):
+
+#mvnCommandModels()
+#mvnCommandInterfaces()
+#mvnCommandImplementation()
+
+read -p "Press any key to continue . . ."

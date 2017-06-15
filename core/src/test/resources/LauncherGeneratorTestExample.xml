@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="apirest_generator" default="compress-deliverables-directory">
+		
+	<target name="compress-deliverables-directory" description="Dummy target.">
+		<echo message="Hello, world"/>
+	</target>
+	
+	<target name="compress-deliverables-directory-linux" description="Dummy target for Linux.">
+		<echo message="Hello, world"/>
+	</target>
+</project>

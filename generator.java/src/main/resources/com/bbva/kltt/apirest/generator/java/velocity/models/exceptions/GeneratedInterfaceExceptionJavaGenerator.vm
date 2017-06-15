@@ -1,0 +1,25 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+package ${packageName} ;
+
+/**
+ * This interface contains all the compulsory methods to be implemented by the exception models
+ */
+public interface ${className}
+{
+	/**
+	 * @return the status
+	 */
+    int getStatus() ;
+
+	/**
+	 * @return the body exception message
+	 */
+    Object getBodyExceptionMessage() ;
+}

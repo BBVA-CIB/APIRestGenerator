@@ -1,0 +1,22 @@
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+##
+## Return type
+#set($returnType       = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($returnTypeField  = ${outputLanguageItems.getFullTypeOutput($returnType.item)})
+##
+##
+## Produces and consumes
+#set($consumes		   = ${outputLanguageConsumesProduces.generateInboundServerContentType(${pathValue}, ${pathOperation})})
+#set($produces		   = ${outputLanguageConsumesProduces.generateOutboundServerContentType(${pathValue}, ${pathOperation})})
+##
+##
+#parse(${MethodCommentsJavaTemplate})
+	@RequestMapping(method = RequestMethod.${pathOperation}, value = "${pathValue}"#if($consumes), consumes = ${consumes}#end#if($produces), produces = ${produces}#end)
+	public ResponseEntity#if($returnTypeField != "void")<${returnTypeField}>#end ${operationId}(${outputParameters.getParametersHeaderRest()}) ;
+

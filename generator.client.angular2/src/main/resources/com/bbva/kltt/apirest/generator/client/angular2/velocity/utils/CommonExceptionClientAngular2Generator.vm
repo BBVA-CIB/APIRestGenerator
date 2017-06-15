@@ -1,0 +1,132 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+## Class Comments
+/**
+ * This class is the common exception to handle this type of errors
+ */
+##
+## Class definition
+export class ${className}
+{
+	error    : string ;
+	message  : string ;
+	exception: string ;
+	path     : string ;
+	timestamp: number ;
+
+    /**
+	 * Public constructor
+	 * @param status with the status code
+	 */
+	constructor(public status: number) { }
+	
+	/**
+	 * @param status the status to set
+	 */
+	setStatus(status)
+	{
+		this.status = status ;
+	}
+	
+	/**
+	 * @return the status
+	 */
+	getStatus()
+	{
+		return this.status ;
+	}
+	
+	/**
+	 * @param error the error to set
+	 */
+	setError(error)
+	{
+		this.error = error ;
+	}
+	
+	/**
+	 * @return the error
+	 */
+	getError()
+	{
+		return this.error ;
+	}
+	
+	/**
+	 * @param message the message to set
+	 */
+	setMessage(message)
+	{
+		this.message = message ;
+	}
+	
+	/**
+	 * @return the message
+	 */
+	getMessage()
+	{
+		return this.message ;
+	}
+	
+	/**
+	 * @param exception the exception to set
+	 */
+	setException(exception)
+	{
+		this.exception = exception ;
+	}
+	
+	/**
+	 * @return the exception
+	 */
+	getException()
+	{
+		return this.exception ;
+	}
+	
+	/**
+	 * @param path the path to set
+	 */
+	setPath(path)
+	{
+		this.path = path ;
+	}
+	
+	/**
+	 * @return the path
+	 */
+	getPath()
+	{
+		return this.path ;
+	}
+	
+	/**
+	 * @param timestamp the timestamp to set
+	 */
+	setTimestamp(timestamp)
+	{
+		this.timestamp = timestamp ;
+	}
+	
+	/**
+	 * @return the timestamp
+	 */
+	getTimestamp()
+	{
+		return this.timestamp ;
+	}
+	
+	/**
+	 * @return the object as string
+	 */
+	toString()
+	{
+		return JSON.stringify(this, null, 4) ;
+	}
+};

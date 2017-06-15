@@ -1,0 +1,71 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+#parse(${CommonClientFeignMacros})
+
+package ${packageName} ;
+
+import org.springframework.cloud.netflix.feign.FeignClient ;
+import org.springframework.http.ResponseEntity ;
+
+import org.springframework.web.bind.annotation.* ;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+##
+##
+## Url (host or service + clientBasePath)
+#set($clientBasePath 		  			 = ${outputLanguageRootValues.getClientBasePath()})
+#set($remoteServiceNameAndClientBasePath = "${outputLanguageNaming.getUrlWithSlashes(${remoteServiceNameYamlParam}, ${clientBasePath})}") 
+@FeignClient(name = "${remoteServiceNameAndClientBasePath}", fallbackFactory = ${hystrixFallbackInterfaceName}.class)
+public interface ${className}
+{
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignInterfaceTemplate})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignInterfaceTemplate})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignInterfaceTemplate})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignInterfaceTemplate})
+#end
+## PATCH
+#set($pathOperation = "PATCH")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignInterfaceTemplate})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignInterfaceTemplate})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignInterfaceTemplate})
+#end
+#end
+}

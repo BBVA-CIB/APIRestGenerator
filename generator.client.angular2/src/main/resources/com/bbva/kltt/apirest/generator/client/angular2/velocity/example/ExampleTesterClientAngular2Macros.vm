@@ -1,0 +1,35 @@
+##
+## ------- Start Test Function Calls ----------
+## @param pathValue		with the path value
+## @param pathOperation with the path operation
+##
+##
+#macro(initializeMap $pathValue $pathOperation)
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#set($operationId = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+		mapOfFunctions["${operationId}Input"] = function() { return _this.${operationId}Test(_this.restHandler) } ;
+#end
+#end
+##
+## --------- Empty the output divs ------------
+## @param pathValue		with the path value
+## @param pathOperation with the path operation
+##
+##
+#macro(emptyOutcomeDivs $pathValue $pathOperation)
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#set($operationId = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+		$("#${operationId}Output").empty() ;
+#end
+#end
+##
+## ------- Start Test Function Body -----------
+## @param pathValue 	with the path value
+## @param pathOperation with the path operation
+##
+##
+#macro(startTestFunctionBody $pathValue $pathOperation)
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ExampleTesterMethodsClientAngular2Template})
+#end
+#end

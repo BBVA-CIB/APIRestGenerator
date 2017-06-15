@@ -1,0 +1,174 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: ArraysTest-OSGi
+  description: This example about arrays multidimensionals
+  contact:
+    name: Francisco Manuel Benitez Chico
+    email: paco.benitez.chico@gmail.com
+    url: http://www.pacobenitezchico.com
+host: localhost:8081
+x-generator-properties:
+  business-unit: mybu
+  osgi:
+    architecture-type: online
+    cxf-address: /AddressArray
+    cxf-context: /ContextArray
+basePath: /arrays
+schemes:
+ - http
+consumes:
+
+produces:
+
+paths:
+  /complexObjectArray:
+    get:
+      operationId: complexObjectArray
+      produces:
+        - application/json
+      parameters:
+        
+      responses:
+        - 200:
+            description:  Array of complex object
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MyObjectArrayRefTwoDimensions'
+  /simpleTypeOneDimensionResponse:
+    get:
+      operationId: simpleTypeOneDimensionResponse
+      produces:
+        - application/json
+      parameters:
+      
+      responses:
+        - 200:
+            description: one dimension response of boolean
+            schema:
+              type: array
+              items:
+                type: boolean
+  /simpleTypeTwoDimensionsResponse:
+    get:
+      operationId: simpleTypeTwoDimensionsResponse
+      produces:
+        - application/json      
+      parameters:
+      
+      responses:
+        - 200:
+            description: one dimension response of boolean
+            schema:
+              type: array
+              items:
+                type: array
+                items:
+                  type: integer
+                  format: int32
+      responses:
+        - 200:
+            description: one dimension response of boolean
+  /bodyParameterAsSimpleType:
+    post:
+      operationId: bodyParameterAsSimpleType
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: bodyParameter
+          in: body
+          schema:
+            type: boolean
+      responses:
+        - 200:
+            description:  Array of complex object
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MyObjectArrayRefTwoDimensions'                
+  /bodyParameterAsArray:
+    post:
+      operationId: bodyParameterAsArray
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: bodyParameter
+          in: body
+          schema:
+            type: array
+            items:
+              type: boolean
+      responses:
+        - 200:
+            description:  Array of complex object
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MyObjectArrayRefTwoDimensions'
+definitions:
+  MyObject:
+    type: object
+    properties:
+      myOneDimensionsStringArray:
+        type: array
+        items:
+          type: string    
+      myTwoDimensionsBooleanArray:
+        type: array
+        items:
+          type: array
+          items:
+            type: boolean
+      myThreeDimensionsIntegerArray:
+        type: array
+        items:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+      myThreeDimensionsLongArray:
+        type: array
+        items:
+          type: array
+          items:
+            type: array
+            items:
+              type: integer
+              format: int64
+      myThreeDimensionsFloatArray:
+        type: array
+        items:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+              format: float
+      myForthDimensionsDoubleArray:
+        type: array
+        items:
+          type: array
+          items:
+            type: array
+            items:
+              type: array
+              items:
+                type: number
+                format: double
+  MyObjectRef:
+    $ref: '#/definitions/MyObject'
+  MyObjectArrayRefTwoDimensions:
+    type: object
+    properties:
+      myRefArrayTwoDimensions:
+        type: array
+        items:
+          type: array
+          items:
+            $ref: '#/definitions/MyObjectRef'

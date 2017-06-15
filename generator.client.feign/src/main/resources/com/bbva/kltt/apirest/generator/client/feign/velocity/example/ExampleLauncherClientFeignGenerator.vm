@@ -1,0 +1,129 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+#parse(${CommonJavaMacros})
+#parse(${ExampleLauncherClientFeignMacros})
+#parse(${RandomGeneratorJavaMacros})
+
+package ${packageName} ;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+/**
+ * Class example which starts the application
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+@SpringBootApplication
+@ComponentScan(basePackages = {"${restInterfacePackage}"})
+@EnableEurekaClient
+@EnableFeignClients(basePackages = {"${restInterfacePackage}"})
+public class ${className}
+{
+	/** Max array size for the tests */
+	private static int MAX_ARRAY_SIZE 		= 2 ;
+	
+	/** Clear instances for the tests */
+	private static boolean CLEAR 	  		= true ;
+	
+	/** Current number of recursive calls */
+	private static int CURR_RECURSIVE_CALLS = 0 ;
+
+	/** Max number of recursive calls */
+	private static int MAX_RECURSIVE_CALLS 	= 4 ;
+	
+	/** Attribute - Rest Handler - Interface */
+	@Autowired
+	private ${restHandlerInterfaceName} iRestHandler ;
+
+	/**
+	 * Main method
+	 * @param args with the input arguments
+	 */
+    public static void main(String[] args)
+    {
+        boolean firstRunning = true ;
+		if (firstRunning)
+		{
+			throw new RuntimeException("\n\nPlease, do the following steps before launching this example:\n\n" + 
+									   "1) Access into 'application.yml' and change the property 'server.port' to be different than the Spring example\n"    + 
+									   "2) Access into 'application.yml' and change the property 'feign.name' to be the same than the Spring service name\n" + 
+									   "3) Remove this 'RuntimeException' and this 'if clause' from the ${className} class :)\n") ;
+		}
+    
+		final ApplicationContext applicationContext = SpringApplication.run(${className}.class, args) ;
+
+		final ${className} launcher = applicationContext.getBean(${className}.class) ;
+		launcher.doTests() ;
+    }
+    
+	/**
+	 * Do client test for all the operations
+	 */
+	public void doTests()
+	{
+		final ${restHandlerClassName} restHandlerImpl = new ${restHandlerClassName}(this.iRestHandler) ;
+		final ${restListenerInterfaceName} restListenerImpl = new ${restListenerExampleClassName}() ;
+		
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#generateTestCall(${pathValue} ${pathOperation})
+## GET
+#set($pathOperation = "GET")
+#generateTestCall(${pathValue} ${pathOperation})
+## HEAD
+#set($pathOperation = "HEAD")
+#generateTestCall(${pathValue} ${pathOperation})
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#generateTestCall(${pathValue} ${pathOperation})
+## POST
+#set($pathOperation = "POST")
+#generateTestCall(${pathValue} ${pathOperation})
+## PUT
+#set($pathOperation = "PUT")
+#generateTestCall(${pathValue} ${pathOperation})
+#end
+	}
+	
+	## Generate all the functions body which test all the API
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#startTestMethodBody(${pathValue} ${pathOperation})
+## GET
+#set($pathOperation = "GET")
+#startTestMethodBody(${pathValue} ${pathOperation})
+## HEAD
+#set($pathOperation = "HEAD")
+#startTestMethodBody(${pathValue} ${pathOperation})
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#startTestMethodBody(${pathValue} ${pathOperation})
+## POST
+#set($pathOperation = "POST")
+#startTestMethodBody(${pathValue} ${pathOperation})
+## PUT
+#set($pathOperation = "PUT")
+#startTestMethodBody(${pathValue} ${pathOperation})
+#end
+}

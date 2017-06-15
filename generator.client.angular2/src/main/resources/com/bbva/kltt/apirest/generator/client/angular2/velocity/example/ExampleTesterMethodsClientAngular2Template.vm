@@ -1,0 +1,78 @@
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Get one type of scheme supported by this operationId
+#set($exampleScheme	   = ${outputLanguageRootValues.getOneSchemeExample(${pathValue}, ${pathOperation})})
+##
+##
+## Return type
+#set($returnType       = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($returnTypeField  = ${outputLanguageItems.getFullTypeOutput($returnType.item)})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+##
+	${operationId}Test(restHandler)
+	{
+		// Set a new listener for this call
+		var restListener = new ${restListenerInterfaceName}() ;
+		
+		// Generate all the behavior subjects listeners
+		restListener.${operationId}Subject.subscribe(val =>
+		{			
+#if (${returnTypeField} == "void")	
+			$("#${operationId}Output").html("${operationId} was executed properly.") ;
+#else
+			$("#${operationId}Output").html("${operationId} was executed properly with the following outcome: " + val) ;
+#end
+		});
+##
+##
+## Common Exceptions
+#set($commonException  		   = ${outputLanguageExceptions.getCommonException()}) 
+##
+## Custom Exceptions
+#set($customExceptions 		   = ${outputLanguageExceptions.getCustomExceptionsList(${pathValue}, ${pathOperation})})
+##
+
+		restListener.${commonException.getAsMethodName(${operationId})}Subject.subscribe(commonException =>
+		{
+			$("#${operationId}Output").html("${commonException.getAsMethodName(${operationId})} executed with the following outcome: " + commonException) ;
+		});
+		
+#foreach($customException in $customExceptions)
+#set($customExceptionTypeField = ${outputLanguageItems.getFullTypeOutput($customException.getResponseItem())})
+		restListener.${customException.getAsMethodName()}Subject.subscribe(val =>
+		{
+#if (${customExceptionTypeField} == "void")	
+			$("#${operationId}Output").html("${customException.getAsMethodName()} was executed properly.") ;
+#else
+			$("#${operationId}Output").html("${customException.getAsMethodName()} was executed properly with the following outcome: " + val) ;
+#end
+		});
+
+#end
+
+		// Set one of the "schemes" defined
+		var scheme = ${schemesValuesClassName}.${exampleScheme} ;
+		
+		// Generate the random values
+##
+#set($callParameters = "restListener, scheme")
+#foreach($outputParameter in ${outputParameters.getParametersList()})
+#set($callParameters = "${callParameters}, ${outputParameter.name}")
+#end 
+## Iterate in every parameter to create the call
+#foreach($outputParameter in ${outputParameters.getParametersList()})
+#generateRandomCode(${outputParameter.item} ${outputParameter.name})
+#end
+##
+##
+
+		// Do the "restHandler" call
+		restHandler.${operationId}(${callParameters}) ;
+	}
+

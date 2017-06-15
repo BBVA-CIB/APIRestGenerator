@@ -1,0 +1,51 @@
+## Operation identifier
+#set($operationId      		  = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Return type
+#set($outboundServerType      = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($outboundServerTypeField = ${outputLanguageItems.getFullTypeOutput(${outboundServerType.item})})
+##
+##
+## Common Exceptions
+#set($commonException  		  = ${outputLanguageExceptions.getCommonException()}) 
+##
+## Custom Exceptions
+#set($customExceptions 		  = ${outputLanguageExceptions.getCustomExceptionsList(${pathValue}, ${pathOperation})})
+##
+	/**
+	 * Successful call
+	 */
+	${operationId}(#if (${outboundServerTypeField} != "void")outcome: ${outboundServerTypeField}#end)
+	{
+#if (${outboundServerTypeField} == "void")	
+		printOutcomeNoOutcome("${operationId}") ;
+#else
+		printOutcome("${operationId}", outcome) ;
+#end
+	}
+
+	/**
+	 * Common error call - ${commonException.getAsClassName()}
+	 * @param commonException with the common exception
+	 */
+	${commonException.getAsMethodName(${operationId})}(outcome: ${commonException.getAsClassName()})
+	{
+		printOutcome("${commonException.getAsMethodName(${operationId})}", outcome) ;
+	}
+#foreach($customException in $customExceptions)
+#set($customExceptionTypeField = ${outputLanguageItems.getFullTypeOutput($customException.getResponseItem())})
+
+	/**
+	 * Custom exception call - ${customException.getAsMethodName()}
+	 */
+	${customException.getAsMethodName()}(#if (${customExceptionTypeField} != "void")outcome: ${customExceptionTypeField}#end)
+	{
+#if (${customExceptionTypeField} == "void")	
+		printOutcomeNoOutcome("${customException.getAsMethodName()}") ;
+#else
+		printOutcome("${customException.getAsMethodName()}", outcome) ;
+#end	
+	}
+
+#end

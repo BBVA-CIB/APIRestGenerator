@@ -1,0 +1,13 @@
+## Operation identifier
+#set($operationId    = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+	@Test
+	public void ${operationId}Test()
+	{
+		RestHandlerTest.restHandler.${operationId}(${outputParameters.getParametersTest()}) ;
+	}
+

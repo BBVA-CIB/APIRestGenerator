@@ -1,0 +1,75 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+#parse(${ListenerExampleJavaClientMacros})
+
+package ${packageName} ;
+
+import java.io.InputStream ;
+import java.io.IOException ;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+public class ${className} implements ${restListenerInterfaceName}
+{
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaClientTemplate})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaClientTemplate})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaClientTemplate})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaClientTemplate})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaClientTemplate})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ListenerExampleMethodsJavaClientTemplate})
+#end
+#end
+
+	/**
+	 * @param inputStream with the input stream to print out
+	 * @throws IOException with an occurred exception
+	 */
+	private String getStringFromInputStream(final InputStream inputStream) throws IOException
+	{
+		final StringBuffer stringBuffer = new StringBuffer() ;
+		final byte[] buffer 			= new byte[1024] ;
+		
+        while (inputStream.read(buffer) != -1)
+        {
+            stringBuffer.append(new String(buffer)) ;
+        }
+	    
+	    return stringBuffer.toString() ;
+    }
+}

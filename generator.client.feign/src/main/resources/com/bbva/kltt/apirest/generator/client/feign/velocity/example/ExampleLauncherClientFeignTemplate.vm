@@ -1,0 +1,36 @@
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Get one type of scheme supported by this operationId
+#set($exampleScheme	   = ${outputLanguageRootValues.getOneSchemeExample(${pathValue}, ${pathOperation})})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+##
+	/**
+	 * Do test over this operationId '${operationId}'
+	 * @param restHandlerImpl  with the reference to the Rest Handler Implementation
+	 * @param restListenerImpl with the reference to the Rest Listener Implementation
+	 */
+	private void ${operationId}Test(final ${restHandlerClassName} restHandlerImpl, final ${restListenerInterfaceName} restListenerImpl)
+	{
+		// Generate the random values
+##
+#set($callParameters = "restListenerImpl")
+#foreach($outputParameter in ${outputParameters.getParametersList()})
+#set($callParameters = "${callParameters}, ${outputParameter.name}")
+#end 
+## Iterate in every parameter to create the call
+#foreach($outputParameter in ${outputParameters.getParametersList()})
+#generateRandomCode(${outputParameter.item} ${outputParameter.name} ${randomUtilsClassName})
+#end
+##
+##
+		// Do the "restHandler" call
+		restHandlerImpl.${operationId}(${callParameters}) ;
+	}
+
+

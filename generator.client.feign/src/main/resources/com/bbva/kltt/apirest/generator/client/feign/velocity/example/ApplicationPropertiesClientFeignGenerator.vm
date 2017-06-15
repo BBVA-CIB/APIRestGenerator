@@ -1,0 +1,47 @@
+server:
+  port: ${portNumber}
+
+#[[
+feign:
+  name: ]]#
+    ${projectTitle}: TestServer
+    
+hystrix:
+  command:
+    default: # Default timeout
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ApplicationPropertiesClientFeignTemplate})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ApplicationPropertiesClientFeignTemplate})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ApplicationPropertiesClientFeignTemplate})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ApplicationPropertiesClientFeignTemplate})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ApplicationPropertiesClientFeignTemplate})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${ApplicationPropertiesClientFeignTemplate})
+#end
+#end

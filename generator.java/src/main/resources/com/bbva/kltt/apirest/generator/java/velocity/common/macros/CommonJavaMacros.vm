@@ -1,0 +1,61 @@
+##
+## -------- Tabulator generator --------
+## @param tabsNumber with the tabs number
+##
+##
+#macro(tabsGenerator $tabsNumber)
+#foreach($depth in [1..${tabsNumber}])${tab}#end
+#end
+##
+## -------- Random method generator --------
+## @param itemInstanceClassName with the item instance class name
+## @param rndInstanceSuffixName with the random instance parameter suffix name
+## @param maxArraySize			with the max array size
+## @param clear 				true if we want to clear the object previously
+## @param currentRecursiveCall  with the current recursive call
+## @param maxRecursiveCalls		with the max recursive calls
+## @param randomUtilsClassName	with the name of the Random Utils class
+##
+#macro(randomMethodGenerator $itemInstanceClassName $rndInstanceSuffixName $maxArraySize $clear $currentRecursiveCall $maxRecursiveCalls $randomUtilsClassName)
+#if ($itemInstanceClassName == "ItemSimpleBoolean")${randomUtilsClassName}.getBoolean(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleInteger")${randomUtilsClassName}.getInt(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleLong")${randomUtilsClassName}.getLong(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleFloat")${randomUtilsClassName}.getFloat(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleDouble")${randomUtilsClassName}.getDouble(rnd${rndInstanceSuffixName})##
+#elseif ($itemInstanceClassName == "ItemSimpleString")${randomUtilsClassName}.getXmlValidString(rnd${rndInstanceSuffixName}, $maxArraySize, false).trim()##
+#elseif ($itemInstanceClassName == "ItemRef")fillRandomly($maxArraySize, $clear, $currentRecursiveCall, $maxRecursiveCalls)##
+#elseif ($itemInstanceClassName == "ItemComplex")fillRandomly($maxArraySize, $clear, $currentRecursiveCall, $maxRecursiveCalls)##
+#end
+#end
+##
+## -------- Multiple dimensions - System.out.println generator --------
+## @param methodListenerName  with the method listener name
+## @param arrayDepth		  with the array depth
+## @param parameterAssignName with the parameter assignment name
+##
+##
+#macro(generateArraySystemOutPrintln $methodListenerName $arrayDepth $parameterAssignName)
+		if (${parameterAssignName} != null)
+		{
+			final int ${parameterAssignName}Length1 = ${parameterAssignName}.length ;
+			for (int ${parameterAssignName}I1=0 ; ${parameterAssignName}I1 < ${parameterAssignName}Length1 ; ${parameterAssignName}I1++)
+			{
+#set($arrayDepthStringPos = "[${parameterAssignName}I1]")
+#set($depth = 1)
+#if (${arrayDepth} > 1)
+#foreach($depth in [2..${arrayDepth}])
+		#tabsGenerator($depth)final int ${parameterAssignName}Length${depth} = ${parameterAssignName}${arrayDepthStringPos}.length ;
+		#tabsGenerator($depth)for (int ${parameterAssignName}I${depth}=0 ; ${parameterAssignName}I${depth} < ${parameterAssignName}Length${depth} ; ${parameterAssignName}I${depth}++)
+		#tabsGenerator($depth){
+#set($arrayDepthStringPos = "${arrayDepthStringPos}[${parameterAssignName}I${depth}]")
+#end
+#end
+			#tabsGenerator(${arrayDepth})System.out.println("[${methodListenerName}] -> Received value for parameter ${parameterAssignName}: " + ${parameterAssignName}${arrayDepthStringPos}) ;
+#if (${arrayDepth} > 1)
+#foreach($depth in [${arrayDepth}..2])
+		#tabsGenerator($depth)}
+#end
+#end
+			}
+		}
+#end

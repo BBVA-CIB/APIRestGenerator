@@ -1,0 +1,114 @@
+##
+## -------- Tabulator generator --------
+## @param tabsNumber with the numbers of tabs we want to apply
+## 
+##
+##
+#macro(tabsGenerator $tabsNumber)
+#foreach($depth in [1..${tabsNumber}])${tab}#end
+#end
+##
+## -------- Random method generator --------
+## @param itemInstanceClassName with the item instance class name
+## 
+##
+##
+#macro(randomMethodGenerator $itemInstanceClassName)
+#if ($itemInstanceClassName == "ItemSimpleBoolean")generateRandomBoolean()##
+#elseif ($itemInstanceClassName == "ItemSimpleInteger" || $itemInstanceClassName == "ItemSimpleLong" || 
+		 $itemInstanceClassName == "ItemSimpleFloat"   || $itemInstanceClassName == "ItemSimpleDouble")generateRandomNumber()##
+#elseif ($itemInstanceClassName == "ItemSimpleString")generateRandomString()##
+#elseif ($itemInstanceClassName == "ItemRef")generateRandomInstance()##
+#elseif ($itemInstanceClassName == "ItemComplex")generateRandomInstance()##
+#end
+#end
+##
+## -------- Parser method generator --------
+## @param itemInstanceClassName with the item instance class name
+## 
+##
+##
+#macro(parserMethodGenerator $itemInstanceClassName)
+#if ($itemInstanceClassName == "ItemSimpleBoolean")booleanParser##
+#elseif ($itemInstanceClassName == "ItemSimpleInteger" || $itemInstanceClassName == "ItemSimpleLong")numberParser##
+#elseif ($itemInstanceClassName == "ItemSimpleFloat"   || $itemInstanceClassName == "ItemSimpleDouble")floatParser##
+#elseif ($itemInstanceClassName == "ItemSimpleString")stringParser##
+#elseif ($itemInstanceClassName == "ItemRef")parse##
+#elseif ($itemInstanceClassName == "ItemComplex")parse##
+#end
+#end
+##
+## -------- Generate different lines with the random code --------
+## @param item with the item
+##
+##
+##
+#macro(generateRandomCode $item $attributeName)
+#if ($item.class.simpleName == "ItemFile")
+##
+		var ${attributeName} = ${randomValuesClassName}.generateRandomFile() ;
+##
+#elseif ($item.class.simpleName == "ItemSimpleBoolean" || $item.class.simpleName == "ItemSimpleInteger" || $item.class.simpleName == "ItemSimpleLong"   || 
+		 $item.class.simpleName == "ItemSimpleFloat"   || $item.class.simpleName == "ItemSimpleDouble"  || $item.class.simpleName == "ItemSimpleString" ||
+    	 $item.class.simpleName == "ItemRef"			|| $item.class.simpleName == "ItemComplex")
+##
+#set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${item})})
+#set($outputTypeOneDim   = "${outputLanguageItems.getFullTypeOutput(${item})}")
+#set($randomMethodOneDim = "#randomMethodGenerator(${item.class.simpleName})")
+##
+#if (${isSimpleTypeOneDim} == "true")
+		var ${attributeName} = ${randomValuesClassName}.${randomMethodOneDim} ;
+#else
+		var ${attributeName} = ${outputTypeOneDim}.${randomMethodOneDim} ;
+#end
+##
+#elseif ($item.class.simpleName == "ItemArray")
+##
+#set($typeBaseArray     = ${outputLanguageItems.calculateBaseType(${item})})
+#set($isSimpleTypeArray = ${outputLanguageItems.isSimpleType(${typeBaseArray})})
+#set($depthArray 	    = ${outputLanguageItems.calculateDepth(${item})})
+#set($outputTypeArray   = "${outputLanguageItems.getTypeBaseArray(${item})}")
+#set($randomMethodArray = "#randomMethodGenerator(${typeBaseArray.class.simpleName})")
+##
+## Call the macro with the array parameters
+#arraysRandomGenerator(${attributeName} $isSimpleTypeArray $depthArray $outputTypeArray $randomMethodArray)
+##
+#end
+#end
+##
+## -------- Multiple dimensions - Array random generator --------
+## @param formattedAttrName contains the formatted attribute name
+## @param isSimpleTypeArray true if the $formattedAttrName is a simple type
+## @param arrayDepth		with the array depth
+## @param arrayBaseType     with the base type of the array
+## @param randomMethodArray with the random method to be applied
+##
+#macro(arraysRandomGenerator $formattedAttrName $isSimpleTypeArray $arrayDepth $arrayBaseType $randomMethodArray)
+
+		var ${formattedAttrName} = [] ;
+		for (var i1=0 ; i1 < 5 ; i1++)
+		{
+#set($arrayDepthStringPos = "[i1]")
+			${formattedAttrName}${arrayDepthStringPos} = [] ;
+#if (${arrayDepth} > 1)
+#foreach($depth in [2..${arrayDepth}])
+	#tabsGenerator($depth)for (var i${depth}=0 ; i${depth} < 5 ; i${depth}++)
+	#tabsGenerator($depth){
+#set($arrayDepthStringPos = "${arrayDepthStringPos}[i${depth}]")
+		#tabsGenerator(${depth})${formattedAttrName}${arrayDepthStringPos} = [] ;
+#end
+#end
+
+#set($tabNumberCodeGen = ${arrayDepth}+1)
+#if (${isSimpleTypeArray} == "true")
+	#tabsGenerator(${tabNumberCodeGen})${formattedAttrName}${arrayDepthStringPos} = ${randomValuesClassName}.${randomMethodArray} ;
+#else
+	#tabsGenerator(${tabNumberCodeGen})${formattedAttrName}${arrayDepthStringPos} = ${arrayBaseType}.${randomMethodArray} ;
+#end
+#if (${arrayDepth} > 1)
+#foreach($depth in [${arrayDepth}..2])
+	#tabsGenerator($depth)}
+#end
+#end
+		}
+#end

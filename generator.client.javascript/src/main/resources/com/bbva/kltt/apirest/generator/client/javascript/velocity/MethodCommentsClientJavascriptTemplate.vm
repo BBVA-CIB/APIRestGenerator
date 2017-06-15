@@ -1,0 +1,11 @@
+	/**
+	 *
+#foreach($paramDesc in ${outputParameters.getParametersDescription()})
+     * @param ${paramDesc}
+#end
+#if (${returnType.description} && $returnTypeField != "void")
+	 * @return ${returnType.description}
+#elseif (${returnType.description})
+     * If everything is ok - ${returnType.description} 
+#end
+	 */

@@ -1,0 +1,92 @@
+## Operation identifier
+#set($operationId          = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Return type
+#set($returnType           = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($returnTypeField      = ${outputLanguageItems.getFullTypeOutput($returnType.item)})
+##
+##
+## Output parameters
+#set($outputParameters 	   = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+## Path parameters
+#set($outputParametersPath = ${outputLanguageParameters.generateOutputParametersPath(${pathValue}, ${pathOperation})})
+##
+##
+## Produces and consumes
+#set($consumes		       = ${outputLanguageConsumesProduces.generateInboundServerContentType(${pathValue}, ${pathOperation})})
+#set($produces		       = ${outputLanguageConsumesProduces.generateOutboundServerContentType(${pathValue}, ${pathOperation})})
+##
+##
+## Common Exceptions
+#set($commonException  	   = ${outputLanguageExceptions.getCommonException()}) 
+##
+## Catch exception params
+#set($catchCustomException = "")
+#set($customExceptions = ${outputLanguageExceptions.getCustomExceptionsList(${pathValue}, ${pathOperation})})
+#foreach($customException in $customExceptions)
+#if (${catchCustomException} == "")
+#set($catchCustomException = "${customException.getAsClassName()}")
+#else
+#set($catchCustomException = "${catchCustomException} | ${customException.getAsClassName()}")
+#end
+#end
+##
+#parse(${MethodCommentsJavaTemplate})
+	@Override
+	@RequestMapping(method = RequestMethod.${pathOperation}, value = "${pathValue}"#if($consumes), consumes = ${consumes}#end#if($produces), produces = ${produces}#end)
+	public ResponseEntity<?> ${operationId}(${outputParameters.getParametersHeaderRest()})
+	{
+		try
+		{
+#if (${returnTypeField} == "void")
+			this.restListener.${operationId}(${outputParameters.getParametersCall()}) ;
+		
+			return ResponseEntity.ok().build() ;
+#elseif (${returnTypeField} == "byte[]")
+			return ResponseEntity.ok().body(new InputStreamResource(new ByteArrayInputStream(this.restListener.${operationId}(${outputParameters.getParametersCall()})))) ;
+#else
+			return ResponseEntity.ok().body(this.restListener.${operationId}(${outputParameters.getParametersCall()})) ;
+#end
+		}
+#if (${catchCustomException} != "")
+		catch (${catchCustomException} customException)
+		{
+			return ResponseEntity.status(customException.getStatus()).body(customException.getBodyExceptionMessage()) ;
+		}
+#end
+		catch (${commonException.getAsClassName()} commonException)
+		{
+			return ResponseEntity.status(commonException.getStatus()).body(commonException.getBodyExceptionMessage()) ;
+		}
+		catch (Exception exception)
+		{
+			final ${commonException.getAsClassName()} commonException = new ${commonException.getAsClassName()}() ;
+
+			commonException.setError(exception.getMessage()) ;
+			commonException.setMessage(exception.getMessage()) ;
+			commonException.setException(this.getStackTrace(exception)) ;
+			
+			final String pathStringFilledValues = this.${operationId}PathExceptionAssignment(${outputParametersPath.getParametersCall()}) ;
+			commonException.setPath(pathStringFilledValues) ;
+			
+			return new ResponseEntity<>(commonException.getBodyExceptionMessage(), HttpStatus.valueOf(commonException.getStatus())) ;
+		}
+	}
+
+	/**
+	 * The following method assign every path parameter with the value
+	 * @return the path string with the filled path values
+     */
+	private String ${operationId}PathExceptionAssignment(${outputParametersPath.getParametersHeader()})
+	{
+		String pathString = "${basePath}${pathValue}" ;
+		
+#foreach($pathParameter in ${outputParametersPath.getParametersList()})
+		pathString = pathString.replace("{${pathParameter.getName()}}", "" + ${pathParameter.getName()}) ;
+#end
+
+		return pathString ;
+	}
+

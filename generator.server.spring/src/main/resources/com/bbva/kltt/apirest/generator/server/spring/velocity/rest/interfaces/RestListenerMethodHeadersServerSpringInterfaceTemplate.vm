@@ -1,0 +1,26 @@
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Return type
+#set($returnType       = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($returnTypeField  = ${outputLanguageItems.getFullTypeOutput($returnType.item)})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+##
+## Common Exceptions
+#set($commonException  = ${outputLanguageExceptions.getCommonException()}) 
+##
+## Throws parameters
+#set($throwsParameters = "throws ${commonException.getAsClassName()}")
+#set($customExceptions = ${outputLanguageExceptions.getCustomExceptionsList(${pathValue}, ${pathOperation})})
+#foreach($customException in $customExceptions)
+#set($throwsParameters = "${throwsParameters}, ${customException.getAsClassName()}")
+#end
+##
+#parse(${MethodCommentsJavaTemplate})
+	public $returnTypeField $operationId(${outputParameters.getParametersHeader()}) ${throwsParameters} ;
+

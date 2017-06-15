@@ -1,0 +1,145 @@
+## Include the macros files
+#parse(${CommonTestExampleMacros})
+#parse(${ExampleTesterTestExampleMacros})
+
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+/// <reference path="${restListenerFile}" />
+/// <reference path="${restHandlerFile}" />
+
+	// Map of functions
+	var mapOfFunctions     = new Object() ;
+	
+	// Utility variables to calculate if the "Select All" checkbox should be selected or not.
+	var operationsSelected = 0 ;
+	var operationsNumber   = ${outputLanguageOperations.getAllOperationIds().size()} ;
+	
+	/**
+	 * Update the number of operation selected
+	 */
+	function updateOperationsSelected(checkBoxId)
+	{
+		var element = <HTMLInputElement> document.getElementById(checkBoxId);
+		var isChecked = element.checked ;
+		
+		var checkerUncheckerState = false ;
+		if (isChecked)
+		{
+			operationsSelected ++ ;
+			checkerUncheckerState = operationsSelected == operationsNumber ; 
+		}
+		else
+		{
+			operationsSelected -- ;
+		}
+		
+		var checkerUnchecker = <HTMLInputElement> document.getElementById("checkerUnchecker");
+		checkerUnchecker.checked = checkerUncheckerState ;
+	}
+	
+	/**
+	 * Initialization function
+	 */
+	function initialize()
+	{
+		// Initialize the check-unchecker all the checkboxes
+		$('#checkerUnchecker').click(function(event)
+		{
+	        if(this.checked)
+	        {
+	            $('.myCheckBox').each(function() 
+	            {
+	                this.checked 	   = true ;
+	                operationsSelected = operationsNumber ;               
+	            });
+	        }
+	        else
+	        {
+	            $('.myCheckBox').each(function()
+	            {
+	                this.checked 	 = false ;
+	                operationsNumber = 0 ;                  
+	            });         
+	        }
+	    });
+
+		// Initialize the ${moduleName}.${restHandlerClassName}
+		var restHandler = new ${moduleName}.${restHandlerClassName}() ;
+
+		// Generate a map with the key as 'operationId' and the value as the test function to be executed  
+## Generate all the sub-calls	
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#initializeMap(${pathValue} ${pathOperation})
+## GET
+#set($pathOperation = "GET")
+#initializeMap(${pathValue} ${pathOperation})
+## HEAD
+#set($pathOperation = "HEAD")
+#initializeMap(${pathValue} ${pathOperation})
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#initializeMap(${pathValue} ${pathOperation})
+## PATCH
+#set($pathOperation = "PATCH")
+#initializeMap(${pathValue} ${pathOperation})
+## POST
+#set($pathOperation = "POST")
+#initializeMap(${pathValue} ${pathOperation})
+## PUT
+#set($pathOperation = "PUT")
+#initializeMap(${pathValue} ${pathOperation})
+
+#end		
+	}
+
+	function startTest()
+	{
+		$("#result").empty() ;
+
+		$(".myCheckBox:checked").each(function(){
+    		mapOfFunctions[this.id]() ;
+		});
+	}
+	
+## Generate all the functions body which test all the API
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#startTestFunctionBody(${pathValue} ${pathOperation})
+## GET
+#set($pathOperation = "GET")
+#startTestFunctionBody(${pathValue} ${pathOperation})
+## HEAD
+#set($pathOperation = "HEAD")
+#startTestFunctionBody(${pathValue} ${pathOperation})
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#startTestFunctionBody(${pathValue} ${pathOperation})
+## PATCH
+#set($pathOperation = "PATCH")
+#startTestFunctionBody(${pathValue} ${pathOperation})
+## POST
+#set($pathOperation = "POST")
+#startTestFunctionBody(${pathValue} ${pathOperation})
+## PUT
+#set($pathOperation = "PUT")
+#startTestFunctionBody(${pathValue} ${pathOperation})
+#end
+
+	function printOutcomeNoOutcome(operationId)
+	{
+		$("#result").append("<p>Operation " + operationId + " was executed properly.</p>") ;
+	}
+	
+	function printOutcome(operationId, outcome)
+	{
+		$("#result").append("<p>Operation " + operationId + " was executed properly with the following outcome: " + outcome + "</p>") ;
+	}
+

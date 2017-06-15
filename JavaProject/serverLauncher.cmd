@@ -1,1 +1,1 @@
-java -cp "generatorBuilder/modules/*;generatorBuilder/lib/*" com.bbva.kltt.controller.serverSpring.APIRestGeneratorLauncher config/config.properties &
+java -cp "generatorBuilder/modules/*;generatorBuilder/lib/*" com.bbva.kltt.apirest.controller.server.spring.APIRestGeneratorLauncher &

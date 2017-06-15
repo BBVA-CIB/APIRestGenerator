@@ -1,0 +1,592 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+package ${packageName};
+
+import org.apache.commons.lang3.RandomStringUtils;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+/**
+ * Utility class to generate types needed for testing purpose
+ */
+public final class ${className}
+{
+	/**
+	 * Private constructor
+	 */
+	private ${className}()
+	{
+	}
+	/**
+	 * Generates a random boolean.
+	 *
+	 * @param rnd Random used to generate the boolean
+	 *
+	 * @return Random boolean
+	 */
+	public static boolean getBoolean(final Random rnd)
+	{
+		return rnd.nextBoolean();
+	}
+
+	/**
+	 * Generates a random boolean[] with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 *
+	 * @param rnd Random used to generate the booleans
+	 * @param maxArraySize Maximum size of the generated array
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random boolean[]
+	 */
+	public static boolean[] getBooleanArray(final Random rnd, final int maxArraySize, final boolean allowEmpty)
+	{
+		int arraySize = rnd.nextInt(maxArraySize);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmpty)
+		{
+			arraySize++;
+		}
+
+		final boolean[] result = new boolean[arraySize];
+
+		for (int i = 0; i < arraySize; i++)
+		{
+			result[i] = rnd.nextBoolean();
+		}
+
+		return result;
+	}
+
+	/**
+	 * Generates a random long[] with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 * @param rnd Random used to generate the longs
+	 * @param maxArraySize Maximum size of the generated array
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random long[]
+	 */
+	public static long[] getLongArray(final Random rnd, final int maxArraySize, final boolean allowEmpty)
+	{
+		int arraySize = rnd.nextInt(maxArraySize);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmpty)
+		{
+			arraySize++;
+		}
+
+		final long[] result = new long[arraySize];
+
+		for (int i = 0; i < arraySize; i++)
+		{
+			result[i] = rnd.nextLong();
+		}
+
+		return result;
+	}
+
+	/**
+	 * Generates a random int[] with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 * @param rnd Random used to generate the ints
+	 * @param maxArraySize Maximum size of the generated array
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random int[]
+	 */
+	public static int[] getIntArray(final Random rnd, final int maxArraySize, final boolean allowEmpty)
+	{
+		int arraySize = rnd.nextInt(maxArraySize);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmpty)
+		{
+			arraySize++;
+		}
+
+		final int[] result = new int[arraySize];
+
+		for (int i = 0; i < arraySize; i++)
+		{
+			result[i] = rnd.nextInt();
+		}
+
+		return result;
+	}
+
+	/**
+	 * Generates a random float[] with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 * @param rnd Random used to generate the floats
+	 * @param maxArraySize Maximum size of the generated array
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random float[]
+	 */
+	public static float[] getFloatArray(final Random rnd, final int maxArraySize, final boolean allowEmpty)
+	{
+		int arraySize = rnd.nextInt(maxArraySize);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmpty)
+		{
+			arraySize++;
+		}
+
+		final float[] result = new float[arraySize];
+
+		for (int i = 0; i < arraySize; i++)
+		{
+			result[i] = rnd.nextFloat();
+		}
+
+		return result;
+	}
+
+	/**
+	 * Generates a random double[] with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 *
+	 * @param rnd Random used to generate the doubles
+	 * @param maxArraySize Maximum size of the generated array
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random double[]
+	 */
+	public static double[] getDoubleArray(final Random rnd, final int maxArraySize, final boolean allowEmpty)
+	{
+		int arraySize = rnd.nextInt(maxArraySize);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmpty)
+		{
+			arraySize++;
+		}
+
+		final double[] result = new double[arraySize];
+
+		for (int i = 0; i < arraySize; i++)
+		{
+			result[i] = rnd.nextDouble();
+		}
+
+		return result;
+	}
+
+	/**
+	 * Generates a random byte[][] with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 *
+	 * @param rnd Random used to generate the doubles
+	 * @param maxArraySize Maximum size of the generated array
+	 * @param allowEmptyArray Indicates if empty array is allowed
+	 * @param allowEmptyBlob Indicates if empty blob is allowed
+	 *
+	 * @return Random byte[][]
+	 */
+	public static byte[][] getBlobArray(final Random rnd, final int maxArraySize, final boolean allowEmptyArray, final boolean allowEmptyBlob)
+	{
+		int arraySize = rnd.nextInt(maxArraySize);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmptyArray)
+		{
+			arraySize++;
+		}
+
+		final byte[][] result = new byte[arraySize][];
+
+		for (int i = 0; i < arraySize; i++)
+		{
+			result[i] = getBlob(rnd, maxArraySize, allowEmptyBlob);
+		}
+
+		return result;
+	}
+
+	/**
+	 * Generates a random String[] with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 *
+	 * @param rnd Random used to generate the Strings
+	 * @param maxArraySize Maximum size of the generated array
+	 * @param allowEmptyArray Indicates if empty array is allowed
+	 * @param allowEmptyString Indicates if empty array is allowed
+	 *
+	 * @return Random String[]
+	 */
+	public static String[] getStringArray(final Random rnd, final int maxArraySize, final boolean allowEmptyArray, final boolean allowEmptyString)
+	{
+		int arraySize = rnd.nextInt(maxArraySize);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmptyArray)
+		{
+			arraySize++;
+		}
+
+		final String[] result = new String[arraySize];
+
+		for (int i = 0; i < arraySize; i++)
+		{
+			result[i] = getString(rnd, maxArraySize, allowEmptyString);
+		}
+
+		return result;
+	}
+	/**
+	 * Generate a valid XML String[]
+	 *
+	 * @param rnd Random used to generate the Strings
+	 * @param maxArraySize Maximum size of the generated array
+	 * @param allowEmptyArray Indicates if empty array is allowed
+	 * @param allowEmptyString Indicates if empty String is allowed
+	 * @return Random XML String[]
+	 */
+	public static String[] getXmlValidStringArray(final Random rnd, final int maxArraySize, final boolean allowEmptyArray, final boolean allowEmptyString)
+	{
+		int arraySize = rnd.nextInt(maxArraySize);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmptyArray)
+		{
+			arraySize++;
+		}
+
+		final String[] result = new String[arraySize];
+
+		for (int i = 0; i < arraySize; i++)
+		{
+			result[i] = getXmlValidString(rnd, maxArraySize, allowEmptyString);
+		}
+
+		return result;
+	}
+
+	/**
+	 * Generates a random String with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 *
+	 * @param rnd Random used to generate the Strings
+	 * @param maxArraySize Maximum size of the generated String
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random String
+	 */
+	public static String getString(final Random rnd, final int maxArraySize, final boolean allowEmpty)
+	{
+		int arraySize = maxArraySize;
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmpty)
+		{
+			arraySize++;
+		}
+
+		return RandomStringUtils.random(arraySize);
+	}
+	/**
+	 * Generates a random String with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 *
+	 * @param rnd Random used to generate the Strings
+	 * @param maxArraySize Maximum size of the generated String
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random String
+	 */
+	public static String getXmlValidString(final Random rnd, final int maxArraySize, final boolean allowEmpty)
+	{
+		return RandomStringUtils.randomAscii(maxArraySize);
+	}
+
+
+	/**
+	 * Generates a random byte[] with a maximum size of maxArraySize.
+	 * The array could be empty if allowEmpty is true.
+	 *
+	 * @param rnd Random used to generate the Strings
+	 * @param maxArraySize Maximum size of the generated byte[]
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random byte[]
+	 */
+	public static byte[] getBlob(final Random rnd, final int maxArraySize, final boolean allowEmpty)
+	{
+		int arraySize = rnd.nextInt(maxArraySize);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmpty)
+		{
+			arraySize++;
+		}
+
+		final byte[] result = new byte[arraySize];
+
+		rnd.nextBytes(result);
+
+		return result;
+	}
+
+	/**
+	 * Generates a random float.
+	 *
+	 * @param rnd Random used to generate the float
+	 *
+	 * @return Random float
+	 */
+	public static float getFloat(final Random rnd)
+	{
+		return rnd.nextFloat();
+	}
+
+	/**
+	 * Generates a random double.
+	 *
+	 * @param rnd Random used to generate the double
+	 *
+	 * @return Random double
+	 */
+	public static double getDouble(final Random rnd)
+	{
+		return rnd.nextDouble();
+	}
+
+	/**
+	 * Generates a random long.
+	 *
+	 * @param rnd Random used to generate the long
+	 *
+	 * @return Random long
+	 */
+	public static long getLong(final Random rnd)
+	{
+		return rnd.nextLong();
+	}
+
+	/**
+	 * Generates a random int.
+	 *
+	 * @param rnd Random used to generate the int
+	 *
+	 * @return Random int
+	 */
+	public static int getInt(final Random rnd)
+	{
+		return rnd.nextInt();
+	}
+
+	/**
+	 * Generates a List<Double> object with random data and a maximum size of max
+	 * If allowEmpty is true then the list could be empty.
+	 *
+	 * @param rnd Random to use in the object generation
+	 * @param max Maximum number of objects in the list
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random List<Double>
+	 */
+	public static List<Double> getDoubleList(final Random rnd, final int max, final boolean allowEmpty)
+	{
+		int listSize = rnd.nextInt(max);
+		if (listSize == 0 && !allowEmpty)
+		{
+			listSize++;
+		}
+
+		List<Double> res = new ArrayList<Double>(listSize);
+
+		for (int i = 0; i < listSize; i++)
+		{
+			res.add(rnd.nextDouble());
+		}
+		return res;
+	}
+
+	/**
+	 * Creates a List<Float> object with random data and a maximum size of max
+	 * If allowEmpty is true then the list could be empty.
+	 *
+	 * @param random Random to use in the object generation
+	 * @param max Number of objects in the list
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random List<Float>
+	 */
+	public static List<Float> getFloatList(final Random random, final int max, final boolean allowEmpty)
+	{
+		int listSize = random.nextInt(max);
+		if (listSize == 0 && !allowEmpty)
+		{
+			listSize++;
+		}
+
+		List<Float> res = new ArrayList<Float>(listSize);
+
+		for (int i = 0; i < listSize; i++)
+		{
+			res.add(random.nextFloat());
+		}
+		return res;
+
+	}
+
+	/**
+	 * Creates a List<Integer> object with random data and a maximum size of max
+	 * If allowEmpty is true then the list could be empty.
+	 *
+	 * @param random Random to use in the object generation
+	 * @param max Number of objects in the list
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random List<Integer>
+	 */
+	public static List<Integer> getIntegerList(final Random random, final int max, final boolean allowEmpty)
+	{
+		int listSize = random.nextInt(max);
+		if (listSize == 0 && !allowEmpty)
+		{
+			listSize++;
+		}
+
+		List<Integer> res = new ArrayList<Integer>(listSize);
+
+		for (int i = 0; i < max; i++)
+		{
+			res.add(random.nextInt());
+		}
+		return res;
+	}
+
+	/**
+	 * Creates a List<Long> object with random data and a maximum size of max
+	 * If allowEmpty is true then the list could be empty.
+	 *
+	 * @param random Random to use in the object generation
+	 * @param max Number of objects in the list
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random List<Long>
+	 */
+	public static List<Long> getLongList(final Random random, final int max, final boolean allowEmpty)
+	{
+		int listSize = random.nextInt(max);
+		if (listSize == 0 && !allowEmpty)
+		{
+			listSize++;
+		}
+
+		List<Long> res = new ArrayList<Long>(listSize);
+
+		for (int i = 0; i < max; i++)
+		{
+			res.add(random.nextLong());
+		}
+		return res;
+	}
+
+	/**
+	 * Creates a List<String> object with random data and a maximum size of max
+	 * If allowEmpty is true then the list could be empty.
+	 *
+	 * @param random Random to use in the object generation
+	 * @param max Number of objects in the list
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random List<String>
+	 */
+	public static List<String> getStringList(final Random random, final int max, final boolean allowEmpty)
+	{
+		int listSize = random.nextInt(max);
+		if (listSize == 0 && !allowEmpty)
+		{
+			listSize++;
+		}
+
+		List<String> res = new ArrayList<String>(listSize);
+
+		for (int i = 0; i < max; i++)
+		{
+			res.add(RandomStringUtils.random(max));
+		}
+		return res;
+	}
+
+	/**
+	 * Creates a Map<String, String> object with random data and a maximum size of max
+	 * If allowEmpty is true then the list could be empty.
+	 *
+	 * @param rnd Random to use in the object generation
+	 * @param maxMapSize Number of objects in the list
+	 * @param maxStringSize Max string size
+	 * @param allowEmptyMap Indicates if empty map is allowed
+	 * @return Random List<String>
+	 */
+	public static Map<String, String> getStringStringMap(final Random rnd, final int maxMapSize, final int maxStringSize, final boolean allowEmptyMap)
+	{
+		int mapSize = rnd.nextInt(maxMapSize);
+
+		if (mapSize == 0 && !allowEmptyMap)
+		{
+			mapSize++;
+		}
+
+		Map<String, String> res = new HashMap<String, String>();
+		for (int i = 0; i < mapSize; i++)
+		{
+			res.put(RandomStringUtils.random(rnd.nextInt(maxStringSize) + 1), RandomStringUtils.random(rnd.nextInt(maxStringSize) + 1));
+		}
+		return res;
+	}
+
+	/**
+	 * Creates a random <BigDecimal> with a value that can fit in a log
+	 *
+	 * @param rnd a random seed
+	 * @return the created big decimal
+	 */
+	public static BigDecimal getBigDecimal(final Random rnd)
+	{
+		return new BigDecimal(Double.toString(rnd.nextDouble()));
+	}
+
+	/**
+	 * Creates a List<BigDecimal> object with random data and a maximum size of max
+	 * If allowEmpty is true then the list could be empty.
+	 *
+	 * @param random Random to use in the object generation
+	 * @param max Number of objects in the list
+	 * @param allowEmpty Indicates if empty array is allowed
+	 *
+	 * @return Random List<BigDecimal>
+	 */
+	public static BigDecimal[] getBigDecimalArray(final Random random, final int max, final boolean allowEmpty)
+	{
+		int arraySize = random.nextInt(max);
+
+		// If it cannot be empty add 1 element
+		if (arraySize == 0 && !allowEmpty)
+		{
+			arraySize++;
+		}
+
+		final BigDecimal[] result = new BigDecimal[arraySize];
+
+		for (int i = 0; i < arraySize; i++)
+		{
+			result[i] = ${className}.getBigDecimal(random);
+		}
+
+		return result;
+	}
+}

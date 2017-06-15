@@ -1,0 +1,284 @@
+#parse(${CommonJavaMacros})
+#parse(${RestHandlerMethodHeadersClientJaxrsImplMacros})
+##
+##
+## Available Schemes
+#set($availableSchemes    	    = ${outputLanguageRootValues.getSchemes(${pathValue}, ${pathOperation})})
+##
+##
+## Url without scheme ("://" + host + clientBasePath + pathValue)
+#set($urlWithoutScheme 		    = ${outputLanguageNaming.getUrlWithSlashes(${clientBasePath}, ${pathValue})})
+##
+##
+## Content type (Inbound + Outbound)
+#set($contentTypeInboundServer  = ${outputLanguageConsumesProduces.generateInboundServerContentType(${pathValue}, ${pathOperation})})
+#if (! $contentTypeInboundServer || '"multipart/form-data"' != $contentTypeInboundServer)
+#set($contentTypeInboundServer	   		    = '"application/json"')
+#end
+#set($contentTypeOutboundServer = ${outputLanguageConsumesProduces.generateOutboundServerContentType(${pathValue}, ${pathOperation})})
+#if (! $contentTypeOutboundServer || '"multipart/form-data"' != $contentTypeOutboundServer)
+#set($contentTypeOutboundServer	   		    = '"application/json"')
+#end
+##
+##
+## Operation identifier
+#set($operationId        	    = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Output parameters
+##
+#set($outputParameters 	 	    = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+##
+## Path parameters
+#set($outputParametersPath      = ${outputLanguageParameters.generateOutputParametersPath(${pathValue}, ${pathOperation})})
+##
+## Query parameters
+#set($outputParametersQuery     = ${outputLanguageParameters.generateOutputParametersQuery(${pathValue}, ${pathOperation})})
+##
+## Header parameters
+#set($outputParametersHeader    = ${outputLanguageParameters.generateOutputParametersHeader(${pathValue}, ${pathOperation})})
+##
+## FormData parameters
+#set($outputParametersFormData  = ${outputLanguageParameters.generateOutputParametersFormData(${pathValue}, ${pathOperation})})
+##
+## Body parameter
+#set($outputParameterBody 	    = ${outputLanguageParameters.generateOutputParameterBody(${pathValue}, ${pathOperation})})
+##
+##
+## Return type
+#set($returnType         	    = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($returnTypeField    	    = ${outputLanguageItems.getFullTypeOutput($returnType.item)})
+##
+##
+## Common Exceptions
+#set($commonException      		= ${outputLanguageExceptions.getCommonException()}) 
+##
+## Catch exception params
+#set($customExceptions     		= ${outputLanguageExceptions.getCustomExceptionsList(${pathValue}, ${pathOperation})})
+##
+##
+#parse(${MethodCommentsJavaTemplate})
+## Header parameters
+#set($headerParameters		    = "final ${restListenerInterfaceName} restListener, final ${schemesValuesClassName} scheme, final Integer timeout")
+#if (${outputParameters.getParametersList().size()} > 0)
+#set($headerParameters		    = "${headerParameters}, ${outputParameters.getParametersHeader()}")
+#end
+	public void ${operationId}(${headerParameters})
+	{
+		// Validate the input scheme
+		final boolean isValidInputScheme = this.${operationId}ValidateScheme(scheme) ;
+		if (!isValidInputScheme)
+		{
+			final int invalidInputScheme  = 400 ;
+			final String errorMessage     = "JAXRS Client contains an invalid input scheme: '" + scheme + "'. Please use one of the defined in the specification." ;
+			final String exceptionMessage = errorMessage ;
+			final String stackTraceError  = null ;
+			final String path			  = null ;
+			
+			final Date now 				  = new Date() ;
+			final long timestamp		  = now.getTime() ;
+			
+            final ${commonException.getAsClassName()} outcome = this.generateCommonException(invalidInputScheme,
+            																				 errorMessage,
+            																				 exceptionMessage,
+            																				 stackTraceError,
+            																				 path,
+            																				 timestamp) ;
+			restListener.${commonException.getAsMethodName(${operationId})}(outcome) ;
+		}
+		else
+		{
+			// URL with scheme
+			final String urlWithScheme = scheme + "://" + this.url + "/" + "${urlWithoutScheme}" ;
+			
+			try
+			{
+				// Webtarget instance with all the info
+				WebTarget webTarget = this.client.target(urlWithScheme) ;
+
+#if (${outputParametersPath.getParametersList().size()} > 0)
+				// Add all the "path" values
+				webTarget = this.${operationId}PathAssignment(webTarget, ${outputParametersPath.getParametersCall()}) ;
+#end
+
+#if (${outputParametersQuery.getParametersList().size()} > 0)
+				// Add all the "query" values
+				webTarget = this.${operationId}QueryAssignment(webTarget, ${outputParametersQuery.getParametersCall()}) ;
+#end
+
+				// Set the timeout
+				this.setTimeoutForOperationWebTarget(webTarget, timeout) ;
+
+				// Invocation Builder with all the info from web target
+				Invocation.Builder invocationBuilder = webTarget.request(${contentTypeOutboundServer}) ;
+
+#if (${outputParametersHeader.getParametersList().size()} > 0)
+				// Add all the "header" values
+				invocationBuilder = this.${operationId}HeaderAssignment(invocationBuilder, ${outputParametersHeader.getParametersCall()}) ;		
+#end
+
+				// Depending on the request type, then we must add parameters or not
+#if ($pathOperation == "HEAD" || $pathOperation == "DELETE" || $pathOperation == "GET" || $pathOperation == "OPTIONS")
+				final Response response = invocationBuilder.${pathOperation.toLowerCase()}() ;
+#elseif ($pathOperation == "POST" || $pathOperation == "PUT")
+#if (${outputParameterBody.getParametersList().size()} > 0) ## There is only one parameter of this type (if exists)
+				final Response response = invocationBuilder.${pathOperation.toLowerCase()}(Entity.entity(${outputParameterBody.getParametersList().get(0).getName()}, ${contentTypeInboundServer})) ;
+#else
+#if (${outputParametersFormData.getParametersList().size()} > 0)
+				// Add the "formData" values
+				final FormDataMultiPart form = new FormDataMultiPart() ;
+				form.setMediaType(MediaType.valueOf(${contentTypeInboundServer})) ;
+				this.${operationId}FormDataAssignment(form, ${outputParametersFormData.getParametersCall()}) ;
+#else
+				// Set default "form"
+				final Form form = new Form() ;
+#end
+				final Response response = invocationBuilder.${pathOperation.toLowerCase()}(Entity.entity(form, ${contentTypeInboundServer})) ;
+#end
+#end
+
+				if (response.getStatus() == 200)
+				{	
+#if (${returnTypeField} == "void")
+					restListener.${operationId}() ;
+#else
+					final ${returnTypeField} outcome = response.readEntity(${returnTypeField}.class) ;
+					restListener.${operationId}(outcome) ;
+#end
+				}
+#if (${customExceptions.size()} > 0)
+#foreach($customException in $customExceptions)
+				else if (response.getStatus() == ${customException.getStatusCode()})
+				{
+#set($customExceptionTypeField = ${outputLanguageItems.getFullTypeOutput($customException.getResponseItem())})
+#if (${customExceptionTypeField} == "void")
+					restListener.${customException.getAsMethodName()}() ;
+#else
+					final ${customExceptionTypeField} outcome = response.readEntity(${customExceptionTypeField}.class) ;
+					restListener.${customException.getAsMethodName()}(outcome) ;
+#end			
+				}
+#end
+#end
+				else
+				{
+					final ${commonException.getAsClassName()} outcome = response.readEntity(${commonException.getAsClassName()}.class) ;
+					restListener.${commonException.getAsMethodName(${operationId})}(outcome) ;
+				}
+			}
+			catch(ProcessingException socketTimeOutException)
+			{
+				final int timeOutStatus       = 408 ;
+				final String errorMessage 	  = "timeout" ;
+				final String exceptionMessage = errorMessage ;
+				final String stackTraceError  = this.getStackTrace(socketTimeOutException) ;
+				final String path			  = null ;
+			
+				final Date now 				  = new Date() ;
+				final long timestamp		  = now.getTime() ;
+					
+                final ${commonException.getAsClassName()} outcome = this.generateCommonException(timeOutStatus,
+                																				 errorMessage,
+                																				 exceptionMessage,
+                																				 stackTraceError,
+                																				 path,
+                																				 timestamp) ;
+				restListener.${commonException.getAsMethodName(${operationId})}(outcome) ;
+			}
+		}
+	}
+	
+	/**
+	 * Validate the input scheme with the expected for this 
+	 * @param scheme with the scheme
+	 */
+	private boolean ${operationId}ValidateScheme(final ${schemesValuesClassName} scheme)
+	{
+#set($validateSchemeComparison = "")
+#foreach($availableScheme in $availableSchemes)
+#if (${validateSchemeComparison} == "")
+#set($validateSchemeComparison = "scheme.equals(${schemesValuesClassName}.${availableScheme})")
+#else
+#set($validateSchemeComparison = "${validateSchemeComparison} || scheme.equals(${schemesValuesClassName}.${availableScheme})")
+#end
+#end
+		return ${validateSchemeComparison} ;
+	}
+
+#if (${outputParametersPath.getParametersList().size()} > 0)
+
+	/**
+	 * The following method assign every path parameter to the WebTarget
+     */	 
+	private WebTarget ${operationId}PathAssignment(WebTarget webTarget, ${outputParametersPath.getParametersHeader()})
+	{
+#foreach($pathParameter in ${outputParametersPath.getParametersList()})
+		webTarget = webTarget.resolveTemplate("${pathParameter.getName()}", ${pathParameter.getName()}) ;
+#end
+
+		return webTarget ;
+	}
+
+#end
+#if (${outputParametersQuery.getParametersList().size()} > 0)
+
+	/**
+	 * The following method assign every query parameter with the value
+     */	
+	private WebTarget ${operationId}QueryAssignment(WebTarget webTarget, ${outputParametersQuery.getParametersHeader()})
+	{
+#foreach($queryParameter in ${outputParametersQuery.getParametersList()})
+#set($item = ${queryParameter.getItem()})
+#if ($item.class.simpleName == "ItemArray")
+##
+#set($depthArray = ${outputLanguageItems.calculateDepth(${item})})
+## Call the macro with the array parameters
+#generateArrayQueryParameters($depthArray ${queryParameter.getName()} ${queryParameter.getParameterOfficialName()})
+##
+#else
+		webTarget = webTarget.queryParam("${queryParameter.getParameterOfficialName()}", ${queryParameter.getName()}) ;
+#end
+#end
+
+		return webTarget ;
+	}
+
+#end
+#if (${outputParametersHeader.getParametersList().size()} > 0)
+
+	/**
+	 * The following method assign every header parameter with the value
+     */	
+	private Invocation.Builder ${operationId}HeaderAssignment(Invocation.Builder invocationBuilder, ${outputParametersHeader.getParametersHeader()})
+	{
+#foreach($headerParameter in ${outputParametersHeader.getParametersList()})
+		invocationBuilder.header("${headerParameter.getParameterOfficialName()}", ${headerParameter.getName()}) ;
+#end
+
+		return invocationBuilder ;
+	}
+
+#end
+#if (${outputParametersFormData.getParametersList().size()} > 0)
+	/**
+	 * The following method assign every formData parameter with the value
+     */	
+	private void ${operationId}FormDataAssignment(FormDataMultiPart formDataMultiPart, ${outputParametersFormData.getParametersHeader()})
+	{
+#foreach($formDataParameter in ${outputParametersFormData.getParametersList()})	
+#set($item = ${formDataParameter.getItem()})
+#if ($item.class.simpleName == "ItemArray")
+##
+#set($depthArray    = ${outputLanguageItems.calculateDepth(${item})})
+#set($typeBaseArray = ${outputLanguageItems.calculateBaseType(${item})})
+## Call the macro with the array parameters
+#generateArrayFormDataParameters($depthArray $typeBaseArray ${formDataParameter.getName()} ${formDataParameter.getParameterOfficialName()})
+##
+#else
+		#generateSingleFormDataParameters($item ${formDataParameter.getName()} ${formDataParameter.getParameterOfficialName()} '')
+#end
+#end        
+	}
+#end
+

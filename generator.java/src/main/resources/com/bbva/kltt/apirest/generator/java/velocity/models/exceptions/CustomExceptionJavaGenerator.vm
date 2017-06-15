@@ -1,0 +1,103 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+package ${packageName} ;
+
+import com.fasterxml.jackson.annotation.JsonProperty ;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+#if (! ${responseException.getDescription()})
+/**
+ * No description for the class
+ */
+#else
+/** 
+ * ${responseException.getDescription()}
+ */
+#end
+public final class ${className} extends Exception implements ${generatedExceptionInterfaceName}
+{
+    /** Serial Version - UID */
+	private static final long serialVersionUID = 1L ;
+	
+	/** Attribute - Status */
+	@JsonView(GenerationView.class)
+	private final int status ;
+
+#set($exceptionCode		   = ${responseException.getName()})
+#set($attributeType 	   = "${outputLanguageItems.getFullTypeOutput(${responseExceptionAttribute})}")
+#set($attributeDescription = ${responseExceptionAttribute.getDescription()})
+#if (${attributeType} != "void")
+#if (! ${attributeDescription})
+	/** No description for the attribute */
+#else
+	/** ${attributeDescription} */
+#end
+    @JsonView(GenerationView.class)
+	private final $attributeType bodyExceptionMessage ;
+#end	
+	
+#if (${attributeType} != "void")
+	/**
+	 * @param bodyExceptionMessage with the body exception message
+	 */
+	 public ${className}(final $attributeType bodyExceptionMessage)
+#else	
+	/**
+	 * Empty constructor for the class
+	 */
+	public ${className}()
+#end
+    {
+    	this.status = ${exceptionCode} ;
+#if (${attributeType} != "void")
+		this.bodyExceptionMessage = bodyExceptionMessage ;
+#end
+    }
+    
+    /**
+     * @return the status
+     */
+    @JsonProperty("status")
+    public int getStatus()
+    {
+    	return this.status ;
+    }
+    
+    /**
+     * @return the response
+     */
+    @Override
+    @JsonProperty("bodyExceptionMessage")
+    public Object getBodyExceptionMessage()
+    {
+#if (${attributeType} == "void")	
+		return null ;
+#else
+		return this.bodyExceptionMessage ;
+#end
+    }
+    
+    @Override
+    public String toString()
+    {
+		try
+	    {
+	      return ${jacksonMapperClassName}.getInstance().writerWithDefaultPrettyPrinter().writeValueAsString(this) ;
+	    }
+	    catch (JsonProcessingException jsonProcessingExc)
+	    {
+	      return "Exception converting to Json string: " + jsonProcessingExc.getMessage() ;
+	    }
+    }
+}

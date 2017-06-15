@@ -1,0 +1,37 @@
+##
+## -------- Multiple dimensions - Array parser generator --------
+## @param isSimpleTypeArray true if the $formattedAttrName is a simple type
+## @param arrayDepth		with the array depth
+## @param arrayBaseType     with the base type of the array
+## @param parserMethod 		with the parsed method to be applied
+##
+#macro(generateArrayParserRestHandler $isSimpleTypeArray $arrayDepth $arrayBaseType $parserMethod)
+	    									  		 		outcome = [] ;
+	
+		    									  		 	var length1 = value.length ;
+		    									  		 	for (var i1=0 ; i1 < length1 ; i1++)
+		    									  		 	{
+#set($arrayDepthStringPos = "[i1]")
+																outcome${arrayDepthStringPos} = [] ;
+#set($depth = 1)
+#if (${arrayDepth} > 1)
+#foreach(${depth} in [2..${arrayDepth}])
+											  		 	#tabsGenerator(${depth})var length${depth} = value${arrayDepthStringPos}.length ;
+											  		 	#tabsGenerator(${depth})for (var i${depth}=0 ; i${depth} < length${depth} ; i${depth}++)
+											  		 	#tabsGenerator(${depth}){
+#set($arrayDepthStringPos = "${arrayDepthStringPos}[i${depth}]")
+										  		 			#tabsGenerator(${depth})outcome${arrayDepthStringPos} = [] ;
+#end
+#end
+#if (${isSimpleTypeArray} == "true")
+										  		 			#tabsGenerator(${arrayDepth})outcome${arrayDepthStringPos} = ${parserValuesClassName}.${parserMethod}(value${arrayDepthStringPos}) ;
+#else
+										  		 			#tabsGenerator(${arrayDepth})outcome${arrayDepthStringPos} = ${arrayBaseType}.${parserMethod}(value${arrayDepthStringPos}) ;
+#end
+#if (${arrayDepth} > 1)
+#foreach(${depth} in [${arrayDepth}..2])
+										  		 		#tabsGenerator(${depth})}
+#end
+#end
+															}
+#end

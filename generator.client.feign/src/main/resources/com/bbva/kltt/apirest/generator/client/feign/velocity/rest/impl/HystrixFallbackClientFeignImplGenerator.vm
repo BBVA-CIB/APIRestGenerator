@@ -1,0 +1,150 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+package ${packageName} ;
+
+import java.util.Date ;
+
+import java.io.PrintWriter ;
+import java.io.StringWriter ;
+
+import com.fasterxml.jackson.databind.ObjectMapper ;
+
+import feign.FeignException ;
+import feign.RetryableException ;
+
+import org.springframework.http.HttpStatus ;
+import org.springframework.http.ResponseEntity ;
+import org.springframework.stereotype.Component ;
+
+import java.io.IOException;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+##
+##
+## Common Exceptions
+#set($commonException = ${outputLanguageExceptions.getCommonException()})
+##
+
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+@Component
+public final class ${className} extends ${hystrixFallbackInterfaceName}
+{
+
+    @Override
+    public ${restHandlerInterfaceName} create(Throwable throwable)
+    {
+        return new ${restHandlerInterfaceName}()
+        {
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${HystrixFallbackMethodHeadersClientFeignImplTemplate})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${HystrixFallbackMethodHeadersClientFeignImplTemplate})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${HystrixFallbackMethodHeadersClientFeignImplTemplate})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${HystrixFallbackMethodHeadersClientFeignImplTemplate})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${HystrixFallbackMethodHeadersClientFeignImplTemplate})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${HystrixFallbackMethodHeadersClientFeignImplTemplate})
+#end
+#end
+        } ;
+    }
+    
+    /**
+     * @param exceptionMessage with the exception message
+     * @return the body message as string
+     */
+    private String getBodyMessageFromFeign(final String exceptionMessage)
+    {
+    	final String contentString = "content:\n" ;
+    	final int indexOfContent   = exceptionMessage.indexOf(contentString) ;
+    	
+    	return exceptionMessage.substring(indexOfContent + 9) ;
+    }
+    
+    /**
+	 * @param statusCode 	   with the status code
+	 * @param errorString	   with the error string
+	 * @param exceptionMessage with the exception message
+	 * @param stackTraceError  with the stack trace error
+	 * @param path  		   with the path
+	 * @param timestamp  	   with the timestamp
+	 * @return the response entity for the common exception
+	 */
+    private ResponseEntity generateCommonExceptionResponseEntity(final int statusCode,
+    															 final String errorString,
+    															 final String exceptionMessage,
+    															 final String stackTraceError,
+    															 final String path,
+    															 final long timestamp)
+    {
+    	final ${commonException.getAsClassName()} commonException = new ${commonException.getAsClassName()}(statusCode) ;
+
+		commonException.setError(errorString) ;
+		commonException.setMessage(exceptionMessage) ;
+		commonException.setException(stackTraceError) ;
+		commonException.setPath(path) ;
+		commonException.setTimestamp(timestamp) ;		
+					
+        return ResponseEntity.status(HttpStatus.valueOf(statusCode)).body(commonException) ;
+    }
+    
+    /**
+	 * @param exception with the exception to convert to String
+	 * @return stack trace converted to string
+	 */
+	private String getStackTrace(final Exception exception)
+	{
+		final StringWriter stringWriter = new StringWriter() ;
+		final PrintWriter printWriter   = new PrintWriter(stringWriter) ;
+		exception.printStackTrace(printWriter) ;
+		
+		return stringWriter.toString() ; 
+	}
+    
+	/**
+	 * @param throwable with the exception to convert to String
+	 * @return stack trace converted to string
+	 */
+	private String getStackTrace(final Throwable throwable)
+	{
+		final StringWriter stringWriter = new StringWriter() ;
+		final PrintWriter printWriter   = new PrintWriter(stringWriter) ;
+		throwable.printStackTrace(printWriter) ;
+		
+		return stringWriter.toString() ; 
+	}
+}

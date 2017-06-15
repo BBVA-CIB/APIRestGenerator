@@ -1,0 +1,40 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: HeadAliasExample
+  description: This is an example about head and alias
+  contact:
+    name: Francisco Manuel Benitez Chico
+    email: paco.benitez.chico@gmail.com
+    url: http://www.pacobenitezchico.com
+host: localhost:8059
+x-generator-properties:
+  business-unit: mybu
+basePath: /api
+schemes:
+ - http
+consumes:
+
+produces:
+
+paths:
+  /myHeadAliasExample:
+    get:
+      description: Description about myHeadExample
+      operationId: myHeadExample
+      produces:
+
+      parameters:     
+        - name: userAgent
+          x-alias: User-Agent
+          in: header
+          type: string
+        - name: headerValue
+          x-auto-injected: true
+          in: header
+          type: string          
+      responses:
+        - 200:
+            description: pet response
+            schema:
+              type: string

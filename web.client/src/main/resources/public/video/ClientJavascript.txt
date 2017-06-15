@@ -1,0 +1,23 @@
+Bienvenidos a todos!
+
+Mi nombre es Francisco Manuel Benítez, y voy a explicar como generar código cliente Javascript.
+
+Elijamos cualquiera de los ejemplos definidos en la Web...(footballPlayers).
+
+Antes de nada, vamos a suponer que ya tenemos lanzado un servidor Spring MVC con la generación asociada al ejemplo "footballPlayers". 
+
+Si lanzamos la generación, se nos abrirá una ventana con la información de los logs.
+
+Una vez finalizada correctamente, se descargará un fichero comprimido en nuestra máquina.
+
+Si lo descomprimimos, veremos una serie de carpetas y un fichero "index.html".
+
+Basándonos en el proyecto de ejemplo Spring MVC, dentro de la carpeta src/main/resources, crearemos una nueva carpeta llamada "public".
+Dentro de ella, copiaremos todos ficheros descomprimidos anteriormente.
+
+A continuación, veremos en qué puerto se lanzó el servidor Spring MVC, y a partir de ahí, abriremos una ventana en el navegador sobre ese puerto.
+
+Como podremos observar, aparecerá una nueva web con todas las operaciones que podemos realizar sobre el servidor. En este caso, seleccionaremos todas
+para comprobar el correcto funcionamiento de dichas operaciones, y además, seleccionaremos un fichero de disco como ejemplo para simular envío de ficheros.
+
+Como podremos observar, todas las peticiones se realizaron correctamente.

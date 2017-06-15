@@ -1,0 +1,58 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+#foreach($additionalImport in $additionalImports)
+import {${additionalImport.getLoadedDependencies()}} from '${additionalImport.getLibraryReference()}' ;
+#end
+
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+@Injectable()
+export class ${className}
+{
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestListenerMethodHeadersClientAngular2Template})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestListenerMethodHeadersClientAngular2Template})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestListenerMethodHeadersClientAngular2Template})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestListenerMethodHeadersClientAngular2Template})
+#end
+## PATCH
+#set($pathOperation = "PATCH")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestListenerMethodHeadersClientAngular2Template})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestListenerMethodHeadersClientAngular2Template})
+#end
+## PUT
+#set($pathOperation = "put")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestListenerMethodHeadersClientAngular2Template})
+#end
+#end
+}

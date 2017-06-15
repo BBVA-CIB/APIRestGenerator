@@ -1,0 +1,22 @@
+#foreach($attribute in $attributes)
+#set($attributeType     = "${outputLanguageItems.getFullTypeOutput(${attribute})}")
+#set($formattedAttrName = ${outputLanguageNaming.prefixAttributeName(${attribute.name})})
+#set($suffixMethodName  = ${outputLanguageNaming.suffixMethodName(${attribute.name})})
+	/**
+	 * @param ${formattedAttrName} the ${formattedAttrName} to set
+	 */
+	public void set${suffixMethodName}(final ${attributeType} ${formattedAttrName})
+	{
+		this.${formattedAttrName} = ${formattedAttrName} ;
+	}
+	
+	/**
+	 * @return the ${formattedAttrName}
+	 */
+	@JsonProperty("${formattedAttrName}")
+	public ${attributeType} get${suffixMethodName}()
+	{
+		return this.${formattedAttrName} ;
+	}
+
+#end

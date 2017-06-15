@@ -1,0 +1,86 @@
+<md-dialog aria-label="Mango (Fruit)" ng-cloak class="myDialogClass">
+	<form>
+		<md-toolbar>
+			<div class="md-toolbar-tools">
+				<h2>HTTPS Deployments</h2>
+				<span flex></span>
+			</div>
+	    </md-toolbar> 
+		<md-dialog-content>
+		<div class="md-dialog-content" layout-align="center center">
+			<p>If you are using Spring Boot and want to enable SSL (https) for your application, there a few short steps you will need to take.</p>
+	
+			<ol>
+			  <li><strong>Get yourself a SSL certificate</strong>: generate a self-signed certificate or get one from a Certificate Authority</li>
+			  <li><strong>Enable HTTPS in Spring Boot</strong></li>
+			</ol>
+	
+			<h4 id="step-1-get-a-ssl-certificate">Step 1: Get a SSL certificate</h4>
+	
+			<p>If you want to use SSL and serve your Spring Boot application over HTTPS you will need to get a certificate.</p>
+	
+			<p>You have two options to get one. You can generate a self-signed certificate, which will most likely be what you will want to do in development 
+			   since it is the easiest option. This usually is not a good option in production since it will display a warning to the user that your certificate 
+			   is not trusted (a correct way is to request one from a Certificate Authority)</p>
+	
+			<p>Since we are developers, we are going to generate a self-signed certificate to get started quickly with development of our application. 
+			   Every Java Runtime Environment (JRE) comes bundled with a certificate management utility, 
+			   <a href="https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html" target="_blank">keytool</a>. 
+			   This can be used to generate our self-signed certificate. You can have a look:</p>
+	
+
+			<pre>
+				<code class="bash">
+	keytool -genkey -alias myexample -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
+		
+	Enter keystore password:
+	 Re-enter new password:
+	 What is your first and last name?
+	 <span class="o">[</span>Unknown<span class="o">]</span>:
+	 What is the name of your organizational unit?
+	 <span class="o">[</span>Unknown<span class="o">]</span>:
+	 What is the name of your organization?
+	 <span class="o">[</span>Unknown<span class="o">]</span>:
+	 What is the name of your City or Locality?
+	 <span class="o">[</span>Unknown<span class="o">]</span>:
+	 What is the name of your State or Province?
+	 <span class="o">[</span>Unknown<span class="o">]</span>:
+	 What is the two-letter country code <span class="k">for</span> this unit?
+	 <span class="o">[</span>Unknown<span class="o">]</span>:
+	 Is <span class="nv">CN</span><span class="o">=</span>Unknown, <span class="nv">OU</span><span class="o">=</span>Unknown, <span class="nv">O</span><span class="o">=</span>Unknown, <span class="nv">L</span><span class="o">=</span>Unknown, <span class="nv">ST</span><span class="o">=</span>Unknown, <span class="nv">C</span><span class="o">=</span>Unknown correct?
+	 <span class="o">[</span>no<span class="o">]</span>: yes
+				</code>
+			</pre>
+	
+			<p>This will generate a PKCS12 keystore called keystore.p12 with your newly generate certificate in it, with certificate alias <code>myexample</code>. 
+			You will need to reference the keystore in a minute when we start to configure Spring Boot (For this example, the keystore must be stored in the root project)</p>
+			
+			<h4 id="step-2-enable-https-in-spring-boot">Step 2: Enable HTTPS in Spring Boot</h4>
+			
+			<p>By default your Spring Boot embedded container will have HTTP on port 8080 enabled. Spring Boot lets you configure HTTP or HTTPS in the application.properties, 
+			   but not both at once. If you want to enable both you will need to configure at least one programmatically. 
+			   The Spring Boot reference <a href="http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#howto-configure-ssl" target="_blank">documentation</a> recommends 
+			   configuring HTTPS in the application.properties since it is the more complicated than HTTP.</p>
+			
+			<p>We are going to configure HTTPS in the default <code>application.properties</code> file under <code>src/main/resources</code> of your Spring Boot application:</p>
+	
+			<pre>
+				<code class="bash">
+	<span class="na">server.port</span><span class="o">:</span> <span class="s">8443</span>
+	<span class="na">server.ssl.key-store</span><span class="o">:</span> <span class="s">keystore.p12</span>
+	<span class="na">server.ssl.key-store-password</span><span class="o">:</span> <span class="s">mypassword</span>
+	<span class="na">server.ssl.keyStoreType</span><span class="o">:</span> <span class="s">PKCS12</span>
+	<span class="na">server.ssl.keyAlias</span><span class="o">:</span> <span class="s">myexample</span>
+				</code>
+			</pre>
+			
+			<p>There is a common issue when the keyAlias is defined: keytool converts the upper case of character to lower case automatically, then we advice to always 
+			define this value as lower case </p>
+			<p>That is all you need to do to make your application accessible over HTTPS on <code>https://localhost:8443</code>, pretty easy right?</p>
+		</div>
+		</md-dialog-content>
+		<md-dialog-actions layout="row">
+			<md-button ng-click="close()" class="commonButton md-raised md-primary">Close</md-button>
+		</md-dialog-actions>		
+	</form>
+</md-dialog>

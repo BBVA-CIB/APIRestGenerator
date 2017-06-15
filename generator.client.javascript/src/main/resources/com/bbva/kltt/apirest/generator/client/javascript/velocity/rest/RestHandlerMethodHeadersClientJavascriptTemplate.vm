@@ -1,0 +1,349 @@
+## Include the macros files
+#parse(${CommonClientJavascriptMacros})
+#parse(${RestHandlerClientJavascriptMacros})
+##
+##
+## Available Schemes
+#set($availableSchemes    	   = ${outputLanguageRootValues.getSchemes(${pathValue}, ${pathOperation})})
+##
+##
+## Url without scheme (host + clientBasePath + pathValue)
+#set($urlWithoutScheme 		   = "${outputLanguageNaming.getUrlWithSlashes(${clientBasePath}, ${pathValue})}")
+##
+##
+## Content type
+#set($contentType	   		   = ${outputLanguageConsumesProduces.generateInboundServerContentType(${pathValue}, ${pathOperation})})
+##
+##
+## Operation identifier
+#set($operationId      		   = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+## Output parameters
+#set($outputParameters 		   = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+## Path parameters
+#set($outputParametersPath     = ${outputLanguageParameters.generateOutputParametersPath(${pathValue}, ${pathOperation})})
+##
+## Query parameters
+#set($outputParametersQuery    = ${outputLanguageParameters.generateOutputParametersQuery(${pathValue}, ${pathOperation})})
+##
+## Header parameters
+#set($outputParametersHeader   = ${outputLanguageParameters.generateOutputParametersHeader(${pathValue}, ${pathOperation})})
+##
+## FormData parameters
+#set($outputParametersFormData = ${outputLanguageParameters.generateOutputParametersFormData(${pathValue}, ${pathOperation})})
+##
+## Body parameter
+#set($outputParameterBody 	   = ${outputLanguageParameters.generateOutputParameterBody(${pathValue}, ${pathOperation})})
+##
+##
+## Outbound server type
+#set($outboundServerType       = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($outboundServerTypeItem   = $outboundServerType.item)
+#set($outboundServerTypeField  = ${outputLanguageItems.getFullTypeOutput($outboundServerTypeItem)})
+##
+##
+## Header parameters
+#set($headerParameters		   = "listener: ${restListenerInterfaceName}, scheme: string")
+#if (${outputParameters.getParametersList().size()} > 0)
+#set($headerParameters		   = "${headerParameters}, ${outputParameters.getParametersHeader()}")
+#end
+##
+##
+## Common Exceptions
+#set($commonException  		   = ${outputLanguageExceptions.getCommonException()}) 
+##
+## Custom Exceptions
+#set($customExceptions 		   = ${outputLanguageExceptions.getCustomExceptionsList(${pathValue}, ${pathOperation})})
+##
+## Method comments
+#parse(${MethodCommentsClientJavascriptTemplate})
+##
+## Method generation
+	${operationId}(${headerParameters})
+	{
+		// Local Reference of this class
+		var self = this ;
+		
+		// Validate the input scheme
+		var isValidInputScheme = this.${operationId}ValidateScheme(scheme) ;
+		if (!isValidInputScheme)
+		{
+			var invalidInputScheme = 400 ;
+			var exceptionError	   = "Javascript Client contains an invalid input scheme: '" + scheme + "'. Please use one of the defined in the specification." ;
+			var exceptionMessage   = exceptionError ;
+			var stackTraceError    ;
+			var path   			   ;
+			var timestamp		   ;
+					
+            var outcome = this.generateCommonException(invalidInputScheme, exceptionError, exceptionMessage, stackTraceError, path, timestamp) ;
+			listener.${commonException.getAsMethodName(${operationId})}(outcome) ;
+		}
+		else
+		{
+			// URL with scheme
+			var urlWithScheme	 = this.getBaseURI(scheme) + "${urlWithoutScheme}" ;
+
+## Path assignment parameters - call
+#set($pathAssignmentCallParameters = "urlWithScheme")
+#if (${outputParametersPath.getParametersList().size()} > 0)
+#set($pathAssignmentCallParameters = "${pathAssignmentCallParameters}, ${outputParametersPath.getParametersCall()}")
+#end
+			// Replace every path parameter with the input value
+			var urlWithPaths     = this.${operationId}PathAssignment(${pathAssignmentCallParameters}) ;
+			
+			// Replace every query parameter with the input value
+			var queryParameters  = this.${operationId}QueryAssignment(${outputParametersQuery.getParametersCall()}) ;
+			
+			// Assign a final URL with all the parameters assigned to
+			var fullURL			 = urlWithPaths + queryParameters ;
+			
+			// Set the header parameters
+			var headerParameters = this.${operationId}HeaderAssignment(${outputParametersHeader.getParametersCall()}) ;
+	
+			// Verify if there is any body or one or many formData parameter
+			var formDataInstance ;
+#if (${outputParameterBody.getParametersList().size()} > 0) ## There is only one parameter of this type (if exists)
+			formDataInstance = JSON.stringify(${outputParameterBody.getParametersList().get(0).getName()}) ;
+#elseif (${outputParametersFormData.getParametersList().size()} > 0)
+			// Initialize the form data parameters
+			formDataInstance = new FormData();
+			// Set the FormData parameters
+			formDataInstance = this.${operationId}FormDataAssignment(formDataInstance, ${outputParametersFormData.getParametersCall()}) ;
+#end
+			// Promise example
+			var promiseFunction  = $.when($.ajax({type: "${pathOperation}",
+												  url: fullURL,
+												  headers: headerParameters,
+												  data: formDataInstance,
+												  processData: false,
+												  #if (${contentType})contentType: #if (${contentType} == '"multipart/form-data"')false #else${contentType} #end#end})) ;
+	
+			// Create the observable
+			var source 			 = Rx.Observable.fromPromise(promiseFunction) ;
+	
+			// Create the subscription
+			var subscription 	 = source.subscribe(function (value)
+											   	    {
+#if (${outboundServerTypeField} == "void")
+														listener.${operationId}() ;
+#else
+														var outcome ;
+														if (value != null && value != "undefined")
+														{
+#if ($outboundServerTypeItem.class.simpleName == "ItemFile")
+##
+															outcome = ${parserValuesClassName}.fileParser(value) ;
+##
+#elseif ($outboundServerTypeItem.class.simpleName == "ItemSimpleBoolean" || $outboundServerTypeItem.class.simpleName == "ItemSimpleInteger" ||
+		 $outboundServerTypeItem.class.simpleName == "ItemSimpleLong"    || $outboundServerTypeItem.class.simpleName == "ItemSimpleFloat"   ||
+		 $outboundServerTypeItem.class.simpleName == "ItemSimpleDouble"  || $outboundServerTypeItem.class.simpleName == "ItemSimpleString"  ||
+    	 $outboundServerTypeItem.class.simpleName == "ItemRef"			 || $outboundServerTypeItem.class.simpleName == "ItemComplex")
+##
+#set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${outboundServerTypeItem})})
+#set($outputTypeOneDim   = "${outputLanguageItems.getFullTypeOutput(${outboundServerTypeItem})}")
+#set($parserMethod       = "#parserMethodGenerator(${outboundServerTypeItem.class.simpleName})")
+##
+## Call the macro with the one dimension parameters
+#if (${isSimpleTypeOneDim} == "true")
+															outcome = ${parserValuesClassName}.${parserMethod}(value) ;
+#else
+															outcome = ${outputTypeOneDim}.${parserMethod}(value) ;
+#end
+##
+#elseif ($outboundServerTypeItem.class.simpleName == "ItemArray")
+##
+#set($typeBaseArray     = ${outputLanguageItems.calculateBaseType(${outboundServerTypeItem})})
+#set($isSimpleTypeArray = ${outputLanguageItems.isSimpleType(${typeBaseArray})})
+#set($depthArray 	    = ${outputLanguageItems.calculateDepth(${outboundServerTypeItem})})
+#set($outputTypeArray   = "${outputLanguageItems.getTypeBaseArray(${outboundServerTypeItem})}")
+#set($parserMethod 		= "#parserMethodGenerator(${typeBaseArray.class.simpleName})")
+##
+## Call the macro with the array parameters
+#generateArrayParserRestHandler($isSimpleTypeArray $depthArray $outputTypeArray $parserMethod)
+##
+#end
+														}
+														
+	    									  		 	listener.${operationId}(outcome) ;
+#end
+											   	    },
+											   	    function (error)
+											   	    {
+											   	    	var outcome ;
+#if (${customExceptions.size()} > 0)
+#set($conditionalClauseActive = "if")
+#foreach($customException in $customExceptions)
+#set($customExceptionItem = ${customException.getResponseItem()})
+														${conditionalClauseActive} (error.status == ${customException.getStatusCode()})
+														{
+#set($customExceptionTypeField = ${outputLanguageItems.getFullTypeOutput(${customExceptionItem})})
+#if (${customExceptionTypeField} == "void")
+															listener.${customException.getAsMethodName()}() ;
+#else
+#if (${customExceptionItem.class.simpleName} == "ItemFile")
+##
+															var value = error.responseText ;
+															outcome = ${parserValuesClassName}.fileParser(value) ;
+##
+#elseif (${customExceptionItem.class.simpleName} == "ItemSimpleBoolean" || ${customExceptionItem.class.simpleName} == "ItemSimpleInteger" ||
+		 ${customExceptionItem.class.simpleName} == "ItemSimpleLong"    || ${customExceptionItem.class.simpleName} == "ItemSimpleFloat"   ||
+		 ${customExceptionItem.class.simpleName} == "ItemSimpleDouble"  || ${customExceptionItem.class.simpleName} == "ItemSimpleString"  ||
+    	 ${customExceptionItem.class.simpleName} == "ItemRef"		    || ${customExceptionItem.class.simpleName} == "ItemComplex")
+##
+#set($isSimpleTypeOneDim = ${outputLanguageItems.isSimpleType(${customExceptionItem})})
+#set($outputTypeOneDim   = "${outputLanguageItems.getFullTypeOutput(${customExceptionItem})}")
+#set($parserMethod       = "#parserMethodGenerator(${customExceptionItem.class.simpleName})")
+##
+## Call the macro with the one dimension parameters
+#if (${isSimpleTypeOneDim} == "true")
+															var value = error.responseText ;
+															outcome = ${parserValuesClassName}.${parserMethod}(value) ;
+#else
+															var value = error.responseJSON ;
+															outcome = ${outputTypeOneDim}.${parserMethod}(value) ;
+#end
+##
+#elseif ($customExceptionItem.class.simpleName == "ItemArray")
+##
+#set($typeBaseArray     = ${outputLanguageItems.calculateBaseType(${customExceptionItem})})
+#set($isSimpleTypeArray = ${outputLanguageItems.isSimpleType(${typeBaseArray})})
+#set($depthArray 	    = ${outputLanguageItems.calculateDepth(${customExceptionItem})})
+#set($outputTypeArray   = "${outputLanguageItems.getTypeBaseArray(${customExceptionItem})}")
+#set($parserMethod 		= "#parserMethodGenerator(${typeBaseArray.class.simpleName})")
+##
+## Call the macro with the array parameters
+															var value = error.responseJSON ;
+#generateArrayParserRestHandler($isSimpleTypeArray $depthArray $outputTypeArray $parserMethod)
+##
+#end
+															listener.${customException.getAsMethodName()}(outcome) ;
+#end
+														}
+#set($conditionalClauseActive = "else if")
+#end
+														else
+														{
+															var value = error.responseJSON ;
+															outcome = self.generateCommonExceptionFromErrorInstance(error.status, value) ;
+															listener.${commonException.getAsMethodName(${operationId})}(outcome) ;
+														}
+#else
+														var value = error.responseJSON ;
+														outcome = self.generateCommonExceptionFromErrorInstance(error.status, value) ;
+														listener.${commonException.getAsMethodName(${operationId})}(outcome) ;
+#end
+											   	    }) ;
+		}
+	}
+	
+	/**
+	 * Validate the input scheme with the expected for this 
+	 */
+	${operationId}ValidateScheme(scheme)
+	{
+#set($validateSchemeComparison = "")
+#foreach($availableScheme in $availableSchemes)
+#if (${validateSchemeComparison} == "")
+#set($validateSchemeComparison = "scheme == ""${availableScheme}""")
+#else
+#set($validateSchemeComparison = "${validateSchemeComparison} || scheme == ""${availableScheme}""")
+#end
+#end
+		return ${validateSchemeComparison} ;
+	}
+
+	/**
+	 * The following method assign every path parameter with the value
+     */
+## Path assignment parameters - header
+#set($pathAssignmentHeaderParameters = "urlWithScheme: string")
+#if (${outputParametersPath.getParametersList().size()} > 0)
+#set($pathAssignmentHeaderParameters = "${pathAssignmentHeaderParameters}, ${outputParametersPath.getParametersHeader()}")
+#end
+	${operationId}PathAssignment(${pathAssignmentHeaderParameters})
+	{
+#foreach($pathParameter in ${outputParametersPath.getParametersList()})
+		urlWithScheme = urlWithScheme.replace("{${pathParameter.getName()}}", "" + ${pathParameter.getName()}) ;
+#end
+
+		return urlWithScheme ;
+	}
+	
+	/**
+	 * The following method assign every query parameter with the value
+     */	
+	${operationId}QueryAssignment(${outputParametersQuery.getParametersHeader()})
+	{
+		var outcome = "?" ;
+		
+#foreach($queryParameter in ${outputParametersQuery.getParametersList()})
+#if (! ${queryParameter.getItem().isRequired()})
+		if (${queryParameter.getName()} != undefined)
+		{
+			if (outcome != "?")
+			{
+				outcome = outcome + "&" ;
+			}
+			
+			outcome = outcome + "${queryParameter.getParameterOfficialName()}={${queryParameter.getName()}}" ;
+		}
+#else
+		if (outcome != "?")
+		{
+			outcome = outcome + "&" ;
+		}
+		
+		outcome = outcome + "${queryParameter.getParameterOfficialName()}={${queryParameter.getName()}}" ;
+#end
+
+#end
+#foreach($queryParameter in ${outputParametersQuery.getParametersList()})
+		outcome = outcome.replace("{${queryParameter.getName()}}", "" + ${queryParameter.getName()}) ;
+#end
+
+		return outcome ;
+	}
+	
+	/**
+	 * The following method assign every header parameter with the value
+     */	
+	${operationId}HeaderAssignment(${outputParametersHeader.getParametersHeader()})
+	{
+		var headerParameters = {} ;
+		
+#foreach($headerParameter in ${outputParametersHeader.getParametersList()})
+#if (! ${headerParameter.getItem().isRequired()})
+		if (${headerParameter.getName()} != undefined)
+		{
+			headerParameters["${headerParameter.getParameterOfficialName()}"] = ${headerParameter.getName()} ;
+		}
+#else
+		headerParameters["${headerParameter.getParameterOfficialName()}"] = ${headerParameter.getName()} ;
+#end
+#end
+
+		return headerParameters ;
+	}
+
+#if (${outputParametersFormData.getParametersList().size()} > 0)
+	/**
+	 * The following method assign every formData parameter with the value
+     */	
+	${operationId}FormDataAssignment(formDataInstance: FormData, ${outputParametersFormData.getParametersHeader()})
+	{
+#foreach($formDataParameter in ${outputParametersFormData.getParametersList()})
+#if (! ${formDataParameter.getItem().isRequired()})
+		if (${formDataParameter.getName()} != undefined)
+		{
+			formDataInstance.append("${formDataParameter.getParameterOfficialName()}", ${formDataParameter.getName()}) ;
+		}
+#else
+		formDataInstance.append("${formDataParameter.getParameterOfficialName()}", ${formDataParameter.getName()}) ;
+#end
+#end
+
+		return formDataInstance ;
+	}
+#end
+

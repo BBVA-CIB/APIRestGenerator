@@ -1,0 +1,68 @@
+## Include the macros files
+#parse(${ExampleTemplateClientAngular2Macros})
+<div class="container">
+	<form role="form">
+		<div class="row">
+			<div class="col-md-4">
+				<fieldset>
+					<legend>
+						<h3>
+						Select the operations to be tested
+						</h3>
+					</legend>
+					<div class="checkbox checkbox-success">
+						<input id="checkerUnchecker" type="checkbox" (click)="checkerUncheckerFunction($event)"/>
+						<label for="checkbox3">
+							Select all
+						</label>
+					</div>						
+## Generate all the operations id
+#foreach($operationId in ${outputLanguageOperations.getAllOperationIds()})
+					<div class="checkbox checkbox-success">
+						<input id="${operationId}Input" type="checkbox" class="myCheckBox" (click)="updateOperationsSelected($event)"/>
+						<label for="checkbox3">
+							${operationId}
+						</label>
+					</div>
+#end 						
+					<legend></legend>
+					<legend>
+						<h4>Load some file if you have form-data</h4>
+					</legend>
+					<div class="btn btn-warning">
+						<input type="file" name="myFile" id="myFile"/>
+					</div>
+					<legend></legend>
+					<a class="btn btn-success" (click)="startTest();">Run!</a>
+				</fieldset>
+			</div>
+		</div>
+	</form>
+</div>
+<legend></legend>
+<div id="output">
+## Generate all subdivs	results
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#generateSubDivResult(${pathValue} ${pathOperation})
+## GET
+#set($pathOperation = "GET")
+#generateSubDivResult(${pathValue} ${pathOperation})
+## HEAD
+#set($pathOperation = "HEAD")
+#generateSubDivResult(${pathValue} ${pathOperation})
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#generateSubDivResult(${pathValue} ${pathOperation})
+## PATCH
+#set($pathOperation = "PATCH")
+#generateSubDivResult(${pathValue} ${pathOperation})
+## POST
+#set($pathOperation = "POST")
+#generateSubDivResult(${pathValue} ${pathOperation})
+## PUT
+#set($pathOperation = "PUT")
+#generateSubDivResult(${pathValue} ${pathOperation})
+#end
+</div>

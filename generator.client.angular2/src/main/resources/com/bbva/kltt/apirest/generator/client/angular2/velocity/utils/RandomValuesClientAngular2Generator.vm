@@ -1,0 +1,62 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+## Class Comments
+/**
+ * This class contains the common methods for random use
+ */
+##
+## Class definition
+export class ${className}
+{
+    /**
+	 * Public constructor
+	 */
+	constructor() { }
+	
+	/**
+	 * @return a random boolean
+	 */
+	static generateRandomBoolean()
+	{
+		return Math.random() >= 0.5 ;
+	}
+	
+	/**
+	 * @return a random number
+	 */
+	static generateRandomNumber()
+	{
+		return Math.floor((Math.random() * 10) + 1) ;
+	}
+	
+	/**
+	 * @return a random string
+	 */	
+	static generateRandomString()
+	{
+	    var randomString = "" ;
+	    var possible 	 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" ;
+	
+	    for(var i=0; i < 5; i++)
+	   	{
+	        randomString += possible.charAt(Math.floor(Math.random() * possible.length)) ;
+		}
+		
+	    return randomString ;
+	}
+	
+	/**
+	 * @return a random file
+	 */	
+	static generateRandomFile()
+	{
+        var input: any = document.getElementById('myFile') ;
+        return input.files[0];
+	}
+};

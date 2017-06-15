@@ -1,0 +1,70 @@
+
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+#parse(${CommonClientFeignMacros})
+
+package ${packageName} ;
+
+import org.springframework.http.ResponseEntity;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+public final class ${className}
+{
+	/** Attribute - Rest Handler */
+	private final ${restHandlerInterfaceName} restHandler ;
+	
+    /**
+	 * Public constructor
+	 * @param restHandler with the Rest Handler
+	 */
+	public ${className}(final ${restHandlerInterfaceName} restHandler) 
+	{
+		this.restHandler = restHandler ;
+	}
+
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignImplTemplate})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignImplTemplate})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignImplTemplate})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignImplTemplate})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignImplTemplate})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientFeignImplTemplate})
+#end
+#end
+}

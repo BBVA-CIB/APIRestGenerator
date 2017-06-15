@@ -1,0 +1,12 @@
+##
+## ------- Generate Sub Div Result ------------
+## @param pathValue		with the path value
+## @param pathOperation with the path operation
+##
+##
+#macro(generateSubDivResult $pathValue $pathOperation)
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#set($operationId = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+	<div id="${operationId}Output"></div>
+#end
+#end

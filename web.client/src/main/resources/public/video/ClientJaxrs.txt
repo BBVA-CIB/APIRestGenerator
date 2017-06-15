@@ -1,0 +1,32 @@
+Bienvenidos a todos!
+
+Mi nombre es Francisco Manuel Benítez, y voy a explicar como generar código cliente JAXRS.
+
+Elijamos cualquiera de los ejemplos definidos en la Web...(footballPlayers).
+
+Antes de nada, tengamos en cuenta que ya debe haber un servidor lanzado Spring MVC o JAXRS con la generación asociada al ejemplo "footballPlayers". 
+
+Si lanzamos la generación, se nos abrirá una ventana con la información de los logs.
+
+Una vez finalizada correctamente, se descargará un fichero comprimido en nuestra máquina.
+
+Si lo descomprimimos, veremos uno llamado "mvn_install.txt" que abriremos y desde línea de comandos, 
+lanzaremos cada una de las instrucciones para instalar los artefactos descargados en el repositorio maven de nuestra máquina.
+
+¿A qué nos referimos con artefactos?
+- A los JARs de la carpeta que finaliza en "-model" y de las carpetas que finalizan en "-impl" e "-interfaces" (dentro de "client-jaxrs").
+
+¿Qué contienen esos artefactos?
+- Pues...todo el código generado que nos ayudará a interactuar con el servidor, sin necesidad de tener conocimiento de JAXRS.
+
+Una vez hecho esto, accederemos a la subcarpeta que descomprimimos y dentro de "client-jaxrs", importaremos la carpeta 
+que finaliza en "-example" dentro de nuestro entorno de programación.
+
+Una vez importado, veremos como existen dos clases:
+
+- Launcher: el que utilizaremos para lanzar nuestra aplicación.
+- MyListener: listener que recibirá la respuesta del servidor, ya sea correcta o con código de error. 
+
+De esta forma, si lanzamos la clase "Launcher", se enviarán datos al servidor y "MyListener" recibirá la respuesta.
+
+Como podremos observar, todas las peticiones se realizaron correctamente.

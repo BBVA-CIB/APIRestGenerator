@@ -1,0 +1,41 @@
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Get one type of scheme supported by this operationId
+#set($exampleScheme	   = ${outputLanguageRootValues.getOneSchemeExample(${pathValue}, ${pathOperation})})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+##
+##
+	/**
+	 * Do test over this operationId '${operationId}'
+	 */
+	private void ${operationId}Test()
+	{
+		// Set one of the "schemes" defined
+		final ${schemesValuesClassName} scheme = ${schemesValuesClassName}.${exampleScheme} ;
+		
+		// Choose a timeout for the request ('null' -> timeout defined in the constructor, '0' -> infinity, '> 0' -> normal timeout)
+		Integer timeout = 1000 ;
+		
+		// Generate the random values
+##
+#set($callParameters = "this.${restListenerVariable}, scheme, timeout")
+#foreach($outputParameter in ${outputParameters.getParametersList()})
+#set($callParameters = "${callParameters}, ${outputParameter.name}")
+#end 
+## Iterate in every parameter to create the call
+#foreach($outputParameter in ${outputParameters.getParametersList()})
+#generateRandomCode(${outputParameter.item} ${outputParameter.name} ${randomUtilsClassName})
+#end
+##
+##
+
+		// Do the "restHandler" call
+		${restHandlerVariable}.${operationId}(${callParameters}) ;
+	}
+
+

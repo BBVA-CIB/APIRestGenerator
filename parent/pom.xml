@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.bbva.kltt.apirest</groupId>
+	<artifactId>parent</artifactId>
+	<packaging>pom</packaging>
+	<version>2.1.0</version>
+
+	<properties>
+		<libDependenciesDirectory>../JavaProject/generatorBuilder/lib</libDependenciesDirectory>
+		<modulesDependenciesDirectory>../JavaProject/generatorBuilder/modules</modulesDependenciesDirectory>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<slf4jApiVersion>1.6.3</slf4jApiVersion>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<executions>
+					<execution>
+						<id>default-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<target>1.8</target>
+							<source>1.8</source>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.10</version>
+				<executions>
+					<execution>
+						<id>default-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<forkMode>pertest</forkMode>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<finalName>${project.groupId}-${project.artifactId}</finalName>
+					<outputDirectory>${modulesDependenciesDirectory}</outputDirectory>
+				</configuration>
+			</plugin>			
+		</plugins>
+	</build>
+
+	<modules>
+		<!-- Core -->
+		<module>../core</module>
+
+		<!-- Parsers -->
+		<module>../parser.swagger</module>
+
+		<!-- Generators - Common -->
+		<module>../generator.java</module>
+
+		<!-- Generators - Server Spring -->
+		<module>../generator.server.spring</module>
+		
+		<!-- Generators - Server JAXRS -->
+		<module>../generator.server.jaxrs</module>
+
+		<!-- Generators - Client - Web -->
+		<module>../generator.client.web</module>
+		<module>../generator.client.javascript</module>
+		<module>../generator.client.angular2</module>
+		
+		<!-- Generators - Client - Java -->
+		<module>../generator.client.jaxrs</module>
+		
+		<!-- Generators - Client - Java - Feign -->
+		<module>../generator.client.feign</module>
+
+		<!-- Web Client -->		
+		<module>../web.client</module>
+		
+		<!-- Controller Server -->
+		<module>../controller.server.spring</module>
+	</modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4jApiVersion}</version>
+		</dependency>
+	</dependencies>
+
+</project>

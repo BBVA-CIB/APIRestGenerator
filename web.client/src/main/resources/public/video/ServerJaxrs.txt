@@ -1,0 +1,29 @@
+Bienvenidos a todos!
+
+Mi nombre es Francisco Manuel Benítez, y voy a explicar como generar código servidor JAXRS.
+
+Este tipo de generaciones son muy útiles cuando trabajamos con la arquitectura ePhoenix.
+
+Elijamos cualquiera de los ejemplos definidos en la Web que finalicen en "_osgi"...(footballPlayers_osgi).
+
+Este tipo de ejemplos vienen ya preparados con el puerto típico de ePhoenix 8081 y el subtag "osgi" dentro de la extensión "x-bbva",
+conteniendo el "context" y "address" de CXF.
+
+Si lanzamos la generación, se nos abrirá una ventana con la información de los logs.
+
+Una vez finalizada correctamente, se descargará un fichero comprimido en nuestra máquina.
+
+Si lo descomprimimos, veremos como existen una serie de subcarpetas que finalizan en:
+"-model", "-interfaces", "-impl" y "-example" (estas tres últimas, dentro de la carpeta "server-jaxrs")
+
+Comencemos primero por el proyecto "-example":
+
+- Primero, lo importaremos dentro de nuestro entorno de programación.
+- Después, comprobaremos que existe sólo una sola clase llamada "MyListener" cuya utilidad es generar respuestas aleatorias ante peticiones cliente.
+- Finalmente, haremos un "mvn clean install" para obtener el bundle asociado a este proyecto.
+
+Tanto este bundle como los que fueron descargados en "-model", "-interfaces" y "-impl", nos los llevaremos a nuestra carpeta "<UUAA>-lib" de ePhoenix
+
+Una vez hecho esto, podremos comprobar, mediante la consola de Web de ePhoenix, que tanto los bundles como los servicios webs se han desplegado correctamente.
+
+Aconsejamos que se visualice cualquiera de los vídeos de generaciones cliente para entender como realizar una prueba completa.

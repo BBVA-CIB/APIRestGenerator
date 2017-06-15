@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.bbva.kltt.apirest</groupId>
+        <artifactId>parent</artifactId>
+        <version>2.1.0</version>
+        <relativePath>../parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>generator.java</artifactId>
+    <name>generator.java</name>
+    <version>2.1.2</version>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>projectInfo</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+	</build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.bbva.kltt.apirest</groupId>
+            <artifactId>core</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.bbva.kltt.apirest</groupId>
+			<artifactId>parser.swagger</artifactId>
+			<version>2.0.2</version>
+			<scope>test</scope>
+		</dependency>
+    </dependencies>
+</project>

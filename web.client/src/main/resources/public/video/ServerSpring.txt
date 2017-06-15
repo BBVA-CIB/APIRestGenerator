@@ -1,0 +1,33 @@
+Bienvenidos a todos!
+
+Mi nombre es Francisco Manuel Benítez, y voy a explicar como generar código servidor Spring MVC.
+
+Este tipo de generaciones son muy útiles cuando trabajamos con la arquitectura Nova. 
+
+Elijamos cualquiera de los ejemplos definidos en la Web...(footballPlayers)
+
+Si lanzamos la generación, se nos abrirá una ventana con la información de los logs.
+
+Mientras se genera, explicaremos un poco qué es lo que recibiremos:
+- Por un lado, los artefactos que definirán los modelos de datos dentro de la carpeta que finaliza en "-model".
+- Por otro, los artefactos asociados con la definición de los servicios REST dentro de las carpetas "-interfaces" e "-impl".
+- Finalmente, un proyecto de ejemplo que actuará como listener de peticiones REST. 
+
+Una vez finalizada la generación y la descarga, vemos que se ha recibido un fichero comprimido en nuestra máquina.
+
+Si lo descomprimimos, veremos uno llamado "mvn_install.txt" que abriremos y desde línea de comandos, 
+lanzaremos cada una de las instrucciones para instalar los artefactos en nuestro repositorio maven.
+
+Una vez hecho esto, accederemos a la subcarpeta que descomprimimos y dentro de "server-spring", importaremos la carpeta 
+que finaliza en "-example" dentro de nuestro entorno de programación.
+
+Una vez importado, veremos como existen dos clases:
+
+- Launcher: el que utilizaremos para lanzar nuestra aplicación.
+- MyListener: listener que ante peticiones de cliente, generará respuestas aleatorias.
+
+Además, podemos fijarnos en que los artefactos generados, fueron añadidos al repositorio y a nuestro proyecto.
+
+De esta forma, si lanzamos la clase "Launcher", veremos como el servidor Spring se lanza correctamente.
+
+Aconsejamos que se visualice cualquiera de los vídeos de generaciones cliente para entender como realizar una prueba completa. 

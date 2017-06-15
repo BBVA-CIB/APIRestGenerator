@@ -1,0 +1,59 @@
+#parse(${CommonJavaMacros})
+##
+##
+## Operation identifier
+#set($operationId      = ${outputLanguageOperations.getOperationId(${pathValue}, ${pathOperation})})
+##
+##
+## Output parameters
+#set($outputParameters = ${outputLanguageParameters.generateAllOutputParameters(${pathValue}, ${pathOperation})})
+#set($headerParameters = "final ${restListenerInterfaceName} restListener")
+#set($callParameters   = "")
+#if (${outputParameters.getParametersList().size()} > 0)
+#set($headerParameters = "${headerParameters}, ${outputParameters.getParametersHeader()}")
+#set($callParameters   = "${outputParameters.getParametersCall()}")
+#end
+##
+##
+## Return type
+#set($returnType       = ${outputLanguageItems.getOutboundServerItemType(${pathValue}, ${pathOperation})})
+#set($returnTypeField  = ${outputLanguageItems.getFullTypeOutput($returnType.item)})
+##
+##
+## Common Exceptions
+#set($commonException  = ${outputLanguageExceptions.getCommonException()}) 
+## Custom Exceptions
+#set($customExceptions = ${outputLanguageExceptions.getCustomExceptionsList(${pathValue}, ${pathOperation})})
+##
+#parse(${MethodCommentsJavaTemplate})
+## Parameters (Header and call)
+	public void ${operationId}(${headerParameters})
+	{
+		ResponseEntity response = this.restHandler.${operationId}(${callParameters}) ;
+		if (response.getStatusCodeValue() == 200)
+		{
+#if (${returnTypeField} == "void")
+			restListener.${operationId}() ;
+#else
+			restListener.${operationId}((${returnTypeField}) response.getBody()) ;
+#end
+		}
+#if (${customExceptions.size()} > 0)
+#foreach($customException in $customExceptions)
+		else if (response.getStatusCodeValue() == ${customException.getStatusCode()})
+		{
+#set($customExceptionTypeField = ${outputLanguageItems.getFullTypeOutput($customException.getResponseItem())})
+#if (${customExceptionTypeField} == "void")
+			restListener.${customException.getAsMethodName()}() ;
+#else
+			restListener.${customException.getAsMethodName()}((${customExceptionTypeField}) response.getBody()) ;
+#end			
+		}
+#end
+#end
+		else
+		{
+			restListener.${commonException.getAsMethodName(${operationId})}((${commonException.getAsClassName()}) response.getBody()) ;
+		}
+	}
+

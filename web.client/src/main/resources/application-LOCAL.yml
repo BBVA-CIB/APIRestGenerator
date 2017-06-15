@@ -1,0 +1,8 @@
+# --------#### Specific Properties for the generator #### --------
+
+web:
+  client:
+    scheme: http
+    host: localhost
+    port: 36210
+    servicePath:

@@ -1,0 +1,190 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+package ${packageName} ;
+
+import java.util.Date ;
+
+import java.io.InputStream ;
+
+import java.io.PrintWriter ;
+import java.io.StringWriter ;
+
+import javax.ws.rs.ProcessingException ;
+import javax.ws.rs.client.Client ;
+import javax.ws.rs.client.ClientBuilder ;
+import javax.ws.rs.client.Entity ;
+import javax.ws.rs.client.Invocation ;
+import javax.ws.rs.client.WebTarget ;
+import javax.ws.rs.core.Form ;
+import javax.ws.rs.core.MediaType ;
+import javax.ws.rs.core.Response ;
+
+import org.glassfish.jersey.client.ClientProperties ;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart ;
+import org.glassfish.jersey.media.multipart.MultiPartFeature ;
+import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart ;
+
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider ;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+/**
+ * ------------------------------------------------
+ * @author Francisco Manuel Benitez Chico
+ * ------------------------------------------------
+ */
+## Common variables for all the generations
+## Client Base Path
+#set($clientBasePath = ${outputLanguageRootValues.getClientBasePath()})
+##
+##
+public final class ${className} implements ${restHandlerInterfaceClassName}
+{
+	/** Constant - Default timeout */
+	private static final int DEFAULT_TIMEOUT = 0 ;
+
+	/** Attribute - Client */
+	private final Client client ;
+
+    /** Attribute - server URL to connect */
+    private final String url ;
+    
+    /** Attribute - default connection timeout - all the operations */
+    private int defaultTimeout ; 
+
+    /**
+	 * Public constructor
+	 */
+	public ${className}()
+	{
+		this("${outputLanguageRootValues.getHost()}", DEFAULT_TIMEOUT) ;
+	}
+
+    /**
+	 * Public constructor
+	 * @param url 	   with the url of the server
+	 * @defaultTimeout with the default timeout for all the operations in milliseconds. If null, then the default value will be 0 (infinity).
+	 */
+	public ${className}(final String url, final Integer defaultTimeout)
+	{
+		this.url    = url ;
+		
+		this.client = ClientBuilder.newClient() ;
+		this.client.register(JacksonJsonProvider.class) ;
+		this.client.register(MultiPartFeature.class) ;
+		
+		this.setDefaultTimeout(defaultTimeout) ;
+	}
+	
+	/**
+	 * @defaultTimeout with the default timeout for all the operations in milliseconds. If null, then the default value will be 0 (infinity).
+	 */
+	private void setDefaultTimeout(final Integer defaultTimeout)
+	{
+		this.defaultTimeout = DEFAULT_TIMEOUT ;
+		if (defaultTimeout != null && defaultTimeout >= 0)
+		{
+			this.defaultTimeout = defaultTimeout ;
+		}
+		
+		this.client.property(ClientProperties.CONNECT_TIMEOUT, this.defaultTimeout) ;
+		this.client.property(ClientProperties.READ_TIMEOUT, this.defaultTimeout) ;
+	}
+
+#foreach($pathValue in ${outputLanguagePaths.getPathValues()})
+## DELETE
+#set($pathOperation = "DELETE")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientJaxrsImplTemplate})
+#end
+## GET
+#set($pathOperation = "GET")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientJaxrsImplTemplate})
+#end
+## HEAD
+#set($pathOperation = "HEAD")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientJaxrsImplTemplate})
+#end
+## OPTIONS
+#set($pathOperation = "OPTIONS")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientJaxrsImplTemplate})
+#end
+## POST
+#set($pathOperation = "POST")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientJaxrsImplTemplate})
+#end
+## PUT
+#set($pathOperation = "PUT")
+#if (${outputLanguageOperations.hasAnyOperationId($pathValue, $pathOperation)})
+#parse(${RestHandlerMethodHeadersClientJaxrsImplTemplate})
+#end
+#end
+
+	/**
+	 * @param operationWebTarget with the operation web target
+	 * @param operationTimeout   with the operation timeout (local value) in milliseconds
+	 */
+	private void setTimeoutForOperationWebTarget(final WebTarget operationWebTarget, final Integer operationTimeout)
+	{
+		int timeout = this.defaultTimeout ;
+		if (operationTimeout != null && operationTimeout >= 0)
+		{
+			timeout = operationTimeout ; 
+		}
+		
+		operationWebTarget.property(ClientProperties.CONNECT_TIMEOUT, timeout) ;
+		operationWebTarget.property(ClientProperties.READ_TIMEOUT,    timeout) ;
+	}
+
+	/**
+	 * @param statusCode 	   with the status code
+	 * @param errorString	   with the error string
+	 * @param exceptionMessage with the exception message
+	 * @param stackTraceError  with the stack trace error
+	 * @param path  		   with the path
+	 * @param timestamp  	   with the timestamp
+	 * @return a new instance of common exception
+	 */
+    private ${commonException.getAsClassName()} generateCommonException(final int statusCode,
+    																	final String errorString,
+    																	final String exceptionMessage,
+    																	final String stackTraceError,
+    																	final String path,
+    																	final long timestamp)
+    {
+    	final ${commonException.getAsClassName()} commonException = new ${commonException.getAsClassName()}(statusCode) ;
+
+		commonException.setError(errorString) ;
+		commonException.setMessage(exceptionMessage) ;
+		commonException.setException(stackTraceError) ;
+		commonException.setPath(path) ;
+		commonException.setTimestamp(timestamp) ;
+					
+        return commonException ;
+    }
+    
+    /**
+	 * @param exception with the exception to convert to String
+	 * @return stack trace converted to string
+	 */
+	private String getStackTrace(final Exception exception)
+	{
+		final StringWriter stringWriter = new StringWriter() ;
+		final PrintWriter printWriter   = new PrintWriter(stringWriter) ;
+		exception.printStackTrace(printWriter) ;
+		
+		return stringWriter.toString() ; 
+	}
+}

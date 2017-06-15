@@ -1,0 +1,791 @@
+---
+swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  version: v1
+  title: Instagram-API-OSGi
+  description: The first version of the Instagram API is an exciting step forward towards
+    making it easier for users to have open access to their data. We created it
+    so that you can surface the amazing content Instagram users share every
+    second, in fun and innovative ways.
+  contact:
+    name: Francisco Manuel Benitez Chico
+    email: paco.benitez.chico@gmail.com
+    url: http://www.pacobenitezchico.com
+
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+host: localhost:8081
+x-generator-properties:
+  business-unit: mybu
+  osgi:
+    architecture-type: online
+    cxf-address: /AddressInstagram
+    cxf-context: /ContextInstagram
+basePath: /v1
+schemes:
+ - http
+produces:
+
+consumes:
+
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+parameters:
+  userId:
+    name: userId
+    in: path
+    description: The user identifier number
+    type: number
+    required: true
+  tagName:
+    name: tagName
+    in: path
+    description: Tag name
+    type: string
+    required: true
+
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
+  /users/{userId}:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      operationId: getUsersUserId
+      produces:
+        - application/json
+      description: Get basic information about a user.
+      responses:
+        - 200:
+            description: The user object
+            schema:
+              $ref: '#/definitions/User'
+
+  /users/self/feed:
+    get:
+      operationId: getUsersSelfFeed
+      produces:
+        - application/json
+      description: See the authenticated user's feed.
+      parameters:
+        - name: count
+          in: query
+          description: Count of media to return.
+          type: integer
+        - name: max_id
+          in: query
+          description: Return media earlier than this max_id.s
+          type: integer
+        - name: min_id
+          in: query
+          description: Return media later than this min_id.
+          type: integer
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Media'
+
+  /users/{userId}/media/recent:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      operationId: getUsersUserIdMediaRecent
+      produces:
+        - application/json
+      responses:
+        - 200:
+            description: |
+              Get the most recent media published by a user. To get the most recent
+              media published by the owner of the access token, you can use `self`
+              instead of the `userId`.
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Media'
+      parameters:
+        - name: count
+          in: query
+          description: Count of media to return.
+          type: integer
+        - name: max_timestamp
+          in: query
+          description: Return media before this UNIX timestamp.
+          type: integer
+        - name: min_timestamp
+          in: query
+          description: Return media after this UNIX timestamp.
+          type: integer
+        - name: min_id
+          in: query
+          description: Return media later than this min_id.
+          type: string
+        - name: max_id
+          in: query
+          description: Return media earlier than this max_id.
+          type: string
+
+  /users/self/media/liked:
+    get:
+      operationId: getUsersSelfMediaLiked
+      produces:
+        - application/json
+      description: |
+        See the list of media liked by the authenticated user.
+        Private media is returned as long as the authenticated user
+        has permission to view that media. Liked media lists are only
+        available for the currently authenticated user.
+      parameters:
+        - name: count
+          in: query
+          description: Count of media to return.
+          type: integer
+        - name: max_like_id
+          in: query
+          description: Return media liked before this id.
+          type: integer
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Media'
+  /users/search:
+    get:
+      operationId: getUsersSearch
+      produces:
+        - application/json
+      description: Search for a user by name.
+      parameters:
+        - name: q
+          in: query
+          description: A query string
+          type: string
+          required: true
+        - name: count
+          in: query
+          description: Number of users to return.
+          type: string
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MiniProfile'
+
+  /users/{userId}/follows:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      operationId: getUsersUserIdFollows
+      produces:
+        - application/json
+      description: Get the list of users this user follows.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MiniProfile'
+
+  /users/{userId}/followedBy:
+    parameters:
+      - $ref: '#/parameters/userId'
+    get:
+      operationId: getUsersUserIdFollowedBy
+      produces:
+        - application/json
+      description: Get the list of users this user is followed by.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MiniProfile'
+
+  /users/self/requestedBy:
+    get:
+      operationId: getUsersSelfRequestedBy
+      produces:
+        - application/json
+      description: |
+        List the users who have requested this user's permission to follow.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MiniProfile'
+
+  /users/{userId}/relationship:
+    parameters:
+      - $ref: '#/parameters/userId'
+    post:
+      operationId: postUsersUserIdRelationship
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      description: |
+        Modify the relationship between the current user and thetarget user.
+      parameters:
+        - name: action
+          in: body
+          description: One of follow/unfollow/block/unblock/approve/ignore.
+          schema:
+            type: string
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/MiniProfile'
+
+  /media/{mediaId}:
+    parameters:
+      - name: mediaId
+        in: path
+        description: The media ID
+        type: integer
+        required: true
+    get:
+      operationId: getMediaMediaId
+      produces:
+        - application/json
+      description: |
+        Get information about a media object.
+        The returned type key will allow you to differentiate between `image`
+        and `video` media.
+
+        Note: if you authenticate with an OAuth Token, you will receive the
+        `user_has_liked` key which quickly tells you whether the current user
+        has liked this media item.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              $ref: '#/definitions/Media'
+
+  /media/{shortcode}:
+    parameters:
+      - name: shortcode
+        in: path
+        description: The media shortcode
+        type: string
+        required: true
+    get:
+      operationId: getMedia1ShortCode
+      produces:
+        - application/json      
+      description: |
+        This endpoint returns the same response as **GET** `/media/mediaId`.
+
+        A media object's shortcode can be found in its shortlink URL.
+        An example shortlink is `http://instagram.com/p/D/`
+        Its corresponding shortcode is D.
+
+      responses:
+        - 200:
+            description: OK
+            schema:
+              $ref: '#/definitions/Media'
+
+  /media/search:
+    get:
+      operationId: getMediaSearch
+      produces:
+        - application/json      
+      description: |
+        Search for media in a given area. The default time span is set to 5
+        days. The time span must not exceed 7 days. Defaults time stamps cover
+        the last 5 days. Can return mix of image and video types.
+
+      parameters:
+        - name: LAT
+          description: |
+            Latitude of the center search coordinate. If used, lng is required.
+          in: query
+          type: number
+        - name: MIN_TIMESTAMP
+          description: |
+            A unix timestamp. All media returned will be taken later than
+            this timestamp.
+          in: query
+          type: integer
+        - name: LNG
+          description: |
+            Longitude of the center search coordinate. If used, lat is required.
+          in: query
+          type: number
+        - name: MAX_TIMESTAMP
+          description: |
+            A unix timestamp. All media returned will be taken earlier than this
+            timestamp.
+          in: query
+          type: integer
+        - name: DISTANCE
+          description:  Default is 1km (distance=1000), max distance is 5km.
+          in: query
+          type: integer
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Media'
+  /media/popular:
+    get:
+      operationId: getMediaPopular
+      produces:
+        - application/json
+      description: |
+        Get a list of what media is most popular at the moment.
+        Can return mix of image and video types.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Media'
+  /media/{mediaId}/comments:
+    parameters:
+      - name: mediaId
+        in: path
+        description: Media ID
+        type: integer
+        required: true
+    get:
+      operationId: getMediaMediaIdComments
+      produces:
+        - application/json
+      description: |
+        Get a list of recent comments on a media object.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/CommentClass'
+    post:
+      operationId: postMediaMediaIdComments
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      description: |
+        Create a comment on a media object with the following rules:
+
+        * The total length of the comment cannot exceed 300 characters.
+        * The comment cannot contain more than 4 hashtags.
+        * The comment cannot contain more than 1 URL.
+        * The comment cannot consist of all capital letters.
+      parameters:
+        - name: TEXT
+          description: |
+            Text to post as a comment on the media object as specified in
+            mediaId.
+          in: body
+          schema:
+            type: number
+      responses:
+        - 200:
+            description: OK
+    delete:
+      operationId: deleteMediaMediaIdComments      
+      description: |
+        Remove a comment either on the authenticated user's media object or
+        authored by the authenticated user.
+      responses:
+        - 200:
+            description: OK
+  /media/{mediaId}/likes:
+    parameters:
+      - name: mediaId
+        in: path
+        description: Media ID
+        type: integer
+        required: true
+    get:
+      operationId: getMediaMediaIdLikes
+      produces:
+        - application/json
+      description: |
+        Get a list of users who have liked this media.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Like'
+    post:
+      operationId: postMediaMediaIdLikes
+      description: Set a like on this media by the currently authenticated user.
+      responses:
+        - 200:
+            description: OK
+    delete:
+      operationId: deleteMediaMediaIdLikes
+      description: |
+        Remove a like on this media by the currently authenticated user.
+      responses:
+        - 200:
+            description: OK
+  /tags/{tagName}:
+    parameters:
+      - $ref: '#/parameters/tagName'
+    get:
+      operationId: getTagsTagName
+      produces:
+        - application/json      
+      description: Get information about a tag object.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              $ref: '#/definitions/Tag'
+
+  /tags/{tagName}/media/recent:
+    parameters:
+      - $ref: '#/parameters/tagName'
+    get:
+      operationId: getTagsTagNameMediaRecent
+      produces:
+        - application/json
+      description: |
+        Get a list of recently tagged media. Use the `max_tag_id` and
+        `min_tag_id` parameters in the pagination response to paginate through
+        these objects.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Tag'
+
+  /tags/search:
+    get:
+      operationId: getTagsSearch
+      produces:
+        - application/json
+      parameters:
+        - name: q
+          description: |
+            A valid tag name without a leading #. (eg. snowy, nofilter)
+          in: query
+          type: string
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Tag'
+
+  /locations/{locationId}:
+    parameters:
+      - name: locationId
+        description: Location ID
+        in: path
+        type: integer
+        required: true
+    get:
+      operationId: getLocationsLocationId
+      produces:
+        - application/json
+      description: Get information about a location.
+      responses:
+        - 200:
+            description: OK
+            schema:
+              $ref: '#/definitions/LocationClass'
+
+  /locations/{locationId}/media/recent:
+    parameters:
+      - name: locationId
+        description: Location ID
+        in: path
+        type: integer
+        required: true
+    get:
+      operationId: getLocationsLocationIdMediaRecent
+      produces:
+        - application/json
+      description: Get a list of recent media objects from a given location.
+      parameters:
+        - name: max_timestamp
+          in: query
+          description: Return media before this UNIX timestamp.
+          type: integer
+        - name: min_timestamp
+          in: query
+          description: Return media after this UNIX timestamp.
+          type: integer
+        - name: min_id
+          in: query
+          description: Return media later than this min_id.
+          type: string
+        - name: max_id
+          in: query
+          description: Return media earlier than this max_id.
+          type: string
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/Media'
+
+  /locations/search:
+    get:
+      operationId: getLocationsSearch
+      produces:
+        - application/json
+      description: Search for a location by geographic coordinate.
+      parameters:
+        - name: distance
+          in: query
+          description: Default is 1000m (distance=1000), max distance is 5000.
+          type: integer
+
+        - name: facebook_places_id
+          in: query
+          description: |
+            Returns a location mapped off of a Facebook places id. If used, a
+            Foursquare id and lat, lng are not required.
+          type: integer
+
+        - name: foursquare_id
+          in: query
+          description: |
+            returns a location mapped off of a foursquare v1 api location id.
+            If used, you are not required to use lat and lng. Note that this
+            method is deprecated; you should use the new foursquare IDs with V2
+            of their API.
+          type: integer
+
+        - name: lat
+          in: query
+          description: |
+            atitude of the center search coordinate. If used, lng is required.
+          type: number
+
+        - name: lng
+          in: query
+          description: |
+            ongitude of the center search coordinate. If used, lat is required.
+          type: number
+
+        - name: foursquare_v2_id
+          in: query
+          description: |
+            Returns a location mapped off of a foursquare v2 api location id. If
+            used, you are not required to use lat and lng.
+          type: integer
+      responses:
+        - 200:
+            description: OK
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/LocationClass'
+
+  /geographies/{geoId}/media/recent:
+    parameters:
+      - name: geoId
+        in: path
+        description: Geolocation ID
+        type: integer
+        required: true
+    get:
+      operationId: getGeographiesGeoIdMediaRecent
+      description: |
+        Get recent media from a geography subscription that you created.
+        **Note**: You can only access Geographies that were explicitly created
+        by your OAuth client. Check the Geography Subscriptions section of the
+        [real-time updates page](https://instagram.com/developer/realtime/).
+        When you create a subscription to some geography
+        that you define, you will be returned a unique geoId that can be used
+        in this query. To backfill photos from the location covered by this
+        geography, use the [media search endpoint
+        ](https://instagram.com/developer/endpoints/media/).
+      parameters:
+        - name: count
+          in: query
+          description: Max number of media to return.
+          type: integer
+        - name: min_id
+          in: query
+          description: Return media before this `min_id`.
+          type: integer
+      responses:
+        - 200:
+            description: OK
+
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  User:
+    type: object
+    properties:
+      idAttr:
+        type: integer
+      username:
+        type: string
+      full_name:
+        type: string
+      profile_picture:
+        type: string
+      bio:
+        type: string
+      website:
+        type: string
+      counts:
+        type: object
+        properties:
+          media:
+            type: integer
+          follows:
+            type: integer
+          follwed_by:
+            type: integer
+  Media:
+    type: object
+    properties:
+      created_time:
+        description: Epoc time (ms)
+        type: integer
+      typeAttr:
+        type: string
+      filterAttr:
+        type: string
+      tagsAttr:
+        type: array
+        items:
+          $ref: '#/definitions/Tag'
+      idAttr:
+        type: integer
+      user:
+        $ref: '#/definitions/MiniProfile'
+      users_in_photo:
+        type: array
+        items:
+          $ref: '#/definitions/MiniProfile'
+      locationAttr:
+        $ref: '#/definitions/LocationClass'
+      comments:
+        type: object
+        properties:
+          count:
+            type: integer
+          data:
+            type: array
+            items:
+              $ref: '#/definitions/CommentClass'
+      likes:
+        type: object
+        properties:
+          count:
+            type: integer
+          data:
+            type: array
+            items:
+              $ref: '#/definitions/MiniProfile'
+      images:
+        properties:
+          low_resolution:
+            $ref: '#/definitions/ImageClass'
+          thumbnail:
+            $ref: '#/definitions/ImageClass'
+          standard_resolution:
+            $ref: '#/definitions/ImageClass'
+      videos:
+        properties:
+          low_resolution:
+            $ref: '#/definitions/ImageClass'
+          standard_resolution:
+            $ref: '#/definitions/ImageClass'
+  LocationClass:
+    type: object
+    properties:
+      idAttr:
+        type: string
+      nameAttr:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+  CommentClass:
+    type: object
+    properties:
+      idAttr:
+        type: string
+      created_time:
+        type: string
+      text:
+        type: string
+      fromAttr:
+        $ref: '#/definitions/MiniProfile'
+  Like:
+    type: object
+    properties:
+      user_name:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      typeAttr:
+        type: string
+      idAttr:
+        type: string
+  Tag:
+    type: object
+    properties:
+      media_count:
+        type: integer
+      nameAttr:
+        type: string
+  ImageClass:
+    type: object
+    properties:
+      width:
+        type: integer
+      height:
+        type: integer
+      url:
+        type: string
+  MiniProfile:
+    type: object
+    description: A shorter version of User for likes array
+    properties:
+      user_name:
+        type: string
+      full_name:
+        type: string
+      idAttr:
+        type: integer
+      profile_picture:
+        type: string

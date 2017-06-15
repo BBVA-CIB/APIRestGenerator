@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<!--
+  ~ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements; and to You under the Apache License, Version 2.0. "
+  -->
+<head>
+	<title>Rest tester!</title>
+	<link rel="icon" href="images/favicon.png">
+#foreach($exampleImportCSS in $exampleImportsCSS)
+	<link rel="stylesheet" href="${exampleImportCSS}">
+#end
+
+#foreach($additionalImport in $additionalImports)
+	<script src="${additionalImport}"></script>
+#end
+
+	<script src="systemjs.config.js"></script>
+    <script>
+		System.import('app').catch(function(err){ console.error(err); });
+	</script>
+
+</head>
+
+<body>
+	<my-app></my-app>
+</body>
+</html>

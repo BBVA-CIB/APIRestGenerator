@@ -1,0 +1,237 @@
+/*********************************************************************************************************************************
+ This class has been automatically generated using KLTT-APIRestGenerator project, don't do manual file modifications.
+ ${now}
+
+ "Licensed to the Apache Software Foundation (ASF) under one or more contributor license agreements;
+  and to You under the Apache License, Version 2.0. "
+**********************************************************************************************************************************/
+
+package ${packageName} ;
+
+import com.fasterxml.jackson.annotation.JsonProperty ;
+import com.fasterxml.jackson.annotation.JsonView ;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties ;
+import com.fasterxml.jackson.core.JsonProcessingException ;
+
+import java.util.Date ;
+import java.util.HashMap ;
+import java.util.Map ;
+
+#foreach($additionalImport in $additionalImports)
+import ${additionalImport} ;
+#end
+
+#if (! $classDescription)
+/**
+ * No description for the class
+ */
+#else
+/** 
+ * $classDescription
+ */
+#end
+@JsonIgnoreProperties(ignoreUnknown = true)
+public final class ${className} extends Exception implements ${generatedExceptionInterfaceName}
+{
+    /** Serial Version - UID */
+	private static final long serialVersionUID = 1L ;
+	
+	/** Constant - default error code */
+	private static final int DEFAULT_ERR_CODE = 500 ;
+	
+	/** Attribute - Status */
+	@JsonView(GenerationView.class)
+	private final int status ;
+	
+	/** Attribute - Error */
+	@JsonView(GenerationView.class)
+    private String error ;	
+	
+	/** Attribute - Message */
+	@JsonView(GenerationView.class)
+    private String message ;
+
+	/** Attribute - Exception */
+    @JsonView(GenerationView.class)
+    private String exception ;
+
+	/** Attribute - Path */
+    @JsonView(GenerationView.class)
+    private String path ;
+
+	/** Attribute - Timestamp */
+    @JsonView(GenerationView.class)
+    private long timestamp ;
+
+	/**
+	 * Empty constructor
+	 */
+    public ${className}()
+    {
+    	// Default error value
+        this(DEFAULT_ERR_CODE) ;
+    }
+    
+    /**
+	 * @param error     with the error
+	 * @param message   with the message
+	 * @param exception with the exception
+	 */
+    public ${className}(final String error, final String message, final String exception)
+    {
+    	// Default error value
+        this(DEFAULT_ERR_CODE) ;
+        
+        this.error     = error ;
+        this.message   = message ;
+        this.exception = exception ;
+    }
+    
+    /**
+     * @param status    with the status
+	 * @param error     with the error
+	 * @param message   with the message
+	 * @param exception with the exception
+	 */
+    public ${className}(final int status, final String error, final String message, final String exception)
+    {
+    	// Default error value
+        this(status) ;
+        
+        this.error     = error ;
+        this.message   = message ;
+        this.exception = exception ;
+    }
+
+	/**
+	 * @param status with the status
+	 */
+    public ${className}(final int status)
+    {
+        this.status    = status ;
+        
+		final Date now = new Date() ;
+    	this.timestamp = now.getTime() ;
+    }
+    
+    /**
+     * @return the status
+     */
+    @JsonProperty("status")
+    public int getStatus()
+    {
+    	return this.status ;
+    }
+
+    /**
+	 * @param error with the error
+	 */
+    public void setError(final String error)
+    {
+        this.error = error ;
+    }
+
+    /**
+     * @return the error
+     */
+    @JsonProperty("error")
+    public String getError()
+    {
+        return this.error ;
+    }
+    
+    /**
+	 * @param exception with the exception
+	 */
+    public void setException(final String exception)
+    {
+        this.exception = exception ;
+    }
+
+    /**
+     * @return the exception
+     */
+    @JsonProperty("exception")
+    public String getException()
+    {
+        return this.exception ;
+    }
+    
+    /**
+	 * @param message with the message
+	 */
+    public void setMessage(final String message)
+    {
+        this.message = message ;
+    }
+
+    /**
+     * @return the message
+     */
+    @JsonProperty("message")
+    public String getMessage()
+    {
+        return this.message ;
+    }
+    
+    /**
+	 * @param path with the path
+	 */
+    public void setPath(final String path)
+    {
+        this.path = path ;
+    }
+
+    /**
+     * @return the path
+     */
+    @JsonProperty("path")
+    public String getPath()
+    {
+        return this.path ;
+    }
+    
+    /**
+	 * @param timestamp with the timestamp
+	 */
+    public void setTimestamp(final long timestamp)
+    {
+        this.timestamp = timestamp ;
+    }
+
+    /**
+     * @return the timestamp
+     */
+    @JsonProperty("timestamp")
+    public long getTimestamp()
+    {
+        return this.timestamp ;
+    }
+
+    @Override
+    public Object getBodyExceptionMessage()
+    {
+        final Map<String, Object> mapBodyException = new HashMap<>() ;
+        
+        mapBodyException.put("error"    , this.error) ;
+        mapBodyException.put("message"  , this.message) ;
+        mapBodyException.put("exception", this.exception) ;
+        mapBodyException.put("path"     , this.path) ;
+        mapBodyException.put("timestamp", this.timestamp) ;
+        
+        return mapBodyException ;
+    }
+    
+    @Override
+    public String toString()
+    {
+		try
+	    {
+	      return ${jacksonMapperClassName}.getInstance().writerWithDefaultPrettyPrinter().writeValueAsString(this);
+	    }
+	    catch (JsonProcessingException jsonProcessingExc)
+	    {
+	      return "Exception converting to Json string: " + jsonProcessingExc.getMessage() ;
+	    }
+    }
+}

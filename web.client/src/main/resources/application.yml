@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: APIRestGenerator
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:LOCAL}
+
+server:
+  port: ${SERVER_PORT:36200}
