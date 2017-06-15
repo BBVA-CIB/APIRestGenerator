@@ -1,8 +1,0 @@
-server:
-    port: 8090
-
-# IP address and port backend or gateway
-generator:
-    address: localhost
-    port: 8065
-    service:

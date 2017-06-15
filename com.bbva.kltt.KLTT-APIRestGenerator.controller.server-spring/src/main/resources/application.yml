@@ -1,5 +1,0 @@
-server:
-  port: 8065
-
-#logging:
-#  config: config/logback.xml
