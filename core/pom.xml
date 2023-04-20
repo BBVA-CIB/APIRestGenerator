@@ -23,7 +23,7 @@
 	<properties>
 		<velocityVersion>1.7</velocityVersion>
 		<antVersion>1.8.2</antVersion>
-		<jacksonVersion>2.7.9.5</jacksonVersion>
+		<jacksonVersion>2.12.7.1</jacksonVersion>
 		<jacksonDataFormatVersion>2.7.9</jacksonDataFormatVersion>
 		<apacheCommonsIOVersion>1.3.2</apacheCommonsIOVersion>
 		<commonCliVersion>1.2</commonCliVersion>
